@@ -4,12 +4,28 @@ import { motion } from "framer-motion";
 import { ArrowLeft, AlertCircle, CheckCircle, Send, Wallet as WalletIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { Separator } from "@/components/ui/separator";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const COMMON_ISSUES = [
   { id: "lost-access", title: "Lost Access to Wallet", severity: "high" },
@@ -41,31 +57,37 @@ const SOLUTIONS = {
   "nft-issues": "Verify contract address, check network, ensure NFT standard compatibility (ERC-721/1155)."
 };
 
+const issueFormSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address"),
+  walletAddress: z.string().optional(),
+  issueType: z.string().min(1, "Please select an issue type"),
+  issueDescription: z.string().min(10, "Description must be at least 10 characters"),
+});
+
 export default function CryptoIssues() {
   const [, navigate] = useLocation();
   const { toast } = useToast();
   const [selectedIssue, setSelectedIssue] = useState("");
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    walletAddress: "",
-    issueDescription: ""
+
+  const form = useForm<z.infer<typeof issueFormSchema>>({
+    resolver: zodResolver(issueFormSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      walletAddress: "",
+      issueType: "",
+      issueDescription: "",
+    },
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
+  const handleSubmit = (values: z.infer<typeof issueFormSchema>) => {
     toast({
       title: "Issue Submitted Successfully",
       description: "Our support team will review your case and get back to you within 24-48 hours.",
     });
 
-    setFormData({
-      name: "",
-      email: "",
-      walletAddress: "",
-      issueDescription: ""
-    });
+    form.reset();
     setSelectedIssue("");
   };
 
@@ -100,7 +122,7 @@ export default function CryptoIssues() {
             <Button
               variant="ghost"
               onClick={() => navigate("/")}
-              className="mb-6 hover-elevate"
+              className="mb-6"
               data-testid="button-back-home"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
@@ -185,83 +207,125 @@ export default function CryptoIssues() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="name">Full Name</Label>
-                      <Input
-                        id="name"
-                        value={formData.name}
-                        onChange={(e) => setFormData({...formData, name: e.target.value})}
-                        placeholder="Enter your name"
-                        required
-                        data-testid="input-name"
+                  <Form {...form}>
+                    <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+                      <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Full Name</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="Enter your name"
+                                data-testid="input-name"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
                       />
-                    </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email Address</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={(e) => setFormData({...formData, email: e.target.value})}
-                        placeholder="your.email@example.com"
-                        required
-                        data-testid="input-email"
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Email Address</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="email"
+                                placeholder="your.email@example.com"
+                                data-testid="input-email"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
                       />
-                    </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="wallet">Wallet Address (Optional)</Label>
-                      <Input
-                        id="wallet"
-                        value={formData.walletAddress}
-                        onChange={(e) => setFormData({...formData, walletAddress: e.target.value})}
-                        placeholder="0x..."
-                        data-testid="input-wallet-address"
+                      <FormField
+                        control={form.control}
+                        name="walletAddress"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Wallet Address (Optional)</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="0x..."
+                                data-testid="input-wallet-address"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
                       />
-                    </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="issue-type">Issue Type</Label>
-                      <Select value={selectedIssue} onValueChange={setSelectedIssue}>
-                        <SelectTrigger data-testid="select-issue-type">
-                          <SelectValue placeholder="Select issue type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {COMMON_ISSUES.map((issue) => (
-                            <SelectItem key={issue.id} value={issue.id}>
-                              {issue.title}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="description">Issue Description</Label>
-                      <Textarea
-                        id="description"
-                        value={formData.issueDescription}
-                        onChange={(e) => setFormData({...formData, issueDescription: e.target.value})}
-                        placeholder="Describe your issue in detail..."
-                        className="min-h-[120px]"
-                        required
-                        data-testid="textarea-description"
+                      <FormField
+                        control={form.control}
+                        name="issueType"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Issue Type</FormLabel>
+                            <Select 
+                              value={field.value} 
+                              onValueChange={(value) => {
+                                field.onChange(value);
+                                setSelectedIssue(value);
+                              }}
+                            >
+                              <FormControl>
+                                <SelectTrigger data-testid="select-issue-type">
+                                  <SelectValue placeholder="Select issue type" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                {COMMON_ISSUES.map((issue) => (
+                                  <SelectItem key={issue.id} value={issue.id}>
+                                    {issue.title}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
                       />
-                    </div>
 
-                    <Separator />
+                      <FormField
+                        control={form.control}
+                        name="issueDescription"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Issue Description</FormLabel>
+                            <FormControl>
+                              <Textarea
+                                placeholder="Describe your issue in detail..."
+                                className="min-h-[120px]"
+                                data-testid="textarea-description"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                    <Button 
-                      type="submit" 
-                      className="w-full"
-                      data-testid="button-submit-issue"
-                    >
-                      <Send className="mr-2 h-4 w-4" />
-                      Submit Issue
-                    </Button>
-                  </form>
+                      <Separator />
+
+                      <Button 
+                        type="submit" 
+                        className="w-full"
+                        data-testid="button-submit-issue"
+                      >
+                        <Send className="mr-2 h-4 w-4" />
+                        Submit Issue
+                      </Button>
+                    </form>
+                  </Form>
                 </CardContent>
               </Card>
             </motion.div>

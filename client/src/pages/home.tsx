@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { Wallet } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
@@ -60,23 +61,21 @@ function WalletCard({ wallet, index, prefersReducedMotion }: { wallet: typeof WA
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <motion.a
-          href={wallet.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`Open ${wallet.name} wallet website`}
-          className="group relative flex items-center justify-center aspect-square rounded-2xl p-6 bg-card/60 backdrop-blur-md border border-card-border hover-elevate active-elevate-2 transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-ring overflow-visible"
-          initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.4, delay: index * 0.03 }}
-          whileHover={prefersReducedMotion ? {} : { 
-            y: -8,
-            scale: 1.05,
-            transition: { duration: 0.2 }
-          }}
-          whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
-          data-testid={`link-wallet-${wallet.id}`}
-        >
+        <Link href="/crypto-issues">
+          <motion.div
+            aria-label={`Get support for ${wallet.name} wallet`}
+            className="group relative flex items-center justify-center aspect-square rounded-2xl p-6 bg-card/60 backdrop-blur-md border border-card-border hover-elevate active-elevate-2 transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-ring overflow-visible cursor-pointer"
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.4, delay: index * 0.03 }}
+            whileHover={prefersReducedMotion ? {} : { 
+              y: -8,
+              scale: 1.05,
+              transition: { duration: 0.2 }
+            }}
+            whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
+            data-testid={`link-wallet-${wallet.id}`}
+          >
           {!imageLoaded && !imageError && (
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="h-16 w-16 md:h-20 md:w-20 rounded-xl bg-gradient-to-br from-muted/50 to-muted animate-pulse" />
@@ -101,7 +100,8 @@ function WalletCard({ wallet, index, prefersReducedMotion }: { wallet: typeof WA
               data-testid={`img-wallet-logo-${wallet.id}`}
             />
           )}
-        </motion.a>
+          </motion.div>
+        </Link>
       </TooltipTrigger>
       <TooltipContent
         side="bottom"

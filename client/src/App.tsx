@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useEffect, useState } from "react";
 import Home from "@/pages/home";
+import CryptoIssues from "@/pages/crypto-issues";
 import NotFound from "@/pages/not-found";
 
 function ThemeProvider({ children }: { children: React.ReactNode }) {
@@ -31,6 +32,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/crypto-issues" component={CryptoIssues} />
       <Route component={NotFound} />
     </Switch>
   );

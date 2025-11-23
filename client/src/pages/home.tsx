@@ -56,7 +56,17 @@ const WALLETS = [
 
 function WalletCard({ wallet, index, prefersReducedMotion }: { wallet: typeof WALLETS[0], index: number, prefersReducedMotion: boolean }) {
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [imageError, setImageError] = useState(false);
+  const [imageSrc, setImageSrc] = useState(wallet.logo);
+
+  const handleImageError = () => {
+    // Retry with a different approach or cache buster
+    if (imageSrc === wallet.logo) {
+      setImageSrc(`${wallet.logo}?t=${Date.now()}`);
+    } else {
+      // If retried and still failing, show fallback
+      setImageLoaded(true);
+    }
+  };
 
   return (
     <Tooltip>
@@ -76,30 +86,23 @@ function WalletCard({ wallet, index, prefersReducedMotion }: { wallet: typeof WA
             whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
             data-testid={`link-wallet-${wallet.id}`}
           >
-          {!imageLoaded && !imageError && (
+          <img
+            src={imageSrc}
+            alt={`${wallet.name} logo`}
+            className={`h-16 w-16 md:h-20 md:w-20 object-contain transition-all duration-300 ${
+              imageLoaded ? 'opacity-100 scale-100' : 'opacity-100 scale-100'
+            }`}
+            onLoad={() => setImageLoaded(true)}
+            onError={handleImageError}
+            loading="eager"
+            decoding="sync"
+            crossOrigin="anonymous"
+            data-testid={`img-wallet-logo-${wallet.id}`}
+          />
+          {!imageLoaded && (
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="h-16 w-16 md:h-20 md:w-20 rounded-xl bg-gradient-to-br from-muted/50 to-muted animate-pulse" />
             </div>
-          )}
-          
-          {imageError ? (
-            <div className="flex flex-col items-center justify-center gap-2 text-muted-foreground px-2">
-              <Wallet className="h-14 w-14 md:h-16 md:w-16 text-primary/60" data-testid={`icon-wallet-fallback-${wallet.id}`} />
-              <span className="text-xs font-medium text-center leading-tight">{wallet.name}</span>
-            </div>
-          ) : (
-            <img
-              src={wallet.logo}
-              alt={`${wallet.name} logo`}
-              className={`h-16 w-16 md:h-20 md:w-20 object-contain transition-all duration-300 ${
-                imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-              }`}
-              onLoad={() => setImageLoaded(true)}
-              onError={() => setImageError(true)}
-              loading="lazy"
-              decoding="async"
-              data-testid={`img-wallet-logo-${wallet.id}`}
-            />
           )}
           </motion.div>
         </Link>

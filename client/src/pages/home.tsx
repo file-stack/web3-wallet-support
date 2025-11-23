@@ -130,7 +130,7 @@ export default function Home() {
               className="font-bold text-3xl md:text-4xl mb-4 bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent"
               data-testid="text-page-title"
             >
-              All Types of Crypto Wallets
+              choose wallet type
             </h1>
             <p 
               className="text-lg font-normal text-foreground/70 max-w-2xl mx-auto"

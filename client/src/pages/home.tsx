@@ -145,8 +145,29 @@ export default function Home() {
         }}
       />
       
-      <div className="relative z-10 px-6 py-12 md:px-8 md:py-16">
+      <div className="relative z-10 px-6 py-8 md:px-8 md:py-12">
         <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.6 }}
+            className="flex items-center justify-center gap-4 md:gap-8 mb-8 md:mb-12"
+            data-testid="hero-images-section"
+          >
+            <img 
+              src="https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg" 
+              alt="Bitcoin Logo" 
+              className="h-12 w-12 md:h-16 md:w-16 object-contain opacity-70 hover:opacity-100 transition-opacity"
+              data-testid="img-bitcoin-wiki"
+            />
+            <img 
+              src="https://upload.wikimedia.org/wikipedia/commons/9/98/Blockchain.svg" 
+              alt="Blockchain Diagram" 
+              className="h-16 w-16 md:h-20 md:w-20 object-contain opacity-70 hover:opacity-100 transition-opacity"
+              data-testid="img-blockchain-wiki"
+            />
+          </motion.div>
+
           <motion.div
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}

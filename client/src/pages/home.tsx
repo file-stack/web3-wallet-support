@@ -210,16 +210,19 @@ export default function HomePage() {
             className="text-center mb-8 md:mb-12"
           >
             <h1 
-              className="font-bold text-3xl md:text-4xl mb-4 bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent"
+              className="font-bold text-4xl md:text-5xl mb-6 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent leading-tight"
               data-testid="text-page-title"
             >
-              choose wallet type
+              Select Your Wallet
             </h1>
             <p 
-              className="text-lg font-normal text-foreground/70 max-w-2xl mx-auto"
+              className="text-xl font-normal text-foreground/70 max-w-2xl mx-auto mb-2"
               data-testid="text-page-subtitle"
             >
-              Connect your preferred wallet to get started
+              Choose your wallet provider to access secure support and resources
+            </p>
+            <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
+              Over 47 wallets supported with instant assistance
             </p>
           </motion.div>
 

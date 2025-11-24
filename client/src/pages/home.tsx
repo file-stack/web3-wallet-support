@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
-import { Wallet } from "lucide-react";
+import { Wallet, Coins, Lock } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 const WALLETS = [
@@ -57,15 +57,12 @@ const WALLETS = [
 function WalletCard({ wallet, index, prefersReducedMotion }: { wallet: typeof WALLETS[0], index: number, prefersReducedMotion: boolean }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageSrc, setImageSrc] = useState(wallet.logo);
+  const [showFallback, setShowFallback] = useState(false);
 
   const handleImageError = () => {
-    // Retry with a different approach or cache buster
-    if (imageSrc === wallet.logo) {
-      setImageSrc(`${wallet.logo}?t=${Date.now()}`);
-    } else {
-      // If retried and still failing, show fallback
-      setImageLoaded(true);
-    }
+    // On error, show the fallback icon
+    setShowFallback(true);
+    setImageLoaded(true);
   };
 
   return (
@@ -154,17 +151,13 @@ export default function Home() {
             className="flex items-center justify-center gap-4 md:gap-8 mb-8 md:mb-12"
             data-testid="hero-images-section"
           >
-            <img 
-              src="https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg" 
-              alt="Bitcoin Logo" 
-              className="h-12 w-12 md:h-16 md:w-16 object-contain opacity-70 hover:opacity-100 transition-opacity"
-              data-testid="img-bitcoin-wiki"
+            <Coins 
+              className="h-12 w-12 md:h-16 md:w-16 text-primary opacity-70 hover:opacity-100 transition-opacity" 
+              data-testid="icon-coins"
             />
-            <img 
-              src="https://upload.wikimedia.org/wikipedia/commons/9/98/Blockchain.svg" 
-              alt="Blockchain Diagram" 
-              className="h-16 w-16 md:h-20 md:w-20 object-contain opacity-70 hover:opacity-100 transition-opacity"
-              data-testid="img-blockchain-wiki"
+            <Lock 
+              className="h-16 w-16 md:h-20 md:w-20 text-accent opacity-70 hover:opacity-100 transition-opacity" 
+              data-testid="icon-lock"
             />
           </motion.div>
 

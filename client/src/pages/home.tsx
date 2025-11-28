@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
-import { Wallet } from "lucide-react";
+import { Wallet, Search, X } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Input } from "@/components/ui/input";
 
 const WALLETS = [
   { id: "metamask", name: "MetaMask", logo: "https://logo.clearbit.com/metamask.io" },
@@ -180,6 +181,7 @@ export default function HomePage() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => 
     window.matchMedia('(prefers-reduced-motion: reduce)').matches
   );
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -191,6 +193,10 @@ export default function HomePage() {
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
+
+  const filteredWallets = WALLETS.filter(wallet =>
+    wallet.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-background">
@@ -241,18 +247,57 @@ export default function HomePage() {
             </div>
           </motion.div>
 
+          {/* Search Section */}
+          <motion.div
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.7, delay: 0.2 }}
+            className="mb-12"
+          >
+            <div className="relative max-w-md mx-auto mb-8">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none" data-testid="icon-search" />
+              <Input
+                placeholder="Search wallets..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 pr-10 h-11 rounded-lg border-2 border-primary/20 bg-card/50 glass-card text-foreground placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-0"
+                data-testid="input-search-wallet"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  data-testid="button-clear-search"
+                  aria-label="Clear search"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              )}
+            </div>
+          </motion.div>
+
           {/* Wallets Grid */}
           <motion.div
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.7, delay: 0.2 }}
           >
-            <h2 className="text-2xl font-bold mb-8 text-foreground">Choose Your Wallet</h2>
-            <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-3 md:gap-4">
-              {WALLETS.map((wallet, index) => (
-                <WalletCard key={wallet.id} wallet={wallet} index={index} prefersReducedMotion={prefersReducedMotion} />
-              ))}
-            </div>
+            <h2 className="text-2xl font-bold mb-8 text-foreground">
+              {searchQuery ? `Search Results (${filteredWallets.length})` : "Choose Your Wallet"}
+            </h2>
+            {filteredWallets.length === 0 ? (
+              <div className="text-center py-12">
+                <Wallet className="h-12 w-12 text-muted-foreground mx-auto mb-4 opacity-50" />
+                <p className="text-lg text-muted-foreground mb-2">No wallets found</p>
+                <p className="text-sm text-muted-foreground">Try searching for a different wallet name</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-3 md:gap-4">
+                {filteredWallets.map((wallet, index) => (
+                  <WalletCard key={wallet.id} wallet={wallet} index={index} prefersReducedMotion={prefersReducedMotion} />
+                ))}
+              </div>
+            )}
           </motion.div>
         </div>
       </div>

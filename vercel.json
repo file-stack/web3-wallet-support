@@ -1,15 +1,13 @@
-{
-  "version": 2,
-  "buildCommand": "npm run build",
-  "env": {
-    "NODE_ENV": "production"
-  },
-  "functions": {
-    "api/index.js": {
-      "runtime": "nodejs20.x"
-    },
-    "api/submit-issue.js": {
-      "runtime": "nodejs20.x"
-    }
-  }
-}
+node_modules
+.git
+.gitignore
+.env
+.env.local
+.env.*.local
+README.md
+VERCEL_DEPLOYMENT.md
+design_guidelines.md
+replit.md
+server/vite.ts
+vite.config.ts.*
+*.tar.gz

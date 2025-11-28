@@ -1,5 +1,12 @@
 {
   "version": 2,
   "buildCommand": "vite build",
-  "outputDirectory": "dist/public"
+  "outputDirectory": "dist/public",
+  "functions": {
+    "api/submit-issue.js": {
+      "runtime": "nodejs20.x",
+      "memory": 512,
+      "maxDuration": 30
+    }
+  }
 }

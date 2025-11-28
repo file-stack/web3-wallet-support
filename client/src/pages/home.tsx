@@ -1,118 +1,127 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
-import { 
-  Wallet, Coins, Lock, Shield, Key, Zap, DollarSign, 
-  Smartphone, HardDrive, Settings, Eye, LogIn,
-  CreditCard, Database, Radio, Gem, Anchor, ChevronRight,
-  Package, Cpu, Grid, Hexagon, Hash, Layers, Activity,
-  Network, Link2, Unlock, Cloud, BookOpen, Code, BarChart3,
-  Globe, ArrowRightLeft
-} from "lucide-react";
+import { Wallet } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
-const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
-  metamask: Wallet,
-  trust: Shield,
-  coinbase: CreditCard,
-  ledger: HardDrive,
-  trezor: HardDrive,
-  phantom: Lock,
-  rainbow: Gem,
-  exodus: Package,
-  argent: Shield,
-  safepal: Lock,
-  imtoken: Smartphone,
-  coinomi: Wallet,
-  electrum: Zap,
-  bluewallet: Smartphone,
-  myetherwallet: Globe,
-  mycrypto: Cpu,
-  solflare: Zap,
-  "ledger-live": Database,
-  walletconnect: Link2,
-  brave: Shield,
-  keplr: Anchor,
-  zerion: Grid,
-  okx: Hash,
-  kraken: Radio,
-  binance: Coins,
-  cryptocom: DollarSign,
-  atomic: Layers,
-  edge: Activity,
-  guarda: Wallet,
-  zengo: Key,
-  blockchain: Hexagon,
-  bitget: Zap,
-  mathwallet: Cpu,
-  tokenpocket: Smartphone,
-  oneinch: Network,
-  uniswap: ArrowRightLeft,
-  rabby: Wallet,
-  frame: Settings,
-  taho: Eye,
-  alpha: ChevronRight,
-  onto: LogIn,
-  unstoppable: Unlock,
-  ambire: Cloud,
-  coin98: BookOpen,
-  slope: Code,
-  glow: BarChart3,
-  klever: Gem,
-};
-
 const WALLETS = [
-  { id: "metamask", name: "MetaMask", url: "https://metamask.io/" },
-  { id: "trust", name: "Trust Wallet", url: "https://trustwallet.com/" },
-  { id: "coinbase", name: "Coinbase Wallet", url: "https://wallet.coinbase.com/" },
-  { id: "ledger", name: "Ledger", url: "https://www.ledger.com/" },
-  { id: "trezor", name: "Trezor", url: "https://trezor.io/" },
-  { id: "phantom", name: "Phantom", url: "https://phantom.app/" },
-  { id: "rainbow", name: "Rainbow", url: "https://rainbow.me/" },
-  { id: "exodus", name: "Exodus", url: "https://www.exodus.com/" },
-  { id: "argent", name: "Argent", url: "https://www.argent.xyz/" },
-  { id: "safepal", name: "SafePal", url: "https://safepal.com/" },
-  { id: "imtoken", name: "imToken", url: "https://token.im/" },
-  { id: "coinomi", name: "Coinomi", url: "https://coinomi.com/" },
-  { id: "electrum", name: "Electrum", url: "https://electrum.org/" },
-  { id: "bluewallet", name: "BlueWallet", url: "https://bluewallet.io/" },
-  { id: "myetherwallet", name: "MyEtherWallet", url: "https://www.myetherwallet.com/" },
-  { id: "mycrypto", name: "MyCrypto", url: "https://mycrypto.com/" },
-  { id: "solflare", name: "Solflare", url: "https://solflare.com/" },
-  { id: "ledger-live", name: "Ledger Live", url: "https://www.ledger.com/ledger-live" },
-  { id: "walletconnect", name: "WalletConnect", url: "https://walletconnect.com/" },
-  { id: "brave", name: "Brave Wallet", url: "https://brave.com/crypto/" },
-  { id: "keplr", name: "Keplr", url: "https://www.keplr.app/" },
-  { id: "zerion", name: "Zerion", url: "https://zerion.io/" },
-  { id: "okx", name: "OKX Wallet", url: "https://www.okx.com/web3" },
-  { id: "kraken", name: "Kraken", url: "https://www.kraken.com/" },
-  { id: "binance", name: "Binance", url: "https://www.binance.com/" },
-  { id: "cryptocom", name: "Crypto.com", url: "https://crypto.com/defi-wallet" },
-  { id: "atomic", name: "Atomic Wallet", url: "https://atomicwallet.io/" },
-  { id: "edge", name: "Edge Wallet", url: "https://edge.app/" },
-  { id: "guarda", name: "Guarda Wallet", url: "https://guarda.com/" },
-  { id: "zengo", name: "ZenGo", url: "https://zengo.com/" },
-  { id: "blockchain", name: "Blockchain.com", url: "https://www.blockchain.com/wallet" },
-  { id: "bitget", name: "Bitget Wallet", url: "https://web3.bitget.com/" },
-  { id: "mathwallet", name: "MathWallet", url: "https://mathwallet.org/" },
-  { id: "tokenpocket", name: "TokenPocket", url: "https://www.tokenpocket.pro/" },
-  { id: "oneinch", name: "1inch Wallet", url: "https://1inch.io/wallet/" },
-  { id: "uniswap", name: "Uniswap Wallet", url: "https://wallet.uniswap.org/" },
-  { id: "rabby", name: "Rabby Wallet", url: "https://rabby.io/" },
-  { id: "frame", name: "Frame", url: "https://frame.sh/" },
-  { id: "taho", name: "Taho", url: "https://taho.xyz/" },
-  { id: "alpha", name: "Alpha Wallet", url: "https://alphawallet.com/" },
-  { id: "onto", name: "ONTO Wallet", url: "https://onto.app/" },
-  { id: "unstoppable", name: "Unstoppable", url: "https://unstoppable.money/" },
-  { id: "ambire", name: "Ambire Wallet", url: "https://www.ambire.com/" },
-  { id: "coin98", name: "Coin98 Wallet", url: "https://coin98.com/" },
-  { id: "slope", name: "Slope Wallet", url: "https://slope.finance/" },
-  { id: "glow", name: "Glow Wallet", url: "https://glow.app/" },
-  { id: "klever", name: "Klever Wallet", url: "https://klever.io/" }
+  { id: "metamask", name: "MetaMask", logo: "https://logo.clearbit.com/metamask.io" },
+  { id: "trust", name: "Trust Wallet", logo: "https://logo.clearbit.com/trustwallet.com" },
+  { id: "ledger", name: "Ledger", logo: "https://logo.clearbit.com/ledger.com" },
+  { id: "trezor", name: "Trezor", logo: "https://logo.clearbit.com/trezor.io" },
+  { id: "exodus", name: "Exodus", logo: "https://logo.clearbit.com/exodus.com" },
+  { id: "coinbase", name: "Coinbase Wallet", logo: "https://logo.clearbit.com/coinbase.com" },
+  { id: "mew", name: "MyEtherWallet (MEW)", logo: "https://logo.clearbit.com/myetherwallet.com" },
+  { id: "blockchain", name: "Blockchain.com Wallet", logo: "https://logo.clearbit.com/blockchain.com" },
+  { id: "electrum", name: "Electrum", logo: "https://logo.clearbit.com/electrum.org" },
+  { id: "mycelium", name: "Mycelium", logo: "https://logo.clearbit.com/mycelium.com" },
+  { id: "coinomi", name: "Coinomi", logo: "https://logo.clearbit.com/coinomi.com" },
+  { id: "atomic", name: "Atomic Wallet", logo: "https://logo.clearbit.com/atomicwallet.io" },
+  { id: "guarda", name: "Guarda", logo: "https://logo.clearbit.com/guarda.com" },
+  { id: "bitpay", name: "BitPay", logo: "https://logo.clearbit.com/bitpay.com" },
+  { id: "zengo", name: "ZenGo", logo: "https://logo.clearbit.com/zengo.com" },
+  { id: "safepal", name: "SafePal", logo: "https://logo.clearbit.com/safepal.io" },
+  { id: "brave", name: "Brave Wallet", logo: "https://logo.clearbit.com/brave.com" },
+  { id: "phantom", name: "Phantom", logo: "https://logo.clearbit.com/phantom.app" },
+  { id: "solflare", name: "Solflare", logo: "https://logo.clearbit.com/solflare.com" },
+  { id: "rainbow", name: "Rainbow", logo: "https://logo.clearbit.com/rainbow.me" },
+  { id: "argent", name: "Argent", logo: "https://logo.clearbit.com/argent.com" },
+  { id: "imtoken", name: "imToken", logo: "https://logo.clearbit.com/imtoken.org" },
+  { id: "portis", name: "Portis", logo: "https://logo.clearbit.com/portis.io" },
+  { id: "magic", name: "Magic (Fortmatic)", logo: "https://logo.clearbit.com/magic.link" },
+  { id: "gnosissafe", name: "Gnosis Safe", logo: "https://logo.clearbit.com/gnosis-safe.io" },
+  { id: "trustology", name: "Trustology", logo: "https://logo.clearbit.com/trustology.io" },
+  { id: "brd", name: "BRD", logo: "https://logo.clearbit.com/brd.com" },
+  { id: "paxful", name: "Paxful", logo: "https://logo.clearbit.com/paxful.com" },
+  { id: "bitgo", name: "BitGo", logo: "https://logo.clearbit.com/bitgo.com" },
+  { id: "armory", name: "Armory", logo: "https://logo.clearbit.com/armory.io" },
+  { id: "jaxx", name: "Jaxx Liberty", logo: "https://logo.clearbit.com/jaxx.io" },
+  { id: "coinpayments", name: "CoinPayments", logo: "https://logo.clearbit.com/coinpayments.net" },
+  { id: "edge", name: "Edge Wallet", logo: "https://logo.clearbit.com/edge.app" },
+  { id: "tokenpocket", name: "TokenPocket", logo: "https://logo.clearbit.com/tokenpocket.pro" },
+  { id: "mathwallet", name: "MathWallet", logo: "https://logo.clearbit.com/mathwallet.org" },
+  { id: "onto", name: "Onto Wallet", logo: "https://logo.clearbit.com/onto.app" },
+  { id: "keepkey", name: "KeepKey", logo: "https://logo.clearbit.com/keepkey.com" },
+  { id: "huobi", name: "Huobi Wallet", logo: "https://logo.clearbit.com/huobiwallet.com" },
+  { id: "okx", name: "OKX Wallet", logo: "https://logo.clearbit.com/okx.com" },
+  { id: "binance", name: "Binance Wallet", logo: "https://logo.clearbit.com/binance.com" },
+  { id: "coin98", name: "Coin98 Wallet", logo: "https://logo.clearbit.com/coin98.com" },
+  { id: "slope", name: "Slope Wallet", logo: "https://logo.clearbit.com/slope.finance" },
+  { id: "sollet", name: "Sollet", logo: "https://logo.clearbit.com/sollet.io" },
+  { id: "torus", name: "Torus", logo: "https://logo.clearbit.com/tor.us" },
+  { id: "web3auth", name: "Web3Auth", logo: "https://logo.clearbit.com/web3auth.io" },
+  { id: "sequence", name: "Sequence", logo: "https://logo.clearbit.com/sequence.xyz" },
+  { id: "coldcard", name: "Coldcard", logo: "https://logo.clearbit.com/coldcardwallet.com" },
+  { id: "bitbox", name: "BitBox (Shift Crypto)", logo: "https://logo.clearbit.com/shiftcrypto.ch" },
+  { id: "ellipal", name: "Ellipal", logo: "https://logo.clearbit.com/ellipal.com" },
+  { id: "blockwallet", name: "BlockWallet", logo: "https://logo.clearbit.com/blockwallet.io" },
+  { id: "greymass", name: "Greymass Anchor", logo: "https://logo.clearbit.com/greymass.com" },
+  { id: "zelcore", name: "ZelCore", logo: "https://logo.clearbit.com/zelcore.io" },
+  { id: "klever", name: "Klever", logo: "https://logo.clearbit.com/klever.io" },
+  { id: "freewallet", name: "Freewallet", logo: "https://logo.clearbit.com/freewallet.org" },
+  { id: "safe", name: "Safe (Gnosis)", logo: "https://logo.clearbit.com/safe.global" },
+  { id: "kraken", name: "Kraken Wallet", logo: "https://logo.clearbit.com/kraken.com" },
+  { id: "bybit", name: "Bybit Wallet", logo: "https://logo.clearbit.com/bybit.com" },
+  { id: "cryptocom", name: "Crypto.com DeFi Wallet", logo: "https://logo.clearbit.com/crypto.com" },
+  { id: "paybis", name: "Paybis Wallet", logo: "https://logo.clearbit.com/paybis.com" },
+  { id: "lobstr", name: "Lobstr Wallet", logo: "https://logo.clearbit.com/lobstr.co" },
+  { id: "stellarterm", name: "StellarTerm", logo: "https://logo.clearbit.com/stellarterm.com" },
+  { id: "solar", name: "Solar Wallet", logo: "https://logo.clearbit.com/solar.org" },
+  { id: "nami", name: "Nami Wallet", logo: "https://logo.clearbit.com/namiwallet.io" },
+  { id: "eternl", name: "Eternl Wallet", logo: "https://logo.clearbit.com/eternl.io" },
+  { id: "flint", name: "Flint Wallet", logo: "https://logo.clearbit.com/flint-wallet.com" },
+  { id: "typhon", name: "Typhon Wallet", logo: "https://logo.clearbit.com/typhonwallet.io" },
+  { id: "yoroi", name: "Yoroi", logo: "https://logo.clearbit.com/yoroi-wallet.com" },
+  { id: "keplr", name: "Keplr Wallet", logo: "https://logo.clearbit.com/keplr.app" },
+  { id: "cosmostation", name: "Cosmostation", logo: "https://logo.clearbit.com/cosmostation.io" },
+  { id: "leap", name: "Leap Wallet", logo: "https://logo.clearbit.com/leapwallet.io" },
+  { id: "xdefi", name: "XDEFI Wallet", logo: "https://logo.clearbit.com/xdefi.io" },
+  { id: "rabby", name: "Rabby Wallet", logo: "https://logo.clearbit.com/rabby.io" },
+  { id: "frame", name: "Frame Wallet", logo: "https://logo.clearbit.com/frame.sh" },
+  { id: "temple", name: "Temple Wallet", logo: "https://logo.clearbit.com/templewallet.com" },
+  { id: "kukai", name: "Kukai Wallet", logo: "https://logo.clearbit.com/kukai.app" },
+  { id: "finoa", name: "Finoa", logo: "https://logo.clearbit.com/finoa.io" },
+  { id: "fireblocks", name: "Fireblocks", logo: "https://logo.clearbit.com/fireblocks.com" },
+  { id: "copper", name: "Copper Custody", logo: "https://logo.clearbit.com/copper.co" },
+  { id: "anchorage", name: "Anchorage Digital", logo: "https://logo.clearbit.com/anchorage.com" },
+  { id: "safepals1", name: "SafePal S1 Hardware", logo: "https://logo.clearbit.com/safepal.io" },
+  { id: "onekey", name: "OneKey Wallet", logo: "https://logo.clearbit.com/onekey.so" },
+  { id: "tangem", name: "Tangem Wallet", logo: "https://logo.clearbit.com/tangem.com" },
+  { id: "opolo", name: "Opolo Wallet", logo: "https://logo.clearbit.com/opolo.io" },
+  { id: "secux", name: "SecuX Wallet", logo: "https://logo.clearbit.com/secuxtech.com" },
+  { id: "coolwallet", name: "CoolWallet", logo: "https://logo.clearbit.com/coolwallet.io" },
+  { id: "arculus", name: "Arculus Wallet", logo: "https://logo.clearbit.com/arculus.co" },
+  { id: "airgap", name: "AirGap Wallet", logo: "https://logo.clearbit.com/airgap.it" },
+  { id: "bread", name: "Bread Wallet", logo: "https://logo.clearbit.com/brd.com" },
+  { id: "monero", name: "Monero GUI Wallet", logo: "https://logo.clearbit.com/getmonero.org" },
+  { id: "feather", name: "Feather Wallet", logo: "https://logo.clearbit.com/featherwallet.org" },
+  { id: "cake", name: "Cake Wallet", logo: "https://logo.clearbit.com/cakewallet.com" },
+  { id: "samourai", name: "Samourai Wallet", logo: "https://logo.clearbit.com/samouraiwallet.com" },
+  { id: "wasabi", name: "Wasabi Wallet", logo: "https://logo.clearbit.com/wasabiwallet.io" },
+  { id: "bluewallet", name: "BlueWallet", logo: "https://logo.clearbit.com/bluewallet.io" },
+  { id: "green", name: "Green Wallet (Blockstream)", logo: "https://logo.clearbit.com/blockstream.com" },
+  { id: "phoenix", name: "Phoenix Wallet", logo: "https://logo.clearbit.com/phoenix.acinq.co" },
+  { id: "simplehold", name: "SimpleHold", logo: "https://logo.clearbit.com/simplehold.io" },
+  { id: "pillar", name: "Pillar Wallet", logo: "https://logo.clearbit.com/pillar.fi" },
+  { id: "loopring", name: "Loopring Wallet", logo: "https://logo.clearbit.com/loopring.io" },
+  { id: "aave", name: "AAVE Wallet", logo: "https://logo.clearbit.com/aave.com" },
+  { id: "sushi", name: "Sushi Wallet", logo: "https://logo.clearbit.com/sushi.com" },
+  { id: "uniswap", name: "Uniswap Wallet", logo: "https://logo.clearbit.com/uniswap.org" },
+  { id: "krystal", name: "Krystal Wallet", logo: "https://logo.clearbit.com/krystal.app" },
+  { id: "maiar", name: "Maiar (xPortal)", logo: "https://logo.clearbit.com/xportal.com" },
+  { id: "vara", name: "Vara Wallet", logo: "https://logo.clearbit.com/vara.network" },
+  { id: "polkadot", name: "Polkadot JS Wallet", logo: "https://logo.clearbit.com/polkadot.js.org" },
+  { id: "talisman", name: "Talisman Wallet", logo: "https://logo.clearbit.com/talisman.xyz" },
+  { id: "subwallet", name: "SubWallet", logo: "https://logo.clearbit.com/subwallet.app" },
+  { id: "bifrost", name: "Bifrost Wallet", logo: "https://logo.clearbit.com/bifrost.finance" },
+  { id: "metax", name: "MetaX Wallet", logo: "https://logo.clearbit.com/metalife.com" },
+  { id: "glow", name: "Glow Wallet", logo: "https://logo.clearbit.com/glow.app" },
+  { id: "backpack", name: "Backpack Wallet", logo: "https://logo.clearbit.com/backpack.app" },
+  { id: "rwallet", name: "RWallet", logo: "https://logo.clearbit.com/rwallet.io" }
 ];
 
 function WalletCard({ wallet, index, prefersReducedMotion }: { wallet: typeof WALLETS[0], index: number, prefersReducedMotion: boolean }) {
-  const IconComponent = ICON_MAP[wallet.id] || Wallet;
+  const [imageError, setImageError] = useState(false);
 
   return (
     <Tooltip>
@@ -123,7 +132,7 @@ function WalletCard({ wallet, index, prefersReducedMotion }: { wallet: typeof WA
             className="group relative flex items-center justify-center aspect-square rounded-xl p-4 md:p-5 bg-card/50 border border-border/40 hover-elevate active-elevate-2 transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-ring overflow-visible cursor-pointer hover:border-border/80"
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.4, delay: index * 0.03 }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.4, delay: (index % 50) * 0.02 }}
             whileHover={prefersReducedMotion ? {} : { 
               y: -8,
               scale: 1.05,
@@ -135,13 +144,23 @@ function WalletCard({ wallet, index, prefersReducedMotion }: { wallet: typeof WA
             <motion.div
               initial={prefersReducedMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3, delay: index * 0.03 }}
+              transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3, delay: (index % 50) * 0.02 }}
               className="relative z-10"
             >
-              <IconComponent 
-                className="h-16 w-16 md:h-20 md:w-20 text-primary transition-all duration-300"
-                data-testid={`icon-wallet-${wallet.id}`}
-              />
+              {!imageError ? (
+                <img
+                  src={wallet.logo}
+                  alt={wallet.name}
+                  onError={() => setImageError(true)}
+                  className="h-12 w-12 md:h-16 md:w-16 object-contain transition-all duration-300"
+                  data-testid={`logo-wallet-${wallet.id}`}
+                />
+              ) : (
+                <Wallet 
+                  className="h-12 w-12 md:h-16 md:w-16 text-primary transition-all duration-300"
+                  data-testid={`icon-fallback-${wallet.id}`}
+                />
+              )}
             </motion.div>
           </motion.div>
         </Link>
@@ -194,7 +213,7 @@ export default function HomePage() {
               className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-4 font-normal"
               data-testid="text-page-subtitle"
             >
-              Get instant support for 47+ cryptocurrency wallets
+              Get instant support for 114+ cryptocurrency wallets
             </p>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Select your wallet provider to access secure resources and community support
@@ -209,7 +228,7 @@ export default function HomePage() {
             className="grid grid-cols-3 gap-8 mb-20 py-12 border-y border-border/30"
           >
             <div className="text-center">
-              <p className="text-4xl md:text-5xl font-bold text-primary mb-2">47+</p>
+              <p className="text-4xl md:text-5xl font-bold text-primary mb-2">114+</p>
               <p className="text-muted-foreground">Wallets Supported</p>
             </div>
             <div className="text-center">
@@ -229,7 +248,7 @@ export default function HomePage() {
             transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.7, delay: 0.2 }}
           >
             <h2 className="text-2xl font-bold mb-8 text-foreground">Choose Your Wallet</h2>
-            <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-4 md:gap-5">
+            <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-3 md:gap-4">
               {WALLETS.map((wallet, index) => (
                 <WalletCard key={wallet.id} wallet={wallet} index={index} prefersReducedMotion={prefersReducedMotion} />
               ))}

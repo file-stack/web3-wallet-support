@@ -94,7 +94,7 @@ function App() {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
                   <div>
                     <h3 className="font-semibold mb-4 text-foreground">Web3 Wallet</h3>
-                    <p className="text-sm text-muted-foreground">Unified support for 47+ cryptocurrency wallets.</p>
+                    <p className="text-sm text-muted-foreground">Unified support for 114+ cryptocurrency wallets.</p>
                   </div>
                   <div>
                     <h4 className="font-semibold mb-4 text-foreground text-sm">Product</h4>

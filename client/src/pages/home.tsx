@@ -129,7 +129,7 @@ function WalletCard({ wallet, index, prefersReducedMotion }: { wallet: typeof WA
         <Link href="/crypto-issues">
           <motion.div
             aria-label={`Get support for ${wallet.name} wallet`}
-            className="group relative flex items-center justify-center aspect-square rounded-xl p-4 md:p-5 bg-card/50 border border-border/40 hover-elevate active-elevate-2 transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-ring overflow-visible cursor-pointer hover:border-border/80"
+            className="group relative flex items-center justify-center aspect-square rounded-xl p-4 md:p-5 glass-card hover-elevate active-elevate-2 transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-primary overflow-visible cursor-pointer"
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.4, delay: (index % 50) * 0.02 }}

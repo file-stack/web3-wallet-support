@@ -1,13 +1,24 @@
-node_modules
-.git
-.gitignore
-.env
-.env.local
-.env.*.local
-README.md
-VERCEL_DEPLOYMENT.md
-design_guidelines.md
-replit.md
-server/vite.ts
-vite.config.ts.*
-*.tar.gz
+{
+  "version": 2,
+  "buildCommand": "npm install && vite build",
+  "outputDirectory": "dist/public",
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "functions": {
+    "api/submit-issue.js": {
+      "runtime": "nodejs20.x"
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/submit-issue",
+      "dest": "/api/submit-issue.js",
+      "methods": ["POST"]
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}

@@ -49,28 +49,49 @@ function Router() {
 function Navigation() {
   const [location] = useLocation();
 
+  const isActive = (path: string) => location === path;
+
   return (
-    <nav className="w-full glass-nav sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 md:px-6 py-4">
-        <div className="flex items-center justify-between">
+    <nav className="w-full glass-nav sticky top-0 z-50 border-b border-primary/10">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-3">
+        <div className="flex items-center justify-between h-12">
+          {/* Logo */}
           <Link href="/">
-            <div className="flex items-center gap-2 cursor-pointer">
-              <img src={logoUrl} alt="Web3 Wallet Logo" className="w-8 h-8 object-contain" data-testid="img-app-logo" />
-              <h1 className="text-lg font-bold text-foreground" data-testid="text-app-title">
-                Web3 Wallet
-              </h1>
+            <div className="flex items-center gap-3 cursor-pointer hover-elevate px-2 py-1 rounded-md transition-all">
+              <img src={logoUrl} alt="Web3 Wallet Logo" className="w-9 h-9 object-contain drop-shadow-sm" data-testid="img-app-logo" />
+              <div className="flex flex-col">
+                <h1 className="text-base font-bold text-foreground leading-none" data-testid="text-app-title">
+                  Web3 Wallet
+                </h1>
+                <span className="text-xs text-primary/70 font-medium">Support</span>
+              </div>
             </div>
           </Link>
 
-          <div className="flex items-center gap-6">
-            <div className="hidden md:flex items-center gap-8">
-              <a href="#docs" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Docs
+          {/* Center Navigation */}
+          <div className="flex items-center gap-1">
+            <Link href="/">
+              <a className={`px-3 py-2 text-sm font-medium rounded-md transition-all ${
+                isActive("/") 
+                  ? "bg-primary/10 text-primary border border-primary/20" 
+                  : "text-muted-foreground hover:text-foreground hover-elevate"
+              }`} data-testid="link-home">
+                Wallets
               </a>
-              <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Blog
+            </Link>
+            <Link href="/crypto-issues">
+              <a className={`px-3 py-2 text-sm font-medium rounded-md transition-all ${
+                isActive("/crypto-issues") 
+                  ? "bg-primary/10 text-primary border border-primary/20" 
+                  : "text-muted-foreground hover:text-foreground hover-elevate"
+              }`} data-testid="link-crypto-issues">
+                Issues
               </a>
-            </div>
+            </Link>
+          </div>
+
+          {/* Right Actions */}
+          <div className="flex items-center gap-2">
             <ThemeToggle />
           </div>
         </div>
@@ -89,44 +110,68 @@ function App() {
             <main className="flex-1 overflow-auto">
               <Router />
             </main>
-            <footer className="glass-footer mt-24">
-              <div className="max-w-7xl mx-auto px-4 md:px-6 py-12 md:py-16">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-                  <div>
-                    <h3 className="font-semibold mb-4 text-foreground">Web3 Wallet</h3>
-                    <p className="text-sm text-muted-foreground">Unified support for 114+ cryptocurrency wallets.</p>
+            <footer className="glass-footer mt-32 border-t border-primary/10">
+              <div className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-20">
+                {/* Main Footer Grid */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-12">
+                  {/* Brand Column */}
+                  <div className="col-span-2 md:col-span-1">
+                    <div className="flex items-center gap-3 mb-6">
+                      <img src={logoUrl} alt="Web3 Wallet Logo" className="w-7 h-7 object-contain" data-testid="img-footer-logo" />
+                      <div>
+                        <h3 className="font-bold text-foreground text-sm">Web3 Wallet</h3>
+                        <p className="text-xs text-primary/70">Support</p>
+                      </div>
+                    </div>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      Unified support for 114+ cryptocurrency wallets. Professional assistance at your fingertips.
+                    </p>
                   </div>
+
+                  {/* Product Section */}
                   <div>
-                    <h4 className="font-semibold mb-4 text-foreground text-sm">Product</h4>
-                    <ul className="space-y-3 text-sm">
-                      <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Wallets</a></li>
-                      <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Features</a></li>
-                      <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Pricing</a></li>
+                    <h4 className="font-semibold text-foreground text-sm mb-5 uppercase tracking-wide text-xs">Product</h4>
+                    <ul className="space-y-4 text-sm">
+                      <li><Link href="/"><a className="text-muted-foreground hover:text-primary transition-colors font-medium">Wallets</a></Link></li>
+                      <li><a href="#features" className="text-muted-foreground hover:text-primary transition-colors font-medium">Features</a></li>
+                      <li><a href="#support" className="text-muted-foreground hover:text-primary transition-colors font-medium">Support</a></li>
                     </ul>
                   </div>
+
+                  {/* Resources Section */}
                   <div>
-                    <h4 className="font-semibold mb-4 text-foreground text-sm">Resources</h4>
-                    <ul className="space-y-3 text-sm">
-                      <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Documentation</a></li>
-                      <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Security</a></li>
-                      <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Blog</a></li>
+                    <h4 className="font-semibold text-foreground text-sm mb-5 uppercase tracking-wide text-xs">Resources</h4>
+                    <ul className="space-y-4 text-sm">
+                      <li><a href="#docs" className="text-muted-foreground hover:text-primary transition-colors font-medium">Documentation</a></li>
+                      <li><a href="#faq" className="text-muted-foreground hover:text-primary transition-colors font-medium">FAQ</a></li>
+                      <li><a href="#blog" className="text-muted-foreground hover:text-primary transition-colors font-medium">Blog</a></li>
                     </ul>
                   </div>
+
+                  {/* Company Section */}
                   <div>
-                    <h4 className="font-semibold mb-4 text-foreground text-sm">Company</h4>
-                    <ul className="space-y-3 text-sm">
-                      <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">About</a></li>
-                      <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Contact</a></li>
-                      <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Community</a></li>
+                    <h4 className="font-semibold text-foreground text-sm mb-5 uppercase tracking-wide text-xs">Company</h4>
+                    <ul className="space-y-4 text-sm">
+                      <li><a href="#about" className="text-muted-foreground hover:text-primary transition-colors font-medium">About</a></li>
+                      <li><Link href="/crypto-issues"><a className="text-muted-foreground hover:text-primary transition-colors font-medium">Report Issue</a></Link></li>
+                      <li><a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors font-medium">GitHub</a></li>
                     </ul>
                   </div>
                 </div>
-                <div className="border-t border-border/30 mt-12 pt-8">
-                  <div className="flex items-center justify-center gap-2 mb-4">
-                    <img src={logoUrl} alt="Web3 Wallet Logo" className="w-6 h-6 object-contain" data-testid="img-footer-logo" />
-                    <span className="text-sm font-semibold text-foreground">Web3 Wallet</span>
+
+                {/* Divider */}
+                <div className="border-t border-border/20 my-12"></div>
+
+                {/* Bottom Footer */}
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                  <p className="text-xs text-muted-foreground text-center md:text-left">
+                    © 2024 Web3 Wallet Support. All rights reserved.
+                  </p>
+                  <div className="flex items-center gap-8">
+                    <a href="#privacy" className="text-xs text-muted-foreground hover:text-primary transition-colors font-medium">Privacy</a>
+                    <a href="#terms" className="text-xs text-muted-foreground hover:text-primary transition-colors font-medium">Terms</a>
+                    <a href="#contact" className="text-xs text-muted-foreground hover:text-primary transition-colors font-medium">Contact</a>
                   </div>
-                  <p className="text-center text-sm text-muted-foreground">© 2024 Web3 Wallet Support. All rights reserved.</p>
                 </div>
               </div>
             </footer>

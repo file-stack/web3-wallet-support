@@ -1,6 +1,10 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import { exec } from "child_process";
+import { promisify } from "util";
 import { storage } from "./storage";
+
+const execAsync = promisify(exec);
 
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
@@ -71,6 +75,56 @@ ${issueDescription}
     } catch (error) {
       console.error("Error processing issue submission:", error);
       res.status(500).json({ error: "Failed to process submission" });
+    }
+  });
+
+  // Push code to GitHub
+  app.post("/api/push-github", async (req, res) => {
+    try {
+      console.log("Starting GitHub push...");
+      
+      // Configure git user
+      await execAsync("git config --global user.email 'replit@example.com'");
+      await execAsync("git config --global user.name 'Replit User'");
+      console.log("Git config set");
+      
+      // Get current branch
+      const { stdout: branch } = await execAsync("git rev-parse --abbrev-ref HEAD");
+      const currentBranch = branch.trim();
+      console.log("Current branch:", currentBranch);
+
+      // Add all changes
+      await execAsync("git add -A");
+      console.log("Files staged");
+
+      // Check if there are changes to commit
+      const { stdout: status } = await execAsync("git status --porcelain");
+      
+      if (status.trim()) {
+        // Commit changes
+        const timestamp = new Date().toISOString();
+        await execAsync(`git commit -m "Auto-push from Replit: ${timestamp}"`);
+        console.log("Changes committed");
+      } else {
+        console.log("No changes to commit");
+      }
+
+      // Push to GitHub
+      const repoUrl = "https://github.com/file-stack/web3-wallet-support.git";
+      await execAsync(`git push ${repoUrl} ${currentBranch} --force`);
+      
+      console.log("Push successful!");
+      res.json({ 
+        success: true, 
+        message: `Code pushed to GitHub on branch '${currentBranch}'`,
+        branch: currentBranch
+      });
+    } catch (error) {
+      console.error("GitHub push error:", error);
+      res.status(500).json({ 
+        error: "Failed to push to GitHub",
+        details: error instanceof Error ? error.message : "Unknown error"
+      });
     }
   });
 

@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useLocation, Link } from "wouter";
 import { motion } from "framer-motion";
-import { ArrowLeft, AlertCircle, CheckCircle, Send, Wallet as WalletIcon } from "lucide-react";
+import { ArrowLeft, AlertCircle, CheckCircle, Send, Wallet as WalletIcon, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
 import { Separator } from "@/components/ui/separator";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -69,6 +70,7 @@ export default function CryptoIssues() {
   const [, navigate] = useLocation();
   const { toast } = useToast();
   const [selectedIssue, setSelectedIssue] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<z.infer<typeof issueFormSchema>>({
     resolver: zodResolver(issueFormSchema),
@@ -81,14 +83,41 @@ export default function CryptoIssues() {
     },
   });
 
-  const handleSubmit = (values: z.infer<typeof issueFormSchema>) => {
-    toast({
-      title: "Issue Submitted Successfully",
-      description: "Our support team will review your case and get back to you within 24-48 hours.",
-    });
+  const handleSubmit = async (values: z.infer<typeof issueFormSchema>) => {
+    setIsSubmitting(true);
+    try {
+      // Find the issue title for better formatting
+      const issueTitle = COMMON_ISSUES.find(i => i.id === values.issueType)?.title || values.issueType;
+      
+      const response = await apiRequest("/api/submit-issue", {
+        method: "POST",
+        body: JSON.stringify({
+          name: values.name,
+          email: values.email,
+          walletAddress: values.walletAddress || "Not provided",
+          issueType: issueTitle,
+          issueDescription: values.issueDescription,
+        }),
+      });
 
-    form.reset();
-    setSelectedIssue("");
+      if (!response.ok) throw new Error("Failed to submit issue");
+
+      toast({
+        title: "Issue Submitted Successfully",
+        description: "Our support team will review your case and get back to you within 24-48 hours.",
+      });
+
+      form.reset();
+      setSelectedIssue("");
+    } catch (error) {
+      toast({
+        title: "Submission Error",
+        description: "Failed to submit your issue. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const getSeverityColor = (severity: string) => {
@@ -320,9 +349,19 @@ export default function CryptoIssues() {
                         type="submit" 
                         className="w-full"
                         data-testid="button-submit-issue"
+                        disabled={isSubmitting}
                       >
-                        <Send className="mr-2 h-4 w-4" />
-                        Submit Issue
+                        {isSubmitting ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Submitting...
+                          </>
+                        ) : (
+                          <>
+                            <Send className="mr-2 h-4 w-4" />
+                            Submit Issue
+                          </>
+                        )}
                       </Button>
                     </form>
                   </Form>

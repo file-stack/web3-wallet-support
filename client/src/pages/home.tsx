@@ -120,7 +120,7 @@ function WalletCard({ wallet, index, prefersReducedMotion }: { wallet: typeof WA
         <Link href="/crypto-issues">
           <motion.div
             aria-label={`Get support for ${wallet.name} wallet`}
-            className="group relative flex items-center justify-center aspect-square rounded-2xl p-6 bg-card/60 backdrop-blur-md border border-card-border hover-elevate active-elevate-2 transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-ring overflow-visible cursor-pointer"
+            className="group relative flex items-center justify-center aspect-square rounded-2xl p-6 glass-card hover-elevate active-elevate-2 transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-ring overflow-visible cursor-pointer"
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.4, delay: index * 0.03 }}
@@ -176,7 +176,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
       <div 
-        className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5 pointer-events-none"
+        className="absolute inset-0 bg-gradient-to-br from-primary/8 via-background to-accent/8 pointer-events-none"
         style={{
           backgroundImage: `radial-gradient(circle at 20% 50%, hsl(var(--primary) / 0.08) 0%, transparent 50%),
                            radial-gradient(circle at 80% 80%, hsl(var(--accent) / 0.08) 0%, transparent 50%),

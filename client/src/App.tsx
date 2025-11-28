@@ -50,7 +50,7 @@ function Navigation() {
   const [location] = useLocation();
 
   return (
-    <nav className="w-full border-b border-border/50 bg-background/95 backdrop-blur-md sticky top-0 z-50">
+    <nav className="w-full glass-nav sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-4">
         <div className="flex items-center justify-between">
           <Link href="/">
@@ -99,7 +99,7 @@ function App() {
             <main className="flex-1 overflow-auto">
               <Router />
             </main>
-            <footer className="border-t border-border/50 bg-background/50 backdrop-blur-sm">
+            <footer className="glass-footer">
               <div className="max-w-7xl mx-auto px-4 md:px-6 py-8">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   <div>

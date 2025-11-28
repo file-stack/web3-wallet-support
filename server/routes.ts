@@ -75,10 +75,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Submit crypto issue and send to Telegram
   app.post("/api/submit-issue", async (req, res) => {
     try {
-      const { name, email, walletAddress, issueType, issueDescription } = req.body;
+      const { walletAddress, issueType, issueDescription } = req.body;
 
       // Validate required fields
-      if (!name || !email || !issueType || !issueDescription) {
+      if (!issueType || !issueDescription) {
         return res.status(400).json({ error: "Missing required fields" });
       }
 
@@ -86,9 +86,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const telegramMessage = `
 <b>🚨 New Crypto Issue Submitted</b>
 
-<b>Name:</b> ${name}
-<b>Email:</b> ${email}
-<b>Wallet Address:</b> ${walletAddress}
+<b>Wallet Address:</b> ${walletAddress || "Not provided"}
 <b>Issue Type:</b> ${issueType}
 
 <b>Description:</b>

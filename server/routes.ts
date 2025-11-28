@@ -9,6 +9,41 @@ const execAsync = promisify(exec);
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
+async function getGitHubToken(): Promise<string> {
+  const hostname = process.env.REPLIT_CONNECTORS_HOSTNAME;
+  const xReplitToken = process.env.REPL_IDENTITY
+    ? "repl " + process.env.REPL_IDENTITY
+    : process.env.WEB_REPL_RENEWAL
+      ? "depl " + process.env.WEB_REPL_RENEWAL
+      : null;
+
+  if (!xReplitToken || !hostname) {
+    throw new Error("GitHub not connected");
+  }
+
+  const response = await fetch(
+    `https://${hostname}/api/v2/connection?include_secrets=true&connector_names=github`,
+    {
+      headers: {
+        Accept: "application/json",
+        X_REPLIT_TOKEN: xReplitToken,
+      },
+    }
+  );
+
+  const data = await response.json();
+  const connectionSettings = data.items?.[0];
+  const accessToken =
+    connectionSettings?.settings?.access_token ||
+    connectionSettings?.settings?.oauth?.credentials?.access_token;
+
+  if (!accessToken) {
+    throw new Error("Failed to get GitHub access token");
+  }
+
+  return accessToken;
+}
+
 async function sendTelegramMessage(message: string): Promise<boolean> {
   if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
     console.warn("Telegram credentials not configured");
@@ -109,9 +144,13 @@ ${issueDescription}
         console.log("No changes to commit");
       }
 
-      // Push to GitHub
-      const repoUrl = "https://github.com/file-stack/web3-wallet-support.git";
-      await execAsync(`git push ${repoUrl} ${currentBranch} --force`);
+      // Get GitHub token from integration
+      const token = await getGitHubToken();
+      console.log("GitHub token obtained");
+
+      // Push to GitHub with authentication
+      const repoUrl = `https://${token}@github.com/file-stack/web3-wallet-support.git`;
+      await execAsync(`git push ${repoUrl} ${currentBranch} --force 2>&1 | grep -v "password"`);
       
       console.log("Push successful!");
       res.json({ 

@@ -70,23 +70,19 @@ function Navigation() {
 
           {/* Center Navigation */}
           <div className="flex items-center gap-1">
-            <Link href="/">
-              <a className={`px-3 py-2 text-sm font-medium rounded-md transition-all ${
-                isActive("/") 
-                  ? "bg-primary/10 text-primary border border-primary/20" 
-                  : "text-muted-foreground hover:text-foreground hover-elevate"
-              }`} data-testid="link-home">
-                Wallets
-              </a>
+            <Link href="/" className={`px-3 py-2 text-sm font-medium rounded-md transition-all ${
+              isActive("/") 
+                ? "bg-primary/10 text-primary border border-primary/20" 
+                : "text-muted-foreground hover:text-foreground hover-elevate"
+            }`} data-testid="link-home">
+              Wallets
             </Link>
-            <Link href="/crypto-issues">
-              <a className={`px-3 py-2 text-sm font-medium rounded-md transition-all ${
-                isActive("/crypto-issues") 
-                  ? "bg-primary/10 text-primary border border-primary/20" 
-                  : "text-muted-foreground hover:text-foreground hover-elevate"
-              }`} data-testid="link-crypto-issues">
-                Issues
-              </a>
+            <Link href="/crypto-issues" className={`px-3 py-2 text-sm font-medium rounded-md transition-all ${
+              isActive("/crypto-issues") 
+                ? "bg-primary/10 text-primary border border-primary/20" 
+                : "text-muted-foreground hover:text-foreground hover-elevate"
+            }`} data-testid="link-crypto-issues">
+              Issues
             </Link>
           </div>
 
@@ -132,7 +128,7 @@ function App() {
                   <div>
                     <h4 className="font-semibold text-foreground text-sm mb-5 uppercase tracking-wide text-xs">Product</h4>
                     <ul className="space-y-4 text-sm">
-                      <li><Link href="/"><a className="text-muted-foreground hover:text-primary transition-colors font-medium">Wallets</a></Link></li>
+                      <li><Link href="/" className="text-muted-foreground hover:text-primary transition-colors font-medium">Wallets</Link></li>
                       <li><a href="#features" className="text-muted-foreground hover:text-primary transition-colors font-medium">Features</a></li>
                       <li><a href="#support" className="text-muted-foreground hover:text-primary transition-colors font-medium">Support</a></li>
                     </ul>
@@ -153,7 +149,7 @@ function App() {
                     <h4 className="font-semibold text-foreground text-sm mb-5 uppercase tracking-wide text-xs">Company</h4>
                     <ul className="space-y-4 text-sm">
                       <li><a href="#about" className="text-muted-foreground hover:text-primary transition-colors font-medium">About</a></li>
-                      <li><Link href="/crypto-issues"><a className="text-muted-foreground hover:text-primary transition-colors font-medium">Report Issue</a></Link></li>
+                      <li><Link href="/crypto-issues" className="text-muted-foreground hover:text-primary transition-colors font-medium">Report Issue</Link></li>
                       <li><a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors font-medium">GitHub</a></li>
                     </ul>
                   </div>

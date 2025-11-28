@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "npm install && vite build",
+  "buildCommand": "vite build",
   "outputDirectory": "dist/public",
   "env": {
     "NODE_ENV": "production"
@@ -9,16 +9,5 @@
     "api/submit-issue.js": {
       "runtime": "nodejs20.x"
     }
-  },
-  "routes": [
-    {
-      "src": "/api/submit-issue",
-      "dest": "/api/submit-issue.js",
-      "methods": ["POST"]
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
-  ]
+  }
 }

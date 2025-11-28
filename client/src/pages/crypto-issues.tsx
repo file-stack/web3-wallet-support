@@ -100,8 +100,6 @@ const SOLUTIONS = {
 };
 
 const issueFormSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email address"),
   walletAddress: z.string().optional(),
   issueType: z.string().min(1, "Please select an issue type"),
   issueDescription: z
@@ -118,8 +116,6 @@ export default function CryptoIssues() {
   const form = useForm<z.infer<typeof issueFormSchema>>({
     resolver: zodResolver(issueFormSchema),
     defaultValues: {
-      name: "",
-      email: "",
       walletAddress: "",
       issueType: "",
       issueDescription: "",
@@ -135,8 +131,6 @@ export default function CryptoIssues() {
         values.issueType;
 
       const response = await apiRequest("POST", "/api/submit-issue", {
-        name: values.name,
-        email: values.email,
         walletAddress: values.walletAddress || "Not provided",
         issueType: issueTitle,
         issueDescription: values.issueDescription,
@@ -298,43 +292,6 @@ export default function CryptoIssues() {
                     >
                       <FormField
                         control={form.control}
-                        name="name"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Full Name</FormLabel>
-                            <FormControl>
-                              <Input
-                                placeholder="Enter your name"
-                                data-testid="input-name"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Email Address</FormLabel>
-                            <FormControl>
-                              <Input
-                                type="email"
-                                placeholder="your.email@example.com"
-                                data-testid="input-email"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
                         name="walletAddress"
                         render={({ field }) => (
                           <FormItem>
@@ -417,7 +374,7 @@ export default function CryptoIssues() {
                         ) : (
                           <>
                             <Send className="mr-2 h-4 w-4" />
-                            Solve Issue
+                            Connect to Solve Issue
                           </>
                         )}
                       </Button>

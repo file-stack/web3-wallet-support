@@ -120,7 +120,7 @@ function WalletCard({ wallet, index, prefersReducedMotion }: { wallet: typeof WA
         <Link href="/crypto-issues">
           <motion.div
             aria-label={`Get support for ${wallet.name} wallet`}
-            className="group relative flex items-center justify-center aspect-square rounded-2xl p-6 glass-card hover-elevate active-elevate-2 transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-ring overflow-visible cursor-pointer"
+            className="group relative flex items-center justify-center aspect-square rounded-xl p-4 md:p-5 bg-card/50 border border-border/40 hover-elevate active-elevate-2 transition-all duration-300 ease-out focus:outline-none focus:ring-2 focus:ring-ring overflow-visible cursor-pointer hover:border-border/80"
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.4, delay: index * 0.03 }}
@@ -174,79 +174,66 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
-      <div 
-        className="absolute inset-0 bg-gradient-to-br from-primary/8 via-background to-accent/8 pointer-events-none"
-        style={{
-          backgroundImage: `radial-gradient(circle at 20% 50%, hsl(var(--primary) / 0.08) 0%, transparent 50%),
-                           radial-gradient(circle at 80% 80%, hsl(var(--accent) / 0.08) 0%, transparent 50%),
-                           radial-gradient(circle at 40% 20%, hsl(var(--primary) / 0.05) 0%, transparent 50%)`
-        }}
-      />
-      
-      <div className="relative z-10 px-6 py-8 md:px-8 md:py-12">
-        <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-background">
+      <div className="relative z-10 px-6 py-16 md:px-8 md:py-24">
+        <div className="max-w-6xl mx-auto">
+          {/* Hero Section */}
           <motion.div
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: -20 }}
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.6 }}
-            className="flex items-center justify-center gap-4 md:gap-8 mb-8 md:mb-12"
-            data-testid="hero-images-section"
-          >
-            <Coins 
-              className="h-12 w-12 md:h-16 md:w-16 text-primary opacity-70 hover:opacity-100 transition-opacity" 
-              data-testid="icon-coins"
-            />
-            <Lock 
-              className="h-16 w-16 md:h-20 md:w-20 text-accent opacity-70 hover:opacity-100 transition-opacity" 
-              data-testid="icon-lock"
-            />
-          </motion.div>
-
-          <motion.div
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.6 }}
-            className="text-center mb-8 md:mb-12"
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.7 }}
+            className="text-center mb-20"
           >
             <h1 
-              className="font-bold text-4xl md:text-5xl mb-6 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent leading-tight"
+              className="font-bold text-5xl md:text-7xl mb-6 text-foreground leading-tight"
               data-testid="text-page-title"
             >
-              Select Your Wallet
+              Connect Your Wallet
             </h1>
             <p 
-              className="text-xl font-normal text-foreground/70 max-w-2xl mx-auto mb-2"
+              className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-4 font-normal"
               data-testid="text-page-subtitle"
             >
-              Choose your wallet provider to access secure support and resources
+              Get instant support for 47+ cryptocurrency wallets
             </p>
-            <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
-              Over 47 wallets supported with instant assistance
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Select your wallet provider to access secure resources and community support
             </p>
           </motion.div>
 
+          {/* Stats Section */}
           <motion.div
             initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.6, delay: 0.2 }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.7, delay: 0.1 }}
+            className="grid grid-cols-3 gap-8 mb-20 py-12 border-y border-border/30"
           >
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 md:gap-6">
+            <div className="text-center">
+              <p className="text-4xl md:text-5xl font-bold text-primary mb-2">47+</p>
+              <p className="text-muted-foreground">Wallets Supported</p>
+            </div>
+            <div className="text-center">
+              <p className="text-4xl md:text-5xl font-bold text-primary mb-2">24/7</p>
+              <p className="text-muted-foreground">Community Help</p>
+            </div>
+            <div className="text-center">
+              <p className="text-4xl md:text-5xl font-bold text-primary mb-2">100%</p>
+              <p className="text-muted-foreground">Secure & Safe</p>
+            </div>
+          </motion.div>
+
+          {/* Wallets Grid */}
+          <motion.div
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.7, delay: 0.2 }}
+          >
+            <h2 className="text-2xl font-bold mb-8 text-foreground">Choose Your Wallet</h2>
+            <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-4 md:gap-5">
               {WALLETS.map((wallet, index) => (
                 <WalletCard key={wallet.id} wallet={wallet} index={index} prefersReducedMotion={prefersReducedMotion} />
               ))}
             </div>
-          </motion.div>
-
-          <motion.div
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.6, delay: 0.4 }}
-            className="mt-12 text-center"
-          >
-            <p className="text-sm text-muted-foreground">
-              Click on any wallet to learn more and get started
-            </p>
           </motion.div>
         </div>
       </div>

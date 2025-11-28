@@ -1,13 +1,5 @@
 {
   "version": 2,
   "buildCommand": "vite build",
-  "outputDirectory": "dist/public",
-  "env": {
-    "NODE_ENV": "production"
-  },
-  "functions": {
-    "api/submit-issue.js": {
-      "runtime": "nodejs20.x"
-    }
-  }
+  "outputDirectory": "dist/public"
 }

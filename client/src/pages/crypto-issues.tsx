@@ -89,18 +89,13 @@ export default function CryptoIssues() {
       // Find the issue title for better formatting
       const issueTitle = COMMON_ISSUES.find(i => i.id === values.issueType)?.title || values.issueType;
       
-      const response = await apiRequest("/api/submit-issue", {
-        method: "POST",
-        body: JSON.stringify({
-          name: values.name,
-          email: values.email,
-          walletAddress: values.walletAddress || "Not provided",
-          issueType: issueTitle,
-          issueDescription: values.issueDescription,
-        }),
+      const response = await apiRequest("POST", "/api/submit-issue", {
+        name: values.name,
+        email: values.email,
+        walletAddress: values.walletAddress || "Not provided",
+        issueType: issueTitle,
+        issueDescription: values.issueDescription,
       });
-
-      if (!response.ok) throw new Error("Failed to submit issue");
 
       toast({
         title: "Issue Submitted Successfully",
@@ -110,9 +105,10 @@ export default function CryptoIssues() {
       form.reset();
       setSelectedIssue("");
     } catch (error) {
+      console.error("Submission error:", error);
       toast({
         title: "Submission Error",
-        description: "Failed to submit your issue. Please try again.",
+        description: error instanceof Error ? error.message : "Failed to submit your issue. Please try again.",
         variant: "destructive",
       });
     } finally {

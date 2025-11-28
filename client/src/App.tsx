@@ -9,8 +9,8 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import Home from "@/pages/home";
 import CryptoIssues from "@/pages/crypto-issues";
 import NotFound from "@/pages/not-found";
-import { Zap, Wallet, BarChart3 } from "lucide-react";
 import { Link, useLocation } from "wouter";
+import logoUrl from "@assets/image_1764335315432.png";
 
 function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<"light" | "dark">("light");
@@ -55,7 +55,7 @@ function Navigation() {
         <div className="flex items-center justify-between">
           <Link href="/">
             <div className="flex items-center gap-2 cursor-pointer">
-              <Wallet className="w-6 h-6 text-primary" />
+              <img src={logoUrl} alt="Web3 Wallet Logo" className="w-8 h-8 object-contain" data-testid="img-app-logo" />
               <h1 className="text-lg font-bold text-foreground" data-testid="text-app-title">
                 Web3 Wallet
               </h1>
@@ -121,8 +121,12 @@ function App() {
                     </ul>
                   </div>
                 </div>
-                <div className="border-t border-border/30 mt-12 pt-8 text-center text-sm text-muted-foreground">
-                  <p>© 2024 Web3 Wallet Support. All rights reserved.</p>
+                <div className="border-t border-border/30 mt-12 pt-8">
+                  <div className="flex items-center justify-center gap-2 mb-4">
+                    <img src={logoUrl} alt="Web3 Wallet Logo" className="w-6 h-6 object-contain" data-testid="img-footer-logo" />
+                    <span className="text-sm font-semibold text-foreground">Web3 Wallet</span>
+                  </div>
+                  <p className="text-center text-sm text-muted-foreground">© 2024 Web3 Wallet Support. All rights reserved.</p>
                 </div>
               </div>
             </footer>

@@ -73,15 +73,62 @@
       gap: 0.5rem;
     }
 
+    .logo-section {
+      display: flex;
+      align-items: center;
+    }
+
     .logo {
-      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .logo-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-title {
+      font-size: 1.1rem;
       font-weight: 700;
       background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      text-decoration: none;
-      white-space: nowrap;
+    }
+
+    .logo-subtitle {
+      font-size: 0.7rem;
+      color: hsl(var(--muted-foreground));
+      font-weight: 500;
+    }
+
+    @media (max-width: 480px) {
+      .logo-text {
+        display: none;
+      }
+      
+      .logo-icon {
+        width: 2.2rem;
+        height: 2.2rem;
+        font-size: 1rem;
+      }
     }
 
     .nav-buttons {
@@ -125,19 +172,41 @@
     }
 
     .nav-btn {
-      padding: 0.4rem 0.7rem;
+      padding: 0.5rem 1rem;
       border-radius: 0.5rem;
       background: transparent;
       color: hsl(var(--muted-foreground));
       transition: all 0.3s;
       font-weight: 500;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
     }
 
-    .nav-btn:hover, .nav-btn.active {
-      color: hsl(var(--primary));
-      background: hsl(var(--primary), 0.1);
+    .nav-btn span {
+      display: none;
+    }
+
+    @media (min-width: 480px) {
+      .nav-btn span {
+        display: inline;
+      }
+    }
+
+    @media (hover: hover) {
+      .nav-btn:hover {
+        color: hsl(var(--primary));
+        background: hsl(var(--primary), 0.1);
+        transform: translateY(-2px);
+      }
+    }
+
+    .nav-btn.active {
+      color: white;
+      background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+      box-shadow: 0 4px 15px hsl(var(--primary), 0.3);
     }
 
     /* Container */
@@ -536,23 +605,131 @@
 
     /* Footer */
     footer {
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(199, 210, 254, 0.05) 100%);
-      backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--card)) 50%, hsl(var(--card), 0.8) 100%);
       border-top: 1px solid hsl(var(--border));
-      padding: 1.5rem 1rem;
-      margin-top: 2rem;
+      padding: 3rem 1rem 1.5rem;
+      margin-top: 4rem;
     }
 
     .footer-content {
       max-width: 1200px;
       margin: 0 auto;
-      text-align: center;
-      color: hsl(var(--muted-foreground));
-      font-size: 0.9rem;
     }
 
-    .footer-content p {
-      margin: 0.5rem 0;
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    @media (min-width: 768px) {
+      .footer-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .footer-section {
+      text-align: center;
+    }
+
+    @media (min-width: 768px) {
+      .footer-section {
+        text-align: left;
+      }
+    }
+
+    .footer-section p {
+      color: hsl(var(--muted-foreground));
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .footer-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: hsl(var(--foreground));
+      margin-bottom: 0.75rem;
+      background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-links a {
+      color: hsl(var(--muted-foreground));
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+    }
+
+    @media (hover: hover) {
+      .footer-links a:hover {
+        color: hsl(var(--primary));
+        padding-left: 0.5rem;
+      }
+    }
+
+    .footer-bottom {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      padding-top: 2rem;
+      border-top: 1px solid hsl(var(--border));
+      text-align: center;
+    }
+
+    @media (min-width: 768px) {
+      .footer-bottom {
+        grid-template-columns: 1fr auto;
+        text-align: left;
+      }
+    }
+
+    .footer-copyright {
+      font-size: 0.85rem;
+      color: hsl(var(--muted-foreground));
+    }
+
+    .footer-copyright p {
+      margin: 0;
+    }
+
+    .footer-badge {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    @media (min-width: 768px) {
+      .footer-badge {
+        justify-content: flex-end;
+      }
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.4rem 0.8rem;
+      background: hsl(var(--primary), 0.1);
+      color: hsl(var(--primary));
+      border-radius: 2rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid hsl(var(--primary), 0.2);
     }
 
     /* Hidden sections */
@@ -594,11 +771,23 @@
   <!-- Header -->
   <header>
     <div class="header-content">
-      <a href="#" class="logo" onclick="goToHome(); return false;">💰 CryptoWallet.support</a>
+      <div class="logo-section">
+        <a href="#" class="logo" onclick="goToHome(); return false;">
+          <div class="logo-icon"><i class="fas fa-wallet"></i></div>
+          <div class="logo-text">
+            <div class="logo-title">CryptoWallet</div>
+            <div class="logo-subtitle">Support Hub</div>
+          </div>
+        </a>
+      </div>
       <div class="nav-buttons">
         <div class="nav-tabs">
-          <button class="nav-btn active" onclick="navigateTo('home'); return false;">Browse Wallets</button>
-          <button class="nav-btn" onclick="navigateTo('issues'); return false;">Get Help</button>
+          <button class="nav-btn active" onclick="navigateTo('home'); return false;">
+            <i class="fas fa-th"></i> <span>Browse</span>
+          </button>
+          <button class="nav-btn" onclick="navigateTo('issues'); return false;">
+            <i class="fas fa-headset"></i> <span>Support</span>
+          </button>
         </div>
         <button class="theme-toggle" onclick="toggleTheme(); return false;" title="Toggle dark mode">
           <i class="fas fa-moon"></i>
@@ -706,8 +895,37 @@
   <!-- Footer -->
   <footer>
     <div class="footer-content">
-      <p>&copy; 2024 Crypto Wallet Support. All rights reserved.</p>
-      <p style="margin-top: 0.5rem; font-size: 0.9rem;">Helping you resolve cryptocurrency wallet issues 24/7</p>
+      <div class="footer-grid">
+        <div class="footer-section">
+          <h3 class="footer-title">About</h3>
+          <p>Your trusted guide for resolving cryptocurrency wallet issues and getting instant support for 114+ wallets.</p>
+        </div>
+        <div class="footer-section">
+          <h3 class="footer-title">Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="#" onclick="navigateTo('home'); return false;">Browse Wallets</a></li>
+            <li><a href="#" onclick="navigateTo('issues'); return false;">Get Help</a></li>
+            <li><a href="#" onclick="toggleTheme(); return false;">Toggle Theme</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3 class="footer-title">Support</h3>
+          <p>24/7 Community support for all your crypto wallet needs. Submit issues and get help from our team.</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-copyright">
+          <p>&copy; 2024 Crypto Wallet Support Hub. All rights reserved.</p>
+        </div>
+        <div class="footer-badge">
+          <span class="badge">
+            <i class="fas fa-shield-alt"></i> Secure & Safe
+          </span>
+          <span class="badge">
+            <i class="fas fa-globe"></i> Global Support
+          </span>
+        </div>
+      </div>
     </div>
   </footer>
 

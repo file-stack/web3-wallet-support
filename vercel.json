@@ -7,20 +7,17 @@
   },
   "functions": {
     "api/submit-issue.js": {
-      "runtime": "nodejs20.x",
-      "memory": 512,
-      "maxDuration": 30
+      "runtime": "nodejs20.x"
     }
   },
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/submit-issue",
-      "dest": "/api/submit-issue.js",
-      "methods": ["POST", "OPTIONS"]
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
     },
     {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }

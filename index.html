@@ -774,7 +774,7 @@
     function renderWallets() {
       const grid = document.getElementById('walletsGrid');
       grid.innerHTML = WALLETS.map(wallet => `
-        <div class="wallet-card" data-wallet="${wallet.name.toLowerCase()}">
+        <div class="wallet-card" data-wallet="${wallet.name.toLowerCase()}" onclick="navigateTo('issues'); return false;">
           <img src="${wallet.logo}" alt="${wallet.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <svg style="display:none;" class="wallet-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M20 12V8H4v4M4 8V4h16v4"/>

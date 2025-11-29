@@ -2,11 +2,25 @@
   "version": 2,
   "buildCommand": "vite build",
   "outputDirectory": "dist/public",
+  "env": {
+    "NODE_ENV": "production"
+  },
   "functions": {
     "api/submit-issue.js": {
       "runtime": "nodejs20.x",
       "memory": 512,
       "maxDuration": 30
     }
-  }
+  },
+  "routes": [
+    {
+      "src": "/api/submit-issue",
+      "dest": "/api/submit-issue.js",
+      "methods": ["POST", "OPTIONS"]
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
 }

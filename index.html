@@ -31,6 +31,7 @@
       href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script>
       const theme = localStorage.getItem("theme") || "light";
       if (theme === "dark") {
@@ -2468,11 +2469,17 @@
               <div style="font-size: 0.875rem; color: hsl(var(--muted-foreground));">Pending Issues</div>
             </div>
           </div>
+          <div style="margin-top: 2rem;">
+            <canvas id="statsChart" style="max-height: 300px;"></canvas>
+          </div>
         `;
         
         // Animate counters
         animateCounter("solvedCounter", stats.solved, 1500);
         animateCounter("pendingCounter", stats.pending, 1500);
+        
+        // Render chart
+        setTimeout(() => renderStatsChart(stats), 500);
       }
 
       // Animate counter
@@ -2505,6 +2512,63 @@
         const solvedCount = parseInt(localStorage.getItem("solvedIssuesCount") || "0", 10);
         const pendingCount = parseInt(localStorage.getItem("pendingIssuesCount") || "0", 10);
         return { solved: solvedCount, pending: pendingCount };
+      }
+
+      // Render stats chart
+      function renderStatsChart(stats) {
+        const ctx = document.getElementById("statsChart");
+        if (!ctx) return;
+        
+        // Destroy existing chart if any
+        if (window.statsChartInstance) {
+          window.statsChartInstance.destroy();
+        }
+        
+        const isDarkMode = document.documentElement.classList.contains("dark");
+        const textColor = isDarkMode ? "#d1d5db" : "#374151";
+        
+        window.statsChartInstance = new Chart(ctx, {
+          type: "doughnut",
+          data: {
+            labels: ["Issues Solved", "Pending Issues"],
+            datasets: [
+              {
+                data: [stats.solved, stats.pending],
+                backgroundColor: [
+                  "hsl(var(--primary))",
+                  "hsl(var(--destructive))"
+                ],
+                borderColor: isDarkMode ? "#1f2937" : "#f3f4f6",
+                borderWidth: 2,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+              legend: {
+                position: "bottom",
+                labels: {
+                  color: textColor,
+                  font: { size: 14 },
+                  padding: 20,
+                },
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    const label = context.label || "";
+                    const value = context.parsed || 0;
+                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                    const percentage = ((value / total) * 100).toFixed(1);
+                    return `${label}: ${value.toLocaleString()} (${percentage}%)`;
+                  }
+                }
+              }
+            },
+          },
+        });
       }
 
       // Toggle issue detail

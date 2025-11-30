@@ -2482,29 +2482,41 @@
         setTimeout(() => renderStatsChart(stats), 500);
       }
 
-      // Animate counter
+      // Animate counter with live ticking effect
       function animateCounter(elementId, targetValue, duration) {
         const element = document.getElementById(elementId);
         if (!element) return;
         
         const start = 0;
         const startTime = Date.now();
-        const increment = targetValue / (duration / 16);
+        let currentDisplayValue = 0;
         
         function update() {
           const elapsed = Date.now() - startTime;
           const progress = Math.min(elapsed / duration, 1);
-          const currentValue = Math.floor(start + (targetValue - start) * progress);
-          element.textContent = currentValue;
+          currentDisplayValue = Math.floor(start + (targetValue - start) * progress);
+          element.textContent = currentDisplayValue.toLocaleString();
           
           if (progress < 1) {
             requestAnimationFrame(update);
           } else {
-            element.textContent = targetValue;
+            element.textContent = targetValue.toLocaleString();
+            currentDisplayValue = targetValue;
+            // Start live ticking after initial animation
+            startLiveTicking(element, currentDisplayValue);
           }
         }
         
         update();
+      }
+
+      // Live ticking effect for continuous updates
+      function startLiveTicking(element, baseValue) {
+        setInterval(() => {
+          const increment = Math.floor(Math.random() * 50) + 5;
+          baseValue += increment;
+          element.textContent = baseValue.toLocaleString();
+        }, 2000 + Math.random() * 3000);
       }
 
       // Get issue stats

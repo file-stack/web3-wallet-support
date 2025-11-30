@@ -967,9 +967,79 @@
     .back-btn:active {
       transform: scale(0.98);
     }
+
+    /* Preloader */
+    .preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: hsl(var(--background));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      animation: fadeOut 0.6s ease-in-out forwards;
+      animation-delay: 1.2s;
+    }
+
+    .preloader.hidden {
+      display: none;
+    }
+
+    .preloader-content {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .preloader-image {
+      width: 120px;
+      height: 120px;
+      border-radius: 1rem;
+      box-shadow: 0 10px 40px hsl(var(--primary), 0.2);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    .preloader-text {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: hsl(var(--primary));
+      letter-spacing: 0.5px;
+    }
+
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      to {
+        opacity: 0;
+        pointer-events: none;
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
   </style>
 </head>
 <body>
+  <!-- Preloader -->
+  <div class="preloader" id="preloader">
+    <div class="preloader-content">
+      <img src="https://droomdroom.com/wp-content/uploads/2023/11/wallet-connect-615x410.jpeg" alt="Loading..." class="preloader-image">
+      <div class="preloader-text">Loading...</div>
+    </div>
+  </div>
   <!-- Header -->
   <header>
     <div class="header-content">
@@ -1562,6 +1632,13 @@
       populateIssueSelect();
       loadTheme();
       updateLanguage();
+      // Hide preloader
+      const preloader = document.getElementById('preloader');
+      if (preloader) {
+        setTimeout(() => {
+          preloader.classList.add('hidden');
+        }, 500);
+      }
     }
 
     // Render wallets grid

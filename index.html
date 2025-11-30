@@ -2447,22 +2447,7 @@
       // Render issues
       function renderIssues() {
         const list = document.getElementById("issuesList");
-        let selectedIssue = null;
-
-        list.innerHTML = COMMON_ISSUES.map(
-          (issue) => `
-        <div class="issue-item" onclick="toggleIssueDetail(this)">
-          <div class="issue-header">
-            <span class="issue-title">${issue.title}</span>
-            <span class="severity-badge severity-${issue.severity}">${issue.severity}</span>
-          </div>
-          <div class="solution" style="display:none;">
-            <i class="fas fa-check-circle solution-icon"></i>
-            <span>${issue.solution}</span>
-          </div>
-        </div>
-      `,
-        ).join("");
+        list.innerHTML = "";
       }
 
       // Toggle issue detail

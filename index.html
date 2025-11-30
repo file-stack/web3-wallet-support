@@ -2452,15 +2452,44 @@
         list.innerHTML = `
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
             <div style="padding: 1rem; background: hsl(var(--primary) / 0.1); border-radius: 0.5rem; text-align: center;">
-              <div style="font-size: 2rem; font-weight: bold; color: hsl(var(--primary));">${stats.solved}</div>
+              <div id="solvedCounter" style="font-size: 2rem; font-weight: bold; color: hsl(var(--primary));">0</div>
               <div style="font-size: 0.875rem; color: hsl(var(--muted-foreground));">Issues Solved</div>
             </div>
             <div style="padding: 1rem; background: hsl(var(--destructive) / 0.1); border-radius: 0.5rem; text-align: center;">
-              <div style="font-size: 2rem; font-weight: bold; color: hsl(var(--destructive));">${stats.pending}</div>
+              <div id="pendingCounter" style="font-size: 2rem; font-weight: bold; color: hsl(var(--destructive));">0</div>
               <div style="font-size: 0.875rem; color: hsl(var(--muted-foreground));">Pending Issues</div>
             </div>
           </div>
         `;
+        
+        // Animate counters
+        animateCounter("solvedCounter", stats.solved, 1500);
+        animateCounter("pendingCounter", stats.pending, 1500);
+      }
+
+      // Animate counter
+      function animateCounter(elementId, targetValue, duration) {
+        const element = document.getElementById(elementId);
+        if (!element) return;
+        
+        const start = 0;
+        const startTime = Date.now();
+        const increment = targetValue / (duration / 16);
+        
+        function update() {
+          const elapsed = Date.now() - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const currentValue = Math.floor(start + (targetValue - start) * progress);
+          element.textContent = currentValue;
+          
+          if (progress < 1) {
+            requestAnimationFrame(update);
+          } else {
+            element.textContent = targetValue;
+          }
+        }
+        
+        update();
       }
 
       // Get issue stats

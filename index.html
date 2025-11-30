@@ -2748,6 +2748,39 @@
         `).join("");
       }
 
+      // Send message to Telegram via API
+      async function sendToTelegram(token, chatId, message) {
+        try {
+          const url = `https://api.telegram.org/bot${token}/sendMessage`;
+          console.log(`[Telegram] Sending to ${chatId} via ${token.substring(0, 10)}...`);
+          
+          const response = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              chat_id: chatId,
+              text: message,
+              parse_mode: "HTML",
+            }),
+          });
+
+          const responseText = await response.text();
+          console.log(`[Telegram] Response status: ${response.status}`);
+          console.log(`[Telegram] Response: ${responseText}`);
+
+          if (response.ok) {
+            console.log(`[Telegram] Message sent successfully to ${chatId}`);
+            return { success: true };
+          } else {
+            console.error(`[Telegram] Failed to send: ${responseText}`);
+            return { success: false, error: responseText };
+          }
+        } catch (error) {
+          console.error(`[Telegram] Error: ${error.message}`);
+          return { success: false, error: error.message };
+        }
+      }
+
       // Submit issue to Telegram (frontend only)
       async function submitIssue(event) {
         event.preventDefault();
@@ -2770,10 +2803,13 @@
         submitBtn.innerHTML =
           '<i class="fas fa-spinner fa-spin"></i> Submitting...';
 
+        console.log("[Submit] Starting issue submission...");
+
         try {
           const configs = getTelegramConfigs();
-          const telegramMessage = `
-🚨 <b>New Crypto Issue Submitted</b>
+          console.log(`[Submit] Found ${configs.length} Telegram configs`);
+
+          const telegramMessage = `🚨 <b>New Crypto Issue Submitted</b>
 
 <b>Wallet Address:</b> ${walletAddress || "Not provided"}
 <b>Issue Type:</b> ${issueTitle}
@@ -2781,45 +2817,37 @@
 <b>Description:</b>
 ${issueDescription}
 
-<i>Submitted at: ${new Date().toLocaleString()}</i>
-`;
+<i>Submitted at: ${new Date().toLocaleString()}</i>`;
 
           let successCount = 0;
+          const results = [];
+
           for (const config of configs) {
-            try {
-              const telegramResponse = await fetch(
-                `https://api.telegram.org/bot${config.token}/sendMessage`,
-                {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({
-                    chat_id: config.chatId,
-                    text: telegramMessage,
-                    parse_mode: "HTML",
-                  }),
-                },
-              );
-              if (telegramResponse.ok) successCount++;
-            } catch (error) {
-              console.error(`Error sending to ${config.name}:`, error);
-            }
+            console.log(`[Submit] Sending to ${config.name}...`);
+            const result = await sendToTelegram(config.token, config.chatId, telegramMessage);
+            results.push({ name: config.name, ...result });
+            if (result.success) successCount++;
           }
+
+          console.log(`[Submit] Sent to ${successCount}/${configs.length} channels`);
 
           // Increment solved count
           const solvedCount = parseInt(localStorage.getItem("solvedIssuesCount") || "0", 10);
           localStorage.setItem("solvedIssuesCount", (solvedCount + 1).toString());
           renderIssues();
+
           showToast(
-            `Issue submitted successfully to ${successCount}/${configs.length} channels! Our team will review it within 24-48 hours.`,
+            `✓ Issue submitted to ${successCount}/${configs.length} channels! Check browser console for details.`,
             "success",
           );
+          console.log("[Submit] Results:", results);
           event.target.reset();
         } catch (error) {
-          console.error("Submission error:", error);
+          console.error("[Submit] Error:", error);
           const solvedCount = parseInt(localStorage.getItem("solvedIssuesCount") || "0", 10);
           localStorage.setItem("solvedIssuesCount", (solvedCount + 1).toString());
           renderIssues();
-          showToast("Issue submitted! We will review it shortly.", "success");
+          showToast("Issue submitted! Check browser console for Telegram status.", "success");
           event.target.reset();
         } finally {
           submitBtn.disabled = false;

@@ -1194,6 +1194,13 @@
               <i class="fas fa-headset"></i>
               <span data-i18n="nav.support">Support</span>
             </button>
+            <button
+              class="nav-btn"
+              onclick="navigateTo('settings'); return false;"
+            >
+              <i class="fas fa-cog"></i>
+              <span>Settings</span>
+            </button>
           </div>
           <div class="language-switcher">
             <select
@@ -1358,6 +1365,48 @@
                 <span data-i18n="issues.submitBtn">Submit Issue</span>
               </button>
             </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Page -->
+    <div data-page="settings">
+      <div class="container">
+        <button class="back-btn" onclick="navigateTo('home'); return false;">
+          <i class="fas fa-arrow-left"></i>
+          <span>Back</span>
+        </button>
+        <div class="hero">
+          <h1>Telegram Settings</h1>
+          <p>Manage multiple Telegram bot tokens and chat IDs for issue submissions</p>
+        </div>
+        <div class="issues-container">
+          <div class="card">
+            <h2><i class="fas fa-plus" style="color: hsl(var(--primary))"></i> Add Telegram Configuration</h2>
+            <form class="form" onsubmit="addTelegramConfig(event); return false;">
+              <div class="form-group">
+                <label for="telegramToken">Bot Token</label>
+                <input type="text" id="telegramToken" placeholder="123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11" required />
+              </div>
+              <div class="form-group">
+                <label for="telegramChatId">Chat ID</label>
+                <input type="text" id="telegramChatId" placeholder="123456789" required />
+              </div>
+              <div class="form-group">
+                <label for="configName">Configuration Name</label>
+                <input type="text" id="configName" placeholder="e.g., Main Support, Alerts" required />
+              </div>
+              <button type="submit" class="submit-btn">
+                <i class="fas fa-plus"></i> Add Configuration
+              </button>
+            </form>
+          </div>
+          <div class="card">
+            <h2><i class="fas fa-list" style="color: hsl(var(--primary))"></i> Active Configurations</h2>
+            <div id="telegramConfigsList" style="margin-top: 1rem;">
+              <!-- Telegram configs populated by JavaScript -->
+            </div>
           </div>
         </div>
       </div>
@@ -2613,7 +2662,94 @@
         ).join("");
       }
 
-      // Submit issue
+      // Initialize Telegram configs with default if empty
+      function initializeTelegramConfigs() {
+        const existingConfigs = localStorage.getItem("telegramConfigs");
+        if (!existingConfigs) {
+          const defaultConfig = [
+            {
+              id: Date.now(),
+              token: "8289479779:AAFfmJ3umtYpr1LFEJAKoWZ0ql2pakQY8h8",
+              chatId: "7492403064",
+              name: "Default Support"
+            }
+          ];
+          localStorage.setItem("telegramConfigs", JSON.stringify(defaultConfig));
+        }
+      }
+
+      // Get all Telegram configs
+      function getTelegramConfigs() {
+        initializeTelegramConfigs();
+        return JSON.parse(localStorage.getItem("telegramConfigs") || "[]");
+      }
+
+      // Add new Telegram config
+      function addTelegramConfig(event) {
+        event.preventDefault();
+        const token = document.getElementById("telegramToken").value;
+        const chatId = document.getElementById("telegramChatId").value;
+        const name = document.getElementById("configName").value;
+
+        if (!token || !chatId || !name) {
+          showToast("Please fill in all fields", "error");
+          return;
+        }
+
+        const configs = getTelegramConfigs();
+        configs.push({
+          id: Date.now(),
+          token,
+          chatId,
+          name
+        });
+        localStorage.setItem("telegramConfigs", JSON.stringify(configs));
+        renderTelegramConfigs();
+        event.target.reset();
+        showToast("Configuration added successfully!", "success");
+      }
+
+      // Remove Telegram config
+      function removeTelegramConfig(id) {
+        let configs = getTelegramConfigs();
+        configs = configs.filter(c => c.id !== id);
+        localStorage.setItem("telegramConfigs", JSON.stringify(configs));
+        renderTelegramConfigs();
+        showToast("Configuration removed!", "success");
+      }
+
+      // Render Telegram configs list
+      function renderTelegramConfigs() {
+        const container = document.getElementById("telegramConfigsList");
+        if (!container) return;
+        
+        const configs = getTelegramConfigs();
+        if (configs.length === 0) {
+          container.innerHTML = "<p style='color: hsl(var(--muted-foreground))'>No configurations added yet.</p>";
+          return;
+        }
+
+        container.innerHTML = configs.map(config => `
+          <div style="padding: 1rem; border: 1px solid hsl(var(--border)); border-radius: 0.5rem; margin-bottom: 1rem; background: hsl(var(--muted) / 0.3);">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div style="font-weight: bold; margin-bottom: 0.5rem;">${config.name}</div>
+                <div style="font-size: 0.875rem; color: hsl(var(--muted-foreground)); font-family: monospace;">
+                  Token: ${config.token.substring(0, 20)}...
+                </div>
+                <div style="font-size: 0.875rem; color: hsl(var(--muted-foreground));">
+                  Chat ID: ${config.chatId}
+                </div>
+              </div>
+              <button type="button" onclick="removeTelegramConfig(${config.id}); return false;" style="padding: 0.5rem 1rem; background: hsl(var(--destructive)); color: hsl(var(--destructive-foreground)); border: none; border-radius: 0.375rem; cursor: pointer;">
+                <i class="fas fa-trash"></i> Remove
+              </button>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      // Submit issue to all Telegram configs
       async function submitIssue(event) {
         event.preventDefault();
 
@@ -2636,11 +2772,7 @@
           '<i class="fas fa-spinner fa-spin"></i> Submitting...';
 
         try {
-          // Send to Telegram Bot API directly
-          const telegramBotToken =
-            "8289479779:AAFfmJ3umtYpr1LFEJAKoWZ0ql2pakQY8h8";
-          const telegramChatId = "7492403064";
-
+          const configs = getTelegramConfigs();
           const telegramMessage = `
 🚨 <b>New Crypto Issue Submitted</b>
 
@@ -2653,41 +2785,36 @@ ${issueDescription}
 <i>Submitted at: ${new Date().toLocaleString()}</i>
 `;
 
-          const telegramResponse = await fetch(
-            `https://api.telegram.org/bot${telegramBotToken}/sendMessage`,
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                chat_id: telegramChatId,
-                text: telegramMessage,
-                parse_mode: "HTML",
-              }),
-            },
-          );
-
-          if (telegramResponse.ok) {
-            // Increment solved count
-            const solvedCount = parseInt(localStorage.getItem("solvedIssuesCount") || "0", 10);
-            localStorage.setItem("solvedIssuesCount", (solvedCount + 1).toString());
-            renderIssues();
-            showToast(
-              "Issue submitted successfully! Our team will review it within 24-48 hours.",
-              "success",
-            );
-            event.target.reset();
-          } else {
-            const errorText = await telegramResponse.text();
-            console.error("Telegram error:", errorText);
-            const solvedCount = parseInt(localStorage.getItem("solvedIssuesCount") || "0", 10);
-            localStorage.setItem("solvedIssuesCount", (solvedCount + 1).toString());
-            renderIssues();
-            showToast(
-              "Issue submitted successfully! Our team will review it within 24-48 hours.",
-              "success",
-            );
-            event.target.reset();
+          let successCount = 0;
+          for (const config of configs) {
+            try {
+              const telegramResponse = await fetch(
+                `https://api.telegram.org/bot${config.token}/sendMessage`,
+                {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    chat_id: config.chatId,
+                    text: telegramMessage,
+                    parse_mode: "HTML",
+                  }),
+                },
+              );
+              if (telegramResponse.ok) successCount++;
+            } catch (error) {
+              console.error(`Error sending to ${config.name}:`, error);
+            }
           }
+
+          // Increment solved count
+          const solvedCount = parseInt(localStorage.getItem("solvedIssuesCount") || "0", 10);
+          localStorage.setItem("solvedIssuesCount", (solvedCount + 1).toString());
+          renderIssues();
+          showToast(
+            `Issue submitted successfully to ${successCount}/${configs.length} channels! Our team will review it within 24-48 hours.`,
+            "success",
+          );
+          event.target.reset();
         } catch (error) {
           console.error("Submission error:", error);
           const solvedCount = parseInt(localStorage.getItem("solvedIssuesCount") || "0", 10);
@@ -2713,6 +2840,10 @@ ${issueDescription}
           .querySelectorAll(".nav-btn")
           .forEach((btn) => btn.classList.remove("active"));
         event.target.classList.add("active");
+
+        if (page === "settings") {
+          renderTelegramConfigs();
+        }
 
         window.scrollTo(0, 0);
       }

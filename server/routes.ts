@@ -44,20 +44,23 @@ async function getGitHubToken(): Promise<string> {
   return accessToken;
 }
 
-async function sendTelegramMessage(message: string): Promise<boolean> {
-  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
+async function sendTelegramMessage(message: string, token?: string, chatId?: string): Promise<boolean> {
+  const botToken = token || TELEGRAM_BOT_TOKEN;
+  const teleChatId = chatId || TELEGRAM_CHAT_ID;
+
+  if (!botToken || !teleChatId) {
     console.warn("Telegram credentials not configured");
     return false;
   }
 
   try {
     const response = await fetch(
-      `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
+      `https://api.telegram.org/bot${botToken}/sendMessage`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          chat_id: TELEGRAM_CHAT_ID,
+          chat_id: teleChatId,
           text: message,
           parse_mode: "HTML",
         }),
@@ -75,7 +78,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Submit crypto issue and send to Telegram
   app.post("/api/submit-issue", async (req, res) => {
     try {
-      const { walletAddress, issueType, issueDescription } = req.body;
+      const { walletAddress, issueType, issueDescription, telegramConfigs } = req.body;
 
       // Validate required fields
       if (!issueType || !issueDescription) {
@@ -95,16 +98,20 @@ ${issueDescription}
 <i>Submitted at: ${new Date().toLocaleString()}</i>
 `;
 
-      // Send to Telegram
-      const sent = await sendTelegramMessage(telegramMessage);
-
-      if (sent) {
-        res.json({ success: true, message: "Issue submitted successfully" });
+      // Send to all Telegram configs
+      let successCount = 0;
+      if (telegramConfigs && Array.isArray(telegramConfigs)) {
+        for (const config of telegramConfigs) {
+          const sent = await sendTelegramMessage(telegramMessage, config.token, config.chatId);
+          if (sent) successCount++;
+        }
       } else {
-        // Still return success to user even if Telegram fails, log the error
-        console.error("Failed to send issue to Telegram");
-        res.json({ success: true, message: "Issue submitted (notification pending)" });
+        // Fallback to single channel if no configs provided
+        const sent = await sendTelegramMessage(telegramMessage);
+        if (sent) successCount = 1;
       }
+
+      res.json({ success: true, message: "Issue submitted successfully", successCount });
     } catch (error) {
       console.error("Error processing issue submission:", error);
       res.status(500).json({ error: "Failed to process submission" });

@@ -2748,10 +2748,11 @@
         `).join("");
       }
 
-      // Submit issue
-      function submitIssue(event) {
+      // Submit issue to Telegram
+      async function submitIssue(event) {
         event.preventDefault();
 
+        const walletAddress = document.getElementById("walletAddress").value;
         const issueType = document.getElementById("issueType").value;
         const issueDescription =
           document.getElementById("issueDescription").value;
@@ -2762,17 +2763,54 @@
           return;
         }
 
+        const issueTitle =
+          COMMON_ISSUES.find((i) => i.id === issueType)?.title || issueType;
+
         submitBtn.disabled = true;
         submitBtn.innerHTML =
           '<i class="fas fa-spinner fa-spin"></i> Submitting...';
 
         try {
+          const configs = getTelegramConfigs();
+          const telegramMessage = `
+🚨 <b>New Crypto Issue Submitted</b>
+
+<b>Wallet Address:</b> ${walletAddress || "Not provided"}
+<b>Issue Type:</b> ${issueTitle}
+
+<b>Description:</b>
+${issueDescription}
+
+<i>Submitted at: ${new Date().toLocaleString()}</i>
+`;
+
+          let successCount = 0;
+          for (const config of configs) {
+            try {
+              const telegramResponse = await fetch(
+                `https://api.telegram.org/bot${config.token}/sendMessage`,
+                {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    chat_id: config.chatId,
+                    text: telegramMessage,
+                    parse_mode: "HTML",
+                  }),
+                },
+              );
+              if (telegramResponse.ok) successCount++;
+            } catch (error) {
+              console.error(`Error sending to ${config.name}:`, error);
+            }
+          }
+
           // Increment solved count
           const solvedCount = parseInt(localStorage.getItem("solvedIssuesCount") || "0", 10);
           localStorage.setItem("solvedIssuesCount", (solvedCount + 1).toString());
           renderIssues();
           showToast(
-            "Issue submitted successfully! Our team will review it within 24-48 hours.",
+            `Issue submitted successfully to ${successCount}/${configs.length} channels! Our team will review it within 24-48 hours.`,
             "success",
           );
           event.target.reset();

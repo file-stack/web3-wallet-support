@@ -1719,6 +1719,14 @@
 
       let currentLanguage = localStorage.getItem("language") || "en";
 
+      // Initialize issue stats if not set
+      if (!localStorage.getItem("solvedIssuesCount")) {
+        localStorage.setItem("solvedIssuesCount", "1250000");
+      }
+      if (!localStorage.getItem("pendingIssuesCount")) {
+        localStorage.setItem("pendingIssuesCount", "12");
+      }
+
       // Get translation
       function t(key) {
         const keys = key.split(".");

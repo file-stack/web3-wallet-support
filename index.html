@@ -243,6 +243,8 @@
       font-size: 0.75rem;
       transition: all 0.3s;
       flex-shrink: 0;
+      position: relative;
+      z-index: 1000;
     }
 
     .language-switcher select:hover {
@@ -337,6 +339,7 @@
       margin: 0 auto;
       padding: 0.75rem 0.5rem;
       width: 100%;
+      overflow-x: visible;
     }
 
     @media (min-width: 480px) {
@@ -494,6 +497,7 @@
       grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
       gap: 0.6rem;
       margin-top: 1.2rem;
+      -webkit-overflow-scrolling: touch;
     }
 
     @media (min-width: 360px) {
@@ -525,7 +529,6 @@
     }
 
     .wallet-card {
-      aspect-ratio: 1;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -535,11 +538,20 @@
       cursor: pointer;
       transition: all 0.2s ease;
       position: relative;
-      overflow: hidden;
       touch-action: manipulation;
       -webkit-touch-callout: none;
       -webkit-user-select: none;
       user-select: none;
+      width: 100%;
+      padding-bottom: 100%;
+      overflow: visible;
+    }
+
+    @supports (aspect-ratio: 1) {
+      .wallet-card {
+        aspect-ratio: 1;
+        padding-bottom: 0;
+      }
     }
 
     .wallet-card:active {
@@ -741,10 +753,12 @@
       transition: all 0.3s;
       width: 100%;
       min-height: 44px;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      appearance: none;
+      -webkit-appearance: none !important;
+      -moz-appearance: none !important;
+      appearance: none !important;
       -webkit-border-radius: 0.5rem;
+      position: relative;
+      z-index: 10;
     }
 
     select {
@@ -753,6 +767,12 @@
       background-position: right 0.7rem center;
       background-size: 1rem;
       padding-right: 2.5rem;
+      overflow: visible;
+    }
+
+    select option {
+      background: hsl(var(--card));
+      color: hsl(var(--foreground));
     }
 
     input:focus, textarea:focus, select:focus {
